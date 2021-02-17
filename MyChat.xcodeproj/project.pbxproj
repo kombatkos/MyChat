@@ -13,9 +13,12 @@
 		872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */; };
 		872346AD25D6858400ED3E4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 872346AC25D6858400ED3E4E /* Assets.xcassets */; };
 		872346B025D6858400ED3E4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 872346AE25D6858400ED3E4E /* LaunchScreen.storyboard */; };
+		A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.debug.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
 		8723469D25D6858100ED3E4E /* MyChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872346A025D6858100ED3E4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		872346A425D6858100ED3E4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		872346AC25D6858400ED3E4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		872346AF25D6858400ED3E4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		872346B125D6858400ED3E4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.release.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1FE043AA69FF764A804B5FBB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2149C71165863B1A3D1FEB48 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */,
+				926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		8723469425D6858100ED3E4E = {
 			isa = PBXGroup;
 			children = (
 				8723469F25D6858100ED3E4E /* MyChat */,
 				8723469E25D6858100ED3E4E /* Products */,
+				2149C71165863B1A3D1FEB48 /* Pods */,
+				1FE043AA69FF764A804B5FBB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 872346B425D6858400ED3E4E /* Build configuration list for PBXNativeTarget "MyChat" */;
 			buildPhases = (
+				4037C54630150268C51B5BE4 /* [CP] Check Pods Manifest.lock */,
 				8723469925D6858100ED3E4E /* Sources */,
 				8723469A25D6858100ED3E4E /* Frameworks */,
 				8723469B25D6858100ED3E4E /* Resources */,
+				2F3DF768C8B6253B50E9CC71 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -131,6 +158,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2F3DF768C8B6253B50E9CC71 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4037C54630150268C51B5BE4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyChat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8723469925D6858100ED3E4E /* Sources */ = {
@@ -283,6 +352,7 @@
 		};
 		872346B525D6858400ED3E4E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -303,6 +373,7 @@
 		};
 		872346B625D6858400ED3E4E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
