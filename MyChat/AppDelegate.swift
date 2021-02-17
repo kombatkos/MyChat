@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SwiftyBeaver
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,35 +18,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let function = #function
-        printLog(state: "Inactive", function: function)
+        setupSwiftyBeaverLogging()
         
+        SwiftyBeaver.info(printLog(newState: "Inactive"))
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        let function = #function
-        printLog(state: "Inactive", function: function)
+        SwiftyBeaver.info(printLog(newState: "Inactive"))
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        let function = #function
-        printLog(state: "Background", function: function)
+        SwiftyBeaver.info(printLog(newState: "Background"))
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        let function = #function
-        printLog(state: "Inactive", function: function)
+        SwiftyBeaver.info(printLog(newState: "Inactive"))
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        let function = #function
-        printLog(state: "Active", function: function)
+        SwiftyBeaver.info(printLog(newState: "Active"))
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        let function = #function
-        printLog(state: "Suspended", function: function)
+        SwiftyBeaver.info(printLog(newState: "Suspended"))
     }
 
     // MARK: - Core Data stack
@@ -94,17 +90,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-// MARK: - Set Log
+// MARK: - Setting Log
+// Description page for SwiftyBeaver: https://habr.com/ru/post/333852/
+
 extension AppDelegate {
     
-    var logON: Bool {
-        return true
+    func setupSwiftyBeaverLogging() {
+        let console = ConsoleDestination()
+        SwiftyBeaver.addDestination(console)
+        
+        // use level "info" - application lifecycle information
+        // use level "verbose" - full information
+        console.minLevel = .verbose
     }
     
-    private func printLog(state: String, function: String) {
-        if logON {
-            print("App: Application moved from \(self.state) to \(state): \n     \(function) \n")
-            self.state = state
-        }
+    private func printLog(newState: String) -> String {
+        let text = "Application moved from \(state) to \(newState)"
+        state = newState
+        return text
     }
 }

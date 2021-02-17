@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyBeaver
 
 class ViewController: UIViewController {
     
@@ -14,61 +15,39 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let function = #function
-        printLog(state: "ВЬЮ ЗАГРУЗИЛСЯ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ ЗАГРУЗИЛСЯ")
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let function = #function
-        printLog(state: "ВЬЮ СЕЙЧАС ПОЯВИТСЯ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ СЕЙЧАС ПОЯВИТСЯ")
     }
     
     override func viewWillLayoutSubviews() {
-        let function = #function
-        printLog(state: "ВЬЮ БУДЕТ КОМПОНОВАТЬ САБВЬЮ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ БУДЕТ КОМПОНОВАТЬ САБВЬЮ")
     }
     
     override func viewDidLayoutSubviews() {
-        let function = #function
-        printLog(state: "ВЬЮ СКОМПОНОВАЛ САБВЬЮ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ СКОМПОНОВАЛ САБВЬЮ")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let function = #function
-        printLog(state: "ВЬЮ ПОЯВИЛСЯ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ ПОЯВИЛСЯ")
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        let function = #function
-        printLog(state: "ВЬЮ БУДЕТ ИЗМЕНЯТЬСЯ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ БУДЕТ ИЗМЕНЯТЬСЯ")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        let function = #function
-        printLog(state: "ВЬЮ СЕЙЧАС ИСЧЕЗНЕТ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ СЕЙЧАС ИСЧЕЗНЕТ")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        let function = #function
-        printLog(state: "ВЬЮ ИСЧЕЗ", function: function)
+        SwiftyBeaver.verbose("ВЬЮ ИСЧЕЗ")
     }
 
-}
-
-// MARK: - Set Log
-extension ViewController {
-    
-    var logON: Bool {
-        return true
-    }
-    
-    private func printLog(state: String, function: String) {
-        if logON {
-            print("VC:  \(state): \n     \(function) \n")
-        }
-    }
 }
