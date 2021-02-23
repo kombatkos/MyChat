@@ -20,7 +20,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="6N0-uP-agC">
                                 <rect key="frame" x="70" y="51" width="274" height="427"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvh-Xb-aSq">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvh-Xb-aSq" customClass="AvatarView" customModule="MyChat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="274" height="274"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillProportionally" alignment="center" spacing="-10" translatesAutoresizingMaskIntoConstraints="NO" id="AeG-Yb-bhO">

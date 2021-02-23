@@ -7,16 +7,17 @@
 
 import UIKit
 import SwiftyBeaver
+import AVFoundation
 
 class ProfileViewController: UIViewController {
     
-    //Properties
+// MARK: - Properties
     
     let firstName = "Marina"
     let lastName = "Dudarenko"
     
-    @IBOutlet weak var profileStackView: UIStackView!
-    @IBOutlet weak var containerAvatarView: UIView?
+    @IBOutlet weak var profileStackView: UIStackView?
+    @IBOutlet weak var containerAvatarView: AvatarView?
     @IBOutlet weak var avatarImageView: UIImageView?
     @IBOutlet weak var aboutMeLabel: UILabel?
     
@@ -35,11 +36,14 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var leadingContainerConstraint: NSLayoutConstraint?
     @IBOutlet weak var trailingContainerConstraint: NSLayoutConstraint?
     
+// MARK: - Lifecycle
+    
     required init?(coder: NSCoder) {
+        super.init(coder: coder)
         print(#function, editButton?.bounds ?? " editButton?.frame == nil")
     // Свойство frame является вычислимым, размеры всех subviews еще не определены
     // IBOutlets инициализируются после метода super.init()
-        super.init(coder: coder)
+        
     }
     
     override func viewDidLoad() {
@@ -54,10 +58,7 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            updateConstraintForBigScreen()
-        }
-        setUI()
+        editButton?.layer.cornerRadius = 14
         // Здесь размеры subviews уже известны.
         // Тут можно задать, например, вычисляемый cornerRadius
     }
@@ -128,32 +129,10 @@ extension ProfileViewController {
         firstWordOfName?.font = UIFont.systemFont(ofSize: avatarViewWidth / 2)
         firstWordOfLastName?.font = UIFont.systemFont(ofSize: avatarViewWidth / 2)
     }
-    
-    private func setUI() {
-        setFontForLabels()
-        
-        if view.bounds.width > view.bounds.height {
-            profileStackView.axis = .horizontal
-            profileStackView.distribution = .fillEqually
-        } else {
-            profileStackView.axis = .vertical
-            profileStackView.distribution = .fill
-        }
-        
-        editButton?.layer.cornerRadius = 14
-        guard let avatarViewWidth = containerAvatarView?.frame.width else { return }
-        containerAvatarView?.layer.cornerRadius = avatarViewWidth / 2
-        containerAvatarView?.clipsToBounds = true
-    }
-    
-    private func updateConstraintForBigScreen() {
-        
-        leadingContainerConstraint?.constant = 120
-        trailingContainerConstraint?.constant = 120
-    }
 }
 
-//MARK: Work with image
+// MARK: - Work with image
+
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
@@ -163,7 +142,12 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             imagePicker.delegate = self
             imagePicker.allowsEditing = true
             imagePicker.sourceType = source
-            present(imagePicker, animated: true)
+            if source == .camera {
+                imagePicker.cameraDevice = .front
+                checkCamera(imagePicker: imagePicker)
+            } else if source == .photoLibrary {
+                present(imagePicker, animated: true)
+            }
         }
     }
     
@@ -174,7 +158,35 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         avatarImageView?.contentMode = .scaleAspectFill
         avatarImageView?.clipsToBounds = true
         
-        
         dismiss(animated: true)
     }
+    
+    func checkCamera(imagePicker: UIImagePickerController) {
+        let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        switch authStatus {
+        case .authorized: present(imagePicker, animated: true)
+        case .denied: alertToEncourageCameraAccessInitially()
+        case .notDetermined: present(imagePicker, animated: true)
+        case .restricted: print("Camera - restricted")
+        @unknown default:
+            return
+        }
+    }
+
+
+    func alertToEncourageCameraAccessInitially() {
+        let alertVC = UIAlertController(title: "Access to the camera is closed", message: "Open Settings/MyChats and enable camera access", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let settingAction = UIAlertAction(title: "Settings", style: .default) { value in
+            let path = UIApplication.openSettingsURLString
+            if let settingsURL = URL(string: path), UIApplication.shared.canOpenURL(settingsURL) {
+                UIApplication.shared.open(settingsURL)
+            }
+        }
+        alertVC.addAction(settingAction)
+        alertVC.addAction(cancelAction)
+        present(alertVC, animated: true, completion: nil)
+    }
+
 }
