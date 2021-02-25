@@ -16,15 +16,13 @@ class ProfileViewController: UIViewController {
     let firstName = "Marina"
     let lastName = "Dudarenko"
     
-    @IBOutlet weak var profileStackView: UIStackView?
     @IBOutlet weak var containerAvatarView: AvatarView?
     @IBOutlet weak var avatarImageView: UIImageView?
-    @IBOutlet weak var aboutMeLabel: UILabel?
-    
-    
-    @IBOutlet weak var nameLabel: UILabel?
     @IBOutlet weak var firstWordOfName: UILabel?
     @IBOutlet weak var firstWordOfLastName: UILabel?
+    
+    @IBOutlet weak var nameLabel: UILabel?
+    @IBOutlet weak var aboutMeLabel: UILabel?
     
     @IBOutlet weak var editButton: UIButton? {
         didSet {
@@ -32,11 +30,10 @@ class ProfileViewController: UIViewController {
             // тут editButton получает размеры из interfaseBuilder, но координаты местоположения пока x:0, y:0
         }
     }
+    @IBOutlet weak var trailingConstraintForContainerView: NSLayoutConstraint?
+    @IBOutlet weak var leadingConstraintForContainerView: NSLayoutConstraint?
     
-    @IBOutlet weak var leadingContainerConstraint: NSLayoutConstraint?
-    @IBOutlet weak var trailingContainerConstraint: NSLayoutConstraint?
-    
-// MARK: - Lifecycle
+    // MARK: - Lifecycle
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -59,6 +56,11 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         editButton?.layer.cornerRadius = 14
+        setFontForLabels()
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            trailingConstraintForContainerView?.constant = 170
+            leadingConstraintForContainerView?.constant = 170
+        }
         // Здесь размеры subviews уже известны.
         // Тут можно задать, например, вычисляемый cornerRadius
     }
@@ -106,6 +108,7 @@ class ProfileViewController: UIViewController {
         actionSheet.addAction(cancel)
         
         actionSheet.pruneNegativeWidthConstraints()
+        actionSheet.popoverPresentationController?.sourceView = containerAvatarView
         present(actionSheet, animated: true)
     }
     
