@@ -101,7 +101,7 @@ extension AppDelegate {
         
         // use level "info" - application lifecycle information
         // use level "verbose" - full information
-        console.minLevel = .verbose
+        console.minLevel = .warning
     }
     
     private func printLog(newState: String) -> String {

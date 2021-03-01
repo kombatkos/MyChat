@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,9 @@
 		872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */; };
 		872346AD25D6858400ED3E4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 872346AC25D6858400ED3E4E /* Assets.xcassets */; };
 		872346B025D6858400ED3E4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 872346AE25D6858400ED3E4E /* LaunchScreen.storyboard */; };
+		8733C02D25E558E100705BD4 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8733C02C25E558E100705BD4 /* AvatarView.swift */; };
+		874E44A325E2959F0045DCEE /* UIAlertController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */; };
+		876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876B809725E1A35A00D0D323 /* ProfileViewController.swift */; };
 		A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +30,9 @@
 		872346AC25D6858400ED3E4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		872346AF25D6858400ED3E4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		872346B125D6858400ED3E4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8733C02C25E558E100705BD4 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Extension.swift"; sourceTree = "<group>"; };
+		876B809725E1A35A00D0D323 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.release.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,7 +62,6 @@
 				3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */,
 				926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -81,15 +86,66 @@
 		8723469F25D6858100ED3E4E /* MyChat */ = {
 			isa = PBXGroup;
 			children = (
-				872346A025D6858100ED3E4E /* AppDelegate.swift */,
-				872346A425D6858100ED3E4E /* ViewController.swift */,
-				872346A625D6858100ED3E4E /* Main.storyboard */,
-				872346AC25D6858400ED3E4E /* Assets.xcassets */,
-				872346AE25D6858400ED3E4E /* LaunchScreen.storyboard */,
-				872346B125D6858400ED3E4E /* Info.plist */,
-				872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */,
+				87409C5425E2C489001EA77D /* SupportingFiles */,
+				87409C5725E2C4C9001EA77D /* Extensions */,
+				87409C5125E2C43D001EA77D /* Controllers */,
+				87409C5625E2C4B6001EA77D /* IBuilder */,
+				87409C5825E2C4E3001EA77D /* CoreData */,
+				8733C02F25E558E700705BD4 /* Views */,
 			);
 			path = MyChat;
+			sourceTree = "<group>";
+		};
+		8733C02F25E558E700705BD4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8733C02C25E558E100705BD4 /* AvatarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		87409C5125E2C43D001EA77D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				872346A425D6858100ED3E4E /* ViewController.swift */,
+				876B809725E1A35A00D0D323 /* ProfileViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		87409C5425E2C489001EA77D /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				872346A025D6858100ED3E4E /* AppDelegate.swift */,
+				872346AC25D6858400ED3E4E /* Assets.xcassets */,
+				872346B125D6858400ED3E4E /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		87409C5625E2C4B6001EA77D /* IBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				872346A625D6858100ED3E4E /* Main.storyboard */,
+				872346AE25D6858400ED3E4E /* LaunchScreen.storyboard */,
+			);
+			path = IBuilder;
+			sourceTree = "<group>";
+		};
+		87409C5725E2C4C9001EA77D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		87409C5825E2C4E3001EA77D /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,7 +263,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				872346A525D6858100ED3E4E /* ViewController.swift in Sources */,
+				8733C02D25E558E100705BD4 /* AvatarView.swift in Sources */,
+				874E44A325E2959F0045DCEE /* UIAlertController + Extension.swift in Sources */,
 				872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */,
+				876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */,
 				872346A125D6858100ED3E4E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,7 +344,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -340,7 +399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -358,7 +417,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PVVSWG9FDA;
-				INFOPLIST_FILE = MyChat/Info.plist;
+				INFOPLIST_FILE = MyChat/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -379,7 +438,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PVVSWG9FDA;
-				INFOPLIST_FILE = MyChat/Info.plist;
+				INFOPLIST_FILE = MyChat/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
