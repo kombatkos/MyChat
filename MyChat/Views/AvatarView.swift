@@ -10,12 +10,13 @@ import UIKit
 class AvatarView: UIView {
 
     override func layoutSubviews() {
+        super.layoutSubviews()
         let avatarViewWidth = self.frame.width
         self.layer.cornerRadius = avatarViewWidth / 2
         self.layer.borderWidth = 2
         self.layer.borderColor = UIColor.lightGray.cgColor
         self.clipsToBounds = true
-        initialesLabels()
+//        initialesLabels()
     }
     
     func initialesLabels() {

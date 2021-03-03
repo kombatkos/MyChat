@@ -9,6 +9,9 @@ import UIKit
 
 class ConversationListViewController: UIViewController {
     
+    var myFirstName: String? = "Marina"
+    var myLastName: String? = "Dudarenko"
+    
     @IBOutlet weak var tableView: UITableView?
     
     enum SectionsData: Int, CaseIterable {
@@ -35,9 +38,10 @@ class ConversationListViewController: UIViewController {
         tableView?.dataSource = self
         tableView?.delegate = self
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+        setProfileButton()
     }
     
-    @IBAction func profileAction(_ sender: UIBarButtonItem) {
+    @objc func profileAction() {
         let profile = UIStoryboard(name: "Profile", bundle: nil)
         let destinationVC = profile.instantiateViewController(withIdentifier: "ProfileVC")
         present(destinationVC, animated: true, completion: nil)
@@ -50,7 +54,6 @@ class ConversationListViewController: UIViewController {
 extension ConversationListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 2
     }
     
@@ -130,4 +133,29 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         }
     }
     
+}
+
+extension ConversationListViewController {
+    
+    func setProfileButton() {
+        var initiales = "NO"
+        if let firstWord = myFirstName?.first?.uppercased(),
+           let lastWord = myLastName?.first?.uppercased() {
+            initiales = "\(firstWord)\(lastWord)"
+        }
+        
+        let button: UIButton = UIButton(type: UIButton.ButtonType.custom)
+        button.backgroundColor = .yellow
+        button.layer.cornerRadius = 20
+        button.layer.borderWidth = 0.5
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.setTitle(initiales, for: UIControl.State.normal)
+        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .highlighted)
+        button.addTarget(self, action: #selector(profileAction), for: UIControl.Event.touchUpInside)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
 }

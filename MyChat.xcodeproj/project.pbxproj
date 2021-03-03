@@ -20,7 +20,6 @@
 		8759A9AC25E94C4000B945D5 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759A9AB25E94C4000B945D5 /* Date + Extension.swift */; };
 		8759A9AF25E9530D00B945D5 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759A9AE25E9530D00B945D5 /* ConversationViewController.swift */; };
 		8759A9B325E953E000B945D5 /* IncomingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759A9B225E953E000B945D5 /* IncomingCell.swift */; };
-		875F83E425EC2DE50068D68B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F83E325EC2DE50068D68B /* CustomButton.swift */; };
 		8762A27C25EFA95C000C4679 /* ConversationListViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8762A27B25EFA95C000C4679 /* ConversationListViewController + Extension.swift */; };
 		8762A27F25EFAB3E000C4679 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8762A27E25EFAB3E000C4679 /* DateManager.swift */; };
 		876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876B809725E1A35A00D0D323 /* ProfileViewController.swift */; };
@@ -53,7 +52,6 @@
 		8759A9AB25E94C4000B945D5 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		8759A9AE25E9530D00B945D5 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		8759A9B225E953E000B945D5 /* IncomingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCell.swift; sourceTree = "<group>"; };
-		875F83E325EC2DE50068D68B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		8762A27B25EFA95C000C4679 /* ConversationListViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationListViewController + Extension.swift"; sourceTree = "<group>"; };
 		8762A27E25EFAB3E000C4679 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		876B809725E1A35A00D0D323 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 			isa = PBXGroup;
 			children = (
 				8733C02C25E558E100705BD4 /* AvatarView.swift */,
-				875F83E325EC2DE50068D68B /* CustomButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -355,7 +352,6 @@
 				877DD8BF25E8F9A6002B8ADC /* UIFont+Extension.swift in Sources */,
 				8762A27F25EFAB3E000C4679 /* DateManager.swift in Sources */,
 				87841B4725E9828E008836F2 /* Messages.swift in Sources */,
-				875F83E425EC2DE50068D68B /* CustomButton.swift in Sources */,
 				877DD8B525E8E6BA002B8ADC /* ConversationListCell.swift in Sources */,
 				877DD8CC25E90534002B8ADC /* ConversationListViewController.swift in Sources */,
 				8752E98325E9789D00DECEF3 /* MessageCellConfiguration.swift in Sources */,

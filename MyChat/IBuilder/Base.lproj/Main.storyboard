@@ -85,13 +85,7 @@
                             <constraint firstItem="ffh-rC-bPs" firstAttribute="leading" secondItem="KSm-wA-Ses" secondAttribute="leading" id="hKW-BC-XD1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="kXt-uV-MjH">
-                        <barButtonItem key="rightBarButtonItem" title="Profile" id="guX-Se-CVm">
-                            <connections>
-                                <action selector="profileAction:" destination="5Ju-ZX-cgK" id="a2M-Ao-Ttg"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="kXt-uV-MjH"/>
                     <connections>
                         <outlet property="tableView" destination="ffh-rC-bPs" id="yYU-sk-Xnt"/>
                     </connections>
