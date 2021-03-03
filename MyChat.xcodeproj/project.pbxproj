@@ -117,14 +117,14 @@
 			isa = PBXGroup;
 			children = (
 				87409C5425E2C489001EA77D /* SupportingFiles */,
-				87409C5725E2C4C9001EA77D /* Extensions */,
-				87409C5125E2C43D001EA77D /* Controllers */,
-				87409C5625E2C4B6001EA77D /* IBuilder */,
-				87409C5825E2C4E3001EA77D /* CoreData */,
-				8733C02F25E558E700705BD4 /* Views */,
+				8762A28125EFAB42000C4679 /* Helpers */,
 				877DD89E25E8E2FC002B8ADC /* Protocols */,
 				877DD8A325E8E334002B8ADC /* Models */,
-				8762A28125EFAB42000C4679 /* Helpers */,
+				8733C02F25E558E700705BD4 /* Views */,
+				87409C5125E2C43D001EA77D /* Controllers */,
+				87409C5725E2C4C9001EA77D /* Extensions */,
+				87409C5625E2C4B6001EA77D /* IBuilder */,
+				87409C5825E2C4E3001EA77D /* CoreData */,
 			);
 			path = MyChat;
 			sourceTree = "<group>";
