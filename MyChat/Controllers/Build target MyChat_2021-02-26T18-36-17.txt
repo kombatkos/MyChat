@@ -1,0 +1,4 @@
+
+Showing Recent Messages
+no rule to process file '/Users/kot/Обучение/MyChat/MyChat/history.json' of type 'text.json' for architecture 'x86_64'
+
