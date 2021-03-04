@@ -26,10 +26,18 @@ class ConversationListViewController: UIViewController {
             }
         }
         func getOnlineChats(chats: [MyChat]?) ->[MyChat]? {
-            return chats?.filter({$0.online})
+            return chats?.filter({$0.online}).sorted(by: { (chatOne, chatTwo) -> Bool in
+                guard let oneDate = chatOne.date,
+                      let twoDate = chatTwo.date else { return false }
+                return oneDate > twoDate
+            })
         }
         func getHistoryChats(chats: [MyChat]?) ->[MyChat]?  {
-            return chats?.filter({!$0.online})
+            return chats?.filter({!$0.online}).sorted(by: { (chatOne, chatTwo) -> Bool in
+                guard let oneDate = chatOne.date,
+                      let twoDate = chatTwo.date else { return false }
+                return oneDate > twoDate
+            })
         }
     }
     
