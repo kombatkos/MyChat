@@ -9,11 +9,10 @@ import UIKit
 
 class OutgoingCell: IncomingCell {
 
-    override func setContainerView() {
+    override func setSubviews() {
         textMessageLabel.numberOfLines = 0
         textMessageLabel.textColor = .white
         containerView.backgroundColor = .systemGreen
-//            UIColor(red: 0.37, green: 0.62, blue: 0.63, alpha: 1.00)
         containerView.layer.cornerRadius = 15
     }
     

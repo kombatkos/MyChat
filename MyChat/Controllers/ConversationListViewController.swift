@@ -73,7 +73,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationListCell", for: indexPath) as? ConversationListCell else
-        { fatalError("Can not create cell") }
+        { return UITableViewCell() }
         var chats: MyChat?
         
         let sectionData = SectionsData(rawValue: indexPath.section)
@@ -85,7 +85,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             chats = sectionData?.getHistoryChats(chats: chats2)?[indexPath.row]
         }
         
-        cell.avatarImageView?.image = #imageLiteral(resourceName: "appstore")
+        cell.avatarImageView?.image = #imageLiteral(resourceName: "avatar.jpg")
         cell.dateLabel?.text = DateManager.getDate(date: chats?.date)
         cell.nameLabel?.text = chats?.name ?? "No Name"
         cell.messageLabel?.text = chats?.message
@@ -134,10 +134,10 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     }
     
 }
-
+//MARK: - Setting UI elements
 extension ConversationListViewController {
     
-    func setProfileButton() {
+    private func setProfileButton() {
         var initiales = "NO"
         if let firstWord = myFirstName?.first?.uppercased(),
            let lastWord = myLastName?.first?.uppercased() {

@@ -20,12 +20,14 @@ class ConversationListCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        guard let frameAvatarImageView = avatarImageView?.frame else { return }
-        avatarImageView?.layer.cornerRadius = frameAvatarImageView.height / 2
-        setCell()
+        setSubviews()
     }
     
-    func setCell() {
+    private func setSubviews() {
+        
+        messageLabel?.font = UIFont.systemFont(ofSize: 17)
+        messageLabel?.textColor = .darkGray
+        
         if !online {
             backgroundColor = .white
         } else {
@@ -33,17 +35,19 @@ class ConversationListCell: UITableViewCell {
             backgroundColor = color
         }
         
-        if messageLabel?.text == nil {
+        if messageLabel?.text == nil || messageLabel?.text == "No messages yet" {
             messageLabel?.text = "No messages yet"
             messageLabel?.font = UIFont.italicSystemFont(ofSize: 17)
-        } else {
-            messageLabel?.font = UIFont.systemFont(ofSize: 17)
         }
         
         if hasUnreadMessages {
             messageLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            messageLabel?.textColor = .black
         }
         nameLabel?.textColor = .black
+        
+        guard let frameAvatarImageView = avatarImageView?.frame else { return }
+        avatarImageView?.layer.cornerRadius = frameAvatarImageView.height / 2
     }
 
 }

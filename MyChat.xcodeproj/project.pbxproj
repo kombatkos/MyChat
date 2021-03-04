@@ -26,8 +26,6 @@
 		877DD89C25E8E1BE002B8ADC /* ConversationCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD89B25E8E1BE002B8ADC /* ConversationCellConfiguration.swift */; };
 		877DD8A025E8E31A002B8ADC /* MyChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD89F25E8E31A002B8ADC /* MyChat.swift */; };
 		877DD8B525E8E6BA002B8ADC /* ConversationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD8B425E8E6BA002B8ADC /* ConversationListCell.swift */; };
-		877DD8BC25E8F942002B8ADC /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD8BB25E8F942002B8ADC /* UILabel + Extension.swift */; };
-		877DD8BF25E8F9A6002B8ADC /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD8BE25E8F9A6002B8ADC /* UIFont+Extension.swift */; };
 		877DD8CC25E90534002B8ADC /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD8CB25E90534002B8ADC /* ConversationListViewController.swift */; };
 		87841B4725E9828E008836F2 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87841B4625E9828E008836F2 /* Messages.swift */; };
 		87B7C8B825EA9D9B00A99C94 /* OutgoingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B7C8B725EA9D9B00A99C94 /* OutgoingCell.swift */; };
@@ -58,8 +56,6 @@
 		877DD89B25E8E1BE002B8ADC /* ConversationCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellConfiguration.swift; sourceTree = "<group>"; };
 		877DD89F25E8E31A002B8ADC /* MyChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChat.swift; sourceTree = "<group>"; };
 		877DD8B425E8E6BA002B8ADC /* ConversationListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListCell.swift; sourceTree = "<group>"; };
-		877DD8BB25E8F942002B8ADC /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
-		877DD8BE25E8F9A6002B8ADC /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		877DD8CB25E90534002B8ADC /* ConversationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewController.swift; sourceTree = "<group>"; };
 		87841B4625E9828E008836F2 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		87B7C8B725EA9D9B00A99C94 /* OutgoingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingCell.swift; sourceTree = "<group>"; };
@@ -227,8 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */,
-				877DD8BB25E8F942002B8ADC /* UILabel + Extension.swift */,
-				877DD8BE25E8F9A6002B8ADC /* UIFont+Extension.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -349,7 +343,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				877DD8BF25E8F9A6002B8ADC /* UIFont+Extension.swift in Sources */,
 				8762A27F25EFAB3E000C4679 /* DateManager.swift in Sources */,
 				87841B4725E9828E008836F2 /* Messages.swift in Sources */,
 				877DD8B525E8E6BA002B8ADC /* ConversationListCell.swift in Sources */,
@@ -363,7 +356,6 @@
 				877DD8A025E8E31A002B8ADC /* MyChat.swift in Sources */,
 				872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */,
 				876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */,
-				877DD8BC25E8F942002B8ADC /* UILabel + Extension.swift in Sources */,
 				877DD89C25E8E1BE002B8ADC /* ConversationCellConfiguration.swift in Sources */,
 				87B7C8B825EA9D9B00A99C94 /* OutgoingCell.swift in Sources */,
 				872346A125D6858100ED3E4E /* AppDelegate.swift in Sources */,

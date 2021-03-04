@@ -9,11 +9,10 @@ import UIKit
 
 class ConversationViewController: UIViewController {
     
-    var listMessages: [Messages] = [Messages(text: "Привет, как дела", outgoing: false), Messages(text: "Привет, все хорошо, а у тебя?", outgoing: true), Messages(text: "Тоже не плохо, идешь сегодня на роликах кататься?", outgoing: false), Messages(text: "Конечно!", outgoing: true)]
-    
-    enum Message: String {
-        case income, outgoing
-    }
+    var listMessages: [Messages] = [Messages(text: "Привет, как дела", outgoing: false),
+                                    Messages(text: "Привет, все хорошо, а у тебя?", outgoing: true),
+                                    Messages(text: "Тоже не плохо, идешь сегодня на роликах кататься?", outgoing: false),
+                                    Messages(text: "Конечно!", outgoing: true)]
     
     @IBOutlet weak var tableView: UITableView?
 
@@ -39,11 +38,11 @@ extension ConversationViewController: UITableViewDataSource, UITableViewDelegate
         let message = listMessages[indexPath.row]
         
         if message.outgoing {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "OutgoingCell", for: indexPath) as? OutgoingCell else { fatalError("can not get new cell")}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "OutgoingCell", for: indexPath) as? OutgoingCell else { return UITableViewCell()}
             cell.textMessageLabel.text = message.text ?? ""
             return cell
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "IncomingCell", for: indexPath) as? IncomingCell else { fatalError("can not get new cell")}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "IncomingCell", for: indexPath) as? IncomingCell else { return UITableViewCell() }
             cell.textMessageLabel.text = message.text ?? ""
             return cell
         }

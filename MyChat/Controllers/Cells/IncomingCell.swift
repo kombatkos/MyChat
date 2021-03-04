@@ -21,14 +21,14 @@ class IncomingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell() {
-        setContainerView()
+    private func setCell() {
+        setSubviews()
         contentView.addSubview(containerView)
         containerView.addSubview(textMessageLabel)
         setConstraints()
     }
     
-    @objc func setContainerView() {
+    @objc func setSubviews() {
         textMessageLabel.numberOfLines = 0
         containerView.backgroundColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.00)
         containerView.layer.cornerRadius = 15
