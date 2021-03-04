@@ -8,10 +8,10 @@
 import Foundation
 
 extension ConversationListViewController {
-    var chats2: [MyChat]? {
+    var chats: [MyChat]? {
         let chats: [MyChat] = [MyChat(name: "Peter Brown",
                                message: "Are you going to ride a bike today?",
-                               date: Date(),
+                               date: Date().enterDate(hour: 10, minute: 21, day: 10, month: 1, year: 2021),
                                online: true, hasUnreadMessages: false),
                           MyChat(name: "Sarah White",
                                message: "Wow!",

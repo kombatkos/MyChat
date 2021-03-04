@@ -26,18 +26,10 @@ class ConversationListViewController: UIViewController {
             }
         }
         func getOnlineChats(chats: [MyChat]?) ->[MyChat]? {
-            return chats?.filter({$0.online}).sorted(by: { (chatOne, chatTwo) -> Bool in
-                guard let oneDate = chatOne.date,
-                      let twoDate = chatTwo.date else { return false }
-                return oneDate > twoDate
-            })
+            return chats?.filter({$0.online})
         }
         func getHistoryChats(chats: [MyChat]?) ->[MyChat]?  {
-            return chats?.filter({!$0.online}).sorted(by: { (chatOne, chatTwo) -> Bool in
-                guard let oneDate = chatOne.date,
-                      let twoDate = chatTwo.date else { return false }
-                return oneDate > twoDate
-            })
+            return chats?.filter({!$0.online})
         }
     }
     
@@ -70,9 +62,9 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         let sectionData = SectionsData(rawValue: section)
         switch sectionData {
         case .online:
-            return sectionData?.getOnlineChats(chats: chats2)?.count ?? 0
+            return sectionData?.getOnlineChats(chats: chats)?.count ?? 0
         case .history:
-            return sectionData?.getHistoryChats(chats: chats2)?.count ?? 0
+            return sectionData?.getHistoryChats(chats: chats)?.count ?? 0
         case .none:
             return 0
         }
@@ -82,23 +74,25 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationListCell", for: indexPath) as? ConversationListCell else
         { return UITableViewCell() }
-        var chats: MyChat?
+        var chat: MyChat?
         
         let sectionData = SectionsData(rawValue: indexPath.section)
         
         switch sectionData {
         case .online:
-            chats = sectionData?.getOnlineChats(chats: chats2)?[indexPath.row]
-        default:
-            chats = sectionData?.getHistoryChats(chats: chats2)?[indexPath.row]
+            chat = sectionData?.getOnlineChats(chats: chats)?[indexPath.row]
+        case .history:
+            chat = sectionData?.getHistoryChats(chats: chats)?[indexPath.row]
+        case .none:
+            break
         }
         
-        cell.avatarImageView?.image = #imageLiteral(resourceName: "avatar.jpg")
-        cell.dateLabel?.text = DateManager.getDate(date: chats?.date)
-        cell.nameLabel?.text = chats?.name ?? "No Name"
-        cell.messageLabel?.text = chats?.message
-        cell.online = chats?.online ?? false
-        cell.hasUnreadMessages = chats?.hasUnreadMessages ?? false
+        cell.avatarImageView?.image = #imageLiteral(resourceName: "ava2")
+        cell.dateLabel?.text = DateManager.getDate(date: chat?.date)
+        cell.nameLabel?.text = chat?.name ?? "No Name"
+        cell.messageLabel?.text = chat?.message
+        cell.online = chat?.online ?? false
+        cell.hasUnreadMessages = chat?.hasUnreadMessages ?? false
         
         return cell
     }
@@ -130,11 +124,11 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         switch sectionData {
         
         case .online:
-            let selectionChat = sectionData?.getOnlineChats(chats: chats2)?[indexPath.row]
+            let selectionChat = sectionData?.getOnlineChats(chats: chats)?[indexPath.row]
             vc.title = selectionChat?.name
             navigationController?.pushViewController(vc, animated: true)
         case .history:
-            let selectionChat = sectionData?.getHistoryChats(chats: chats2)?[indexPath.row]
+            let selectionChat = sectionData?.getHistoryChats(chats: chats)?[indexPath.row]
             vc.title = selectionChat?.name
             navigationController?.pushViewController(vc, animated: true)
         case .none: break
