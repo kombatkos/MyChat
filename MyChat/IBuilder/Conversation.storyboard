@@ -63,6 +63,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="QPJ-fw-wM1"/>
                     <connections>
+                        <outlet property="bottomTextField" destination="DXW-HZ-6F2" id="on6-Iw-Uha"/>
+                        <outlet property="bottomView" destination="rMs-lZ-1ww" id="dzh-tx-poZ"/>
                         <outlet property="tableView" destination="ONk-mm-fXz" id="TGo-oT-dOj"/>
                     </connections>
                 </viewController>

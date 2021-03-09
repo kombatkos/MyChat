@@ -35,11 +35,15 @@ class ConversationListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeTheme()
         tableView?.dataSource = self
         tableView?.delegate = self
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
         setProfileButton()
+        setThemePickerButton()
     }
+    
+//MARK: - Navigation
     
     @objc func profileAction() {
         let profile = UIStoryboard(name: "Profile", bundle: nil)
@@ -47,7 +51,32 @@ class ConversationListViewController: UIViewController {
         present(destinationVC, animated: true, completion: nil)
     }
     
+    @objc func settingAction() {
+        let themesVC = ThemesViewController()
+        themesVC.lastTheme = ThemesManager.currentTheme()
+        themesVC.clousure = { [weak self] theme in
+            ThemesManager.applyTheme(theme: theme)
+            self?.changeTheme()
+        }
+        navigationController?.pushViewController(themesVC, animated: true)
+    }
+}
+
+//MARK: - Сhange Theme
+extension ConversationListViewController {
     
+    func changeTheme() {
+        view.backgroundColor = ThemesManager.currentTheme().backgroundColor
+        
+        UILabel.appearance().textColor = ThemesManager.currentTheme().labelColor
+        UIView.appearance(whenContainedInInstancesOf: [UITableViewHeaderFooterView.self]).backgroundColor = ThemesManager.currentTheme().tableViewHeaderFooterColor
+        UITableViewCell.appearance().selectedBackgroundView = .none
+        UITableViewCell.appearance().backgroundColor = ThemesManager.currentTheme().backgroundColor
+        UITableView.appearance().backgroundColor = ThemesManager.currentTheme().backgroundColor
+        UINavigationBar.appearance().barStyle = ThemesManager.currentTheme().barStyle
+        UIApplication.shared.keyWindow?.reload()
+        UIApplication.shared.keyWindow?.reload()
+    }
 }
 
 // MARK: - TableView data source
@@ -87,7 +116,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             break
         }
         
-        cell.avatarImageView?.image = #imageLiteral(resourceName: "ava2")
+        cell.avatarImageView?.image = #imageLiteral(resourceName: "avatar.jpg")
         cell.dateLabel?.text = DateManager.getDate(date: chat?.date)
         cell.nameLabel?.text = chat?.name ?? "No Name"
         cell.messageLabel?.text = chat?.message
@@ -136,7 +165,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     }
     
 }
-//MARK: - Setting UI elements
+//MARK: - NavigationItem setting
 extension ConversationListViewController {
     
     private func setProfileButton() {
@@ -159,5 +188,17 @@ extension ConversationListViewController {
 
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    private func setThemePickerButton() {
+        
+        let button: UIButton = UIButton(type: UIButton.ButtonType.custom)
+        button.layer.cornerRadius = 20
+        button.setImage(#imageLiteral(resourceName: "graySetting"), for: .normal)
+        button.addTarget(self, action: #selector(settingAction), for: UIControl.Event.touchUpInside)
+        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
     }
 }

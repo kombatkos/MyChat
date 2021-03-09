@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8709378B25F4F5DD0036CD73 /* UIWindow + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */; };
+		8712503F25F3DA4900804702 /* ThemeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8712503E25F3DA4900804702 /* ThemeButtonView.swift */; };
+		87222DA025F2AC9400FF36E8 /* ThemesPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87222D9F25F2AC9400FF36E8 /* ThemesPickerDelegate.swift */; };
 		872346A125D6858100ED3E4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872346A025D6858100ED3E4E /* AppDelegate.swift */; };
 		872346A825D6858100ED3E4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 872346A625D6858100ED3E4E /* Main.storyboard */; };
 		872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */; };
@@ -17,12 +20,14 @@
 		8752E97D25E968E000DECEF3 /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8752E97C25E968E000DECEF3 /* Conversation.storyboard */; };
 		8752E98025E96A9700DECEF3 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8752E97F25E96A9700DECEF3 /* Profile.storyboard */; };
 		8752E98325E9789D00DECEF3 /* MessageCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8752E98225E9789D00DECEF3 /* MessageCellConfiguration.swift */; };
+		8759982325F687DA00D6F710 /* ThemesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759982225F687DA00D6F710 /* ThemesManager.swift */; };
 		8759A9AC25E94C4000B945D5 /* Date + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759A9AB25E94C4000B945D5 /* Date + Extension.swift */; };
 		8759A9AF25E9530D00B945D5 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759A9AE25E9530D00B945D5 /* ConversationViewController.swift */; };
 		8759A9B325E953E000B945D5 /* IncomingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759A9B225E953E000B945D5 /* IncomingCell.swift */; };
 		8762A27C25EFA95C000C4679 /* ConversationListViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8762A27B25EFA95C000C4679 /* ConversationListViewController + Extension.swift */; };
 		8762A27F25EFAB3E000C4679 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8762A27E25EFAB3E000C4679 /* DateManager.swift */; };
 		876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876B809725E1A35A00D0D323 /* ProfileViewController.swift */; };
+		877C1B3825F1722800290FCD /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877C1B3725F1722800290FCD /* ThemesViewController.swift */; };
 		877DD89C25E8E1BE002B8ADC /* ConversationCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD89B25E8E1BE002B8ADC /* ConversationCellConfiguration.swift */; };
 		877DD8A025E8E31A002B8ADC /* MyChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD89F25E8E31A002B8ADC /* MyChat.swift */; };
 		877DD8B525E8E6BA002B8ADC /* ConversationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD8B425E8E6BA002B8ADC /* ConversationListCell.swift */; };
@@ -35,6 +40,9 @@
 /* Begin PBXFileReference section */
 		23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.debug.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
+		8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow + Extension.swift"; sourceTree = "<group>"; };
+		8712503E25F3DA4900804702 /* ThemeButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeButtonView.swift; sourceTree = "<group>"; };
+		87222D9F25F2AC9400FF36E8 /* ThemesPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesPickerDelegate.swift; sourceTree = "<group>"; };
 		8723469D25D6858100ED3E4E /* MyChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872346A025D6858100ED3E4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		872346A725D6858100ED3E4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -47,12 +55,14 @@
 		8752E97C25E968E000DECEF3 /* Conversation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Conversation.storyboard; sourceTree = "<group>"; };
 		8752E97F25E96A9700DECEF3 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		8752E98225E9789D00DECEF3 /* MessageCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellConfiguration.swift; sourceTree = "<group>"; };
+		8759982225F687DA00D6F710 /* ThemesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesManager.swift; sourceTree = "<group>"; };
 		8759A9AB25E94C4000B945D5 /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
 		8759A9AE25E9530D00B945D5 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		8759A9B225E953E000B945D5 /* IncomingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCell.swift; sourceTree = "<group>"; };
 		8762A27B25EFA95C000C4679 /* ConversationListViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationListViewController + Extension.swift"; sourceTree = "<group>"; };
 		8762A27E25EFAB3E000C4679 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		876B809725E1A35A00D0D323 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		877C1B3725F1722800290FCD /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		877DD89B25E8E1BE002B8ADC /* ConversationCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellConfiguration.swift; sourceTree = "<group>"; };
 		877DD89F25E8E31A002B8ADC /* MyChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChat.swift; sourceTree = "<group>"; };
 		877DD8B425E8E6BA002B8ADC /* ConversationListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListCell.swift; sourceTree = "<group>"; };
@@ -129,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				8733C02C25E558E100705BD4 /* AvatarView.swift */,
+				8712503E25F3DA4900804702 /* ThemeButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -148,6 +159,7 @@
 			children = (
 				873AFD4725E93FCE004D1BB4 /* Cells */,
 				877DD8CB25E90534002B8ADC /* ConversationListViewController.swift */,
+				877C1B3725F1722800290FCD /* ThemesViewController.swift */,
 				8759A9AE25E9530D00B945D5 /* ConversationViewController.swift */,
 				876B809725E1A35A00D0D323 /* ProfileViewController.swift */,
 			);
@@ -197,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				8762A27E25EFAB3E000C4679 /* DateManager.swift */,
+				8759982225F687DA00D6F710 /* ThemesManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -206,6 +219,7 @@
 			children = (
 				877DD89B25E8E1BE002B8ADC /* ConversationCellConfiguration.swift */,
 				8752E98225E9789D00DECEF3 /* MessageCellConfiguration.swift */,
+				87222D9F25F2AC9400FF36E8 /* ThemesPickerDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -223,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */,
+				8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -345,9 +360,12 @@
 			files = (
 				8762A27F25EFAB3E000C4679 /* DateManager.swift in Sources */,
 				87841B4725E9828E008836F2 /* Messages.swift in Sources */,
+				87222DA025F2AC9400FF36E8 /* ThemesPickerDelegate.swift in Sources */,
 				877DD8B525E8E6BA002B8ADC /* ConversationListCell.swift in Sources */,
 				877DD8CC25E90534002B8ADC /* ConversationListViewController.swift in Sources */,
+				877C1B3825F1722800290FCD /* ThemesViewController.swift in Sources */,
 				8752E98325E9789D00DECEF3 /* MessageCellConfiguration.swift in Sources */,
+				8759982325F687DA00D6F710 /* ThemesManager.swift in Sources */,
 				8759A9AF25E9530D00B945D5 /* ConversationViewController.swift in Sources */,
 				8733C02D25E558E100705BD4 /* AvatarView.swift in Sources */,
 				8762A27C25EFA95C000C4679 /* ConversationListViewController + Extension.swift in Sources */,
@@ -360,6 +378,8 @@
 				87B7C8B825EA9D9B00A99C94 /* OutgoingCell.swift in Sources */,
 				872346A125D6858100ED3E4E /* AppDelegate.swift in Sources */,
 				8759A9AC25E94C4000B945D5 /* Date + Extension.swift in Sources */,
+				8712503F25F3DA4900804702 /* ThemeButtonView.swift in Sources */,
+				8709378B25F4F5DD0036CD73 /* UIWindow + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
