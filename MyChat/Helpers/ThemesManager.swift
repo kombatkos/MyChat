@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-enum Theme: Int {
+enum Theme: Int, PaletteProtocol {
     
     case classic, day, night
     
@@ -60,6 +60,16 @@ enum Theme: Int {
         }
     }
     
+    /// BackgroundColor for ConversationVC bottom view
+    var conversationBottomViewColor: UIColor {
+        switch self {
+        case .night:
+            return UIColor(red: 20/255, green: 21/255, blue: 20/255, alpha: 1)
+        default:
+            return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        }
+    }
+    
     // TableView block:
     var tableViewSubtitleColor: UIColor {
         return .gray
@@ -68,22 +78,26 @@ enum Theme: Int {
     var tableViewHeaderFooterColor: UIColor {
         switch self {
         case .classic:
-            return .lightGray
+            return UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1)
         case .day:
-            return .lightGray
+            return UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1)
         case .night:
-            return .darkGray
+            return UIColor(red: 18/255, green: 19/255, blue: 18/255, alpha: 1)
         }
     }
     
-    var cellSelectedColor: UIColor {
+    var cellSelectedView: UIView {
+        let classicViewTheme = UIView()
+        classicViewTheme.backgroundColor = .lightGray
+        let nightViewTheme = UIView()
+        nightViewTheme.backgroundColor = .darkGray
         switch self {
         case .classic:
-            return .lightGray
+            return classicViewTheme
         case .day:
-            return .lightGray
+            return classicViewTheme
         case .night:
-            return .darkGray
+            return nightViewTheme
         }
     }
     
@@ -119,11 +133,11 @@ enum Theme: Int {
     var bubbleLeftColor: UIColor? {
         switch self {
         case .classic:
-            return UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.00)
+            return UIColor(red: 0.91, green: 0.92, blue: 0.93, alpha: 1.00)
         case .day:
-            return UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.00)
+            return UIColor(red: 0.91, green: 0.92, blue: 0.93, alpha: 1.00)
         case .night:
-            return .darkGray
+            return UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1)
         }
     }
     
@@ -134,7 +148,7 @@ enum Theme: Int {
         case .day:
             return UIColor(red: 76/255, green: 140/255, blue: 246/255, alpha: 1)
         case .night:
-            return .lightGray
+            return UIColor(red: 92/255, green: 92/255, blue: 92/255, alpha: 1)
         }
     }
     
@@ -156,7 +170,7 @@ struct ThemesManager {
     
     static func currentTheme() -> Theme {
         if let storedTheme = (UserDefaults.standard.value(forKey: themeKey) as AnyObject).integerValue {
-            return Theme(rawValue: storedTheme)!
+            return Theme(rawValue: storedTheme) ?? .classic
         } else {
             return .classic
         }

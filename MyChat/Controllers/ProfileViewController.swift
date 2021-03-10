@@ -13,6 +13,8 @@ class ProfileViewController: UIViewController {
     
 // MARK: - Properties
     
+    var palette: PaletteProtocol?
+    
     let firstName = "Marina"
     let lastName = "Dudarenko"
     
@@ -32,7 +34,8 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = ThemesManager.currentTheme().backgroundColor
+        palette = ThemesManager.currentTheme()
+        view.backgroundColor = palette?.backgroundColor ?? .white
         
         setProfile()
         let tap = UITapGestureRecognizer(target: self, action: #selector(containerAvatarViewTapped))
@@ -64,7 +67,7 @@ class ProfileViewController: UIViewController {
                                             message: nil,
                                             preferredStyle: .actionSheet)
         if #available(iOS 13.0, *) {
-            actionSheet.overrideUserInterfaceStyle = ThemesManager.currentTheme().alertStyle
+            actionSheet.overrideUserInterfaceStyle = palette?.alertStyle ?? .light
         }
         let camera = UIAlertAction(title: "Camera", style: .default) { _ in
             self.chooseImagePicker(source: .camera)
@@ -94,6 +97,8 @@ class ProfileViewController: UIViewController {
         nameLabel?.text = "\(firstName) \(lastName)"
         firstWordOfName?.text = firstName.first?.uppercased()
         firstWordOfLastName?.text = lastName.first?.uppercased()
+        firstWordOfName?.textColor = .black
+        firstWordOfLastName?.textColor = .black
     }
     
     

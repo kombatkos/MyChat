@@ -21,7 +21,7 @@ class ConversationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        bottomView?.backgroundColor = ThemesManager.currentTheme().bubbleLeftColor
+        bottomView?.backgroundColor = ThemesManager.currentTheme().conversationBottomViewColor
         tableView?.delegate = self
         tableView?.dataSource = self
         self.tableView?.register(IncomingCell.self, forCellReuseIdentifier: "IncomingCell")

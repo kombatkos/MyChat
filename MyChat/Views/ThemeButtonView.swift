@@ -31,6 +31,12 @@ class ThemeButtonView: UIView {
         rightBubble.layer.mask = maskLayerRight
     }
     
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let figurePath = UIBezierPath(rect: containerView.frame)
+        figurePath.append(UIBezierPath(rect: textLabel.frame))
+                return figurePath.contains(point)
+    }
+    
     
     func setClassicView() {
         

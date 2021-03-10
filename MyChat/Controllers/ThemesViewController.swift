@@ -11,7 +11,8 @@ class ThemesViewController: UIViewController {
     
     var delegate: ThemesPickerDelegate?
     var clousure: ((Theme)->())?
-    var lastTheme: Theme?
+    var lastTheme: PaletteProtocol?
+    var palette: PaletteProtocol?
     
     private let classicView = ThemeButtonView()
     private let dayView = ThemeButtonView()
@@ -19,9 +20,9 @@ class ThemesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = ThemesManager.currentTheme().bubbleRightColor
+        view.backgroundColor = lastTheme?.bubbleRightColor
         title = "Settings"
+        palette = ThemesManager.currentTheme()
         setClassicView()
         setCancelButton()
         
@@ -35,19 +36,22 @@ class ThemesViewController: UIViewController {
     
     @objc func classicThemeAction() {
         clousure?(.classic)
-        view.backgroundColor = ThemesManager.currentTheme().bubbleRightColor
+        palette = ThemesManager.currentTheme()
+        view.backgroundColor = palette?.bubbleRightColor
         setBorderColorForButtons()
     }
     
     @objc func dayThemeAction() {
         clousure?(.day)
-        view.backgroundColor = ThemesManager.currentTheme().bubbleRightColor
+        palette = ThemesManager.currentTheme()
+        view.backgroundColor = palette?.bubbleRightColor
         setBorderColorForButtons()
     }
     
     @objc func nightThemeAction() {
         clousure?(.night)
-        view.backgroundColor = ThemesManager.currentTheme().bubbleRightColor
+        palette = ThemesManager.currentTheme()
+        view.backgroundColor = palette?.bubbleRightColor
         setBorderColorForButtons()
     }
     
@@ -112,9 +116,9 @@ extension ThemesViewController {
     }
     
     private func setBorderColorForButtons() {
-        classicView.containerView.layer.borderColor = ThemesManager.currentTheme().borderColorForClassic.cgColor
-        dayView.containerView.layer.borderColor = ThemesManager.currentTheme().borderColorForDay.cgColor
-        nightView.containerView.layer.borderColor = ThemesManager.currentTheme().borderColorForNight.cgColor
+        classicView.containerView.layer.borderColor = palette?.borderColorForClassic.cgColor
+        dayView.containerView.layer.borderColor = palette?.borderColorForDay.cgColor
+        nightView.containerView.layer.borderColor = palette?.borderColorForNight.cgColor
     }
 }
 
@@ -127,7 +131,7 @@ extension ThemesViewController {
     }
     
     @objc func cancelAction() {
-        guard let theme = lastTheme else { return }
+        guard let theme = lastTheme as? Theme else { return }
         clousure?(theme)
         navigationController?.popViewController(animated: true)
     }
