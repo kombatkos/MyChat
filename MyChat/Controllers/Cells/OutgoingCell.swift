@@ -18,9 +18,9 @@ class OutgoingCell: IncomingCell {
 
     override func setSubviews() {
         textMessageLabel.numberOfLines = 0
-        textMessageLabel.textColor = ThemesManager.currentTheme().rightBubbleLabelColor
-        containerView.backgroundColor = ThemesManager.currentTheme().bubbleRightColor
-        backgroundColor = ThemesManager.currentTheme().backgroundColor
+        textMessageLabel.textColor = palette?.rightBubbleLabelColor ?? .black
+        containerView.backgroundColor = palette?.bubbleRightColor ?? .lightGray
+        backgroundColor = palette?.backgroundColor ?? .white
     }
     
     override func setLeadingAndTrailingConstraintForContainerView() {

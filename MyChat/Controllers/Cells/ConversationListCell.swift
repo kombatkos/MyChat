@@ -9,6 +9,8 @@ import UIKit
 
 class ConversationListCell: UITableViewCell {
     
+    var palette: PaletteProtocol?
+    
     var online: Bool = false
     var hasUnreadMessages: Bool = false
     
@@ -25,8 +27,8 @@ class ConversationListCell: UITableViewCell {
     private func setSubviews() {
         
         messageLabel?.font = UIFont.systemFont(ofSize: 17)
-        messageLabel?.textColor = ThemesManager.currentTheme().tableViewSubtitleColor
-        dateLabel?.textColor = ThemesManager.currentTheme().tableViewSubtitleColor
+        messageLabel?.textColor = palette?.tableViewSubtitleColor ?? .gray
+        dateLabel?.textColor = palette?.tableViewSubtitleColor ?? .gray
         
         if messageLabel?.text == nil || messageLabel?.text == "No messages yet" {
             messageLabel?.text = "No messages yet"
@@ -35,9 +37,7 @@ class ConversationListCell: UITableViewCell {
         
         if hasUnreadMessages {
             messageLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-//            messageLabel?.textColor = .black
         }
-//        nameLabel?.textColor = .black
     }
 
 }

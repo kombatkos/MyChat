@@ -12,7 +12,7 @@ class IncomingCell: UITableViewCell {
     let containerView = UIView()
     let textMessageLabel = UILabel()
     
-    weak var delegate: ThemesPickerDelegate?
+    var palette: PaletteProtocol?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,7 +23,9 @@ class IncomingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func draw(_ rect: CGRect) {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setCell()
         setBezierForContainerView()
     }
     
@@ -43,8 +45,8 @@ class IncomingCell: UITableViewCell {
     
     @objc func setSubviews() {
         textMessageLabel.numberOfLines = 0
-        containerView.backgroundColor = ThemesManager.currentTheme().bubbleLeftColor
-        backgroundColor = ThemesManager.currentTheme().backgroundColor
+        containerView.backgroundColor = palette?.bubbleLeftColor ?? .darkGray
+        backgroundColor = palette?.backgroundColor ?? .white
     }
     
 }

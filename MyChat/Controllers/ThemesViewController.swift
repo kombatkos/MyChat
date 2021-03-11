@@ -10,7 +10,8 @@ import UIKit
 class ThemesViewController: UIViewController {
     
     var delegate: ThemesPickerDelegate?
-    var clousure: ((Theme)->())?
+    var clousure: ((Theme)->(Theme))?
+    
     var lastTheme: PaletteProtocol?
     var palette: PaletteProtocol?
     
@@ -20,9 +21,8 @@ class ThemesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = lastTheme?.bubbleRightColor
+        view.backgroundColor = palette?.bubbleRightColor
         title = "Settings"
-        palette = ThemesManager.currentTheme()
         setClassicView()
         setCancelButton()
         
@@ -35,22 +35,22 @@ class ThemesViewController: UIViewController {
     }
     
     @objc func classicThemeAction() {
-        clousure?(.classic)
-        palette = ThemesManager.currentTheme()
+        palette = clousure?(.classic)
+//        palette = delegate?.changeThemeWorkDelegate(theme: .classic)
         view.backgroundColor = palette?.bubbleRightColor
         setBorderColorForButtons()
     }
     
     @objc func dayThemeAction() {
-        clousure?(.day)
-        palette = ThemesManager.currentTheme()
+        palette = clousure?(.day)
+//        palette = delegate?.changeThemeWorkDelegate(theme: .day)
         view.backgroundColor = palette?.bubbleRightColor
         setBorderColorForButtons()
     }
     
     @objc func nightThemeAction() {
-        clousure?(.night)
-        palette = ThemesManager.currentTheme()
+        palette = clousure?(.night)
+//        palette = delegate?.changeThemeWorkDelegate(theme: .night)
         view.backgroundColor = palette?.bubbleRightColor
         setBorderColorForButtons()
     }
@@ -132,7 +132,8 @@ extension ThemesViewController {
     
     @objc func cancelAction() {
         guard let theme = lastTheme as? Theme else { return }
-        clousure?(theme)
+        palette = clousure?(theme)
+        palette = delegate?.changeThemeWorkDelegate(theme: theme)
         navigationController?.popViewController(animated: true)
     }
 }

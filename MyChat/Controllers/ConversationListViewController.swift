@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConversationListViewController: UIViewController {
+class ConversationListViewController: UIViewController, ThemesPickerDelegate {
     
     var myFirstName: String? = "Marina"
     var myLastName: String? = "Dudarenko"
@@ -16,7 +16,6 @@ class ConversationListViewController: UIViewController {
     
     private var searchController = UISearchController(searchResultsController: nil)
     private var filteredChats: [MyChat] = []
-    private var ascendingSorting = true
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
         return text.isEmpty
@@ -73,10 +72,20 @@ class ConversationListViewController: UIViewController {
     
     @objc func settingAction() {
         let themesVC = ThemesViewController()
-        themesVC.lastTheme = ThemesManager.currentTheme()
+        
+//        themesVC.delegate = self  // OFF / ON working delegate
+        
+        themesVC.palette = ThemesManager.currentTheme()
+        themesVC.lastTheme = ThemesManager.currentTheme() // for work CancelButton
         themesVC.clousure = { [weak self] theme in
+            /// week позволяет использовать слабую ссылку на ConversationListViewController
+            /// clousure передает эту ссылку в контроллер назначения (ThemeVC)
+            /// когда контроллер назначения закрывается слабые остаются только strong reference
+            /// поэтому если убрать [week self] может образоваться retain cicle
+            /// уменьшая память устройства с каждым входом в ThemeVC
             ThemesManager.applyTheme(theme: theme)
             self?.changeTheme()
+            return theme
         }
         navigationController?.pushViewController(themesVC, animated: true)
     }
@@ -84,6 +93,12 @@ class ConversationListViewController: UIViewController {
 
 //MARK: - Сhange Theme
 extension ConversationListViewController {
+    
+    func changeThemeWorkDelegate(theme: Theme) -> Theme {
+        ThemesManager.applyTheme(theme: theme)
+        changeTheme()
+        return theme
+    }
     
     func changeTheme() {
         palette = ThemesManager.currentTheme()
@@ -141,6 +156,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             case .none:
                 break
             }
+            cell.palette = palette
         }
         
         cell.avatarImageView?.image = #imageLiteral(resourceName: "avatar.jpg")
@@ -176,8 +192,8 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let conversationIB = UIStoryboard(name: "Conversation", bundle: nil)
-        let vc = conversationIB.instantiateViewController(withIdentifier: "ConversationVC")
+        let vc = ConversationViewController()
+        vc.palette = palette
         if isFiltering {
             vc.title = filteredChats[indexPath.row].name
             navigationController?.pushViewController(vc, animated: true)

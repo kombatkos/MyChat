@@ -24,6 +24,15 @@ enum Theme: Int, PaletteProtocol {
         }
     }
     
+    var placeHolderColor: UIColor {
+        switch self {
+        case .night:
+            return UIColor(red: 142/255, green: 142/255, blue: 147/255, alpha: 1)
+        default:
+            return UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1)
+        }
+    }
+    
     /// Customizing the Navigation Bar
     var barStyle: UIBarStyle {
         switch self {
@@ -78,9 +87,9 @@ enum Theme: Int, PaletteProtocol {
     var tableViewHeaderFooterColor: UIColor {
         switch self {
         case .classic:
-            return UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1)
+            return UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .day:
-            return UIColor(red: 216/255, green: 216/255, blue: 216/255, alpha: 1)
+            return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         case .night:
             return UIColor(red: 18/255, green: 19/255, blue: 18/255, alpha: 1)
         }

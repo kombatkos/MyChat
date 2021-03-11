@@ -41,34 +41,31 @@ class ThemeButtonView: UIView {
     func setClassicView() {
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(containerView)
+        rightBubble.translatesAutoresizingMaskIntoConstraints = false
+        leftBubble.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        self.addSubview(containerView)
         containerView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         containerView.layer.borderWidth = 2
 
-        rightBubble.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(rightBubble)
-        
         rightBubble.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
         rightBubble.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20).isActive = true
         rightBubble.widthAnchor.constraint(equalToConstant: 117).isActive = true
         rightBubble.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        leftBubble.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(leftBubble)
-        
         leftBubble.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20).isActive = true
         leftBubble.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20).isActive = true
         leftBubble.widthAnchor.constraint(equalToConstant: 117).isActive = true
         leftBubble.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        textLabel.font = .systemFont(ofSize: 25)
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(textLabel)
-        
+        textLabel.font = .systemFont(ofSize: 25)
         textLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         textLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
     }

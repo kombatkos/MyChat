@@ -8,5 +8,5 @@
 import UIKit
 
 protocol ThemesPickerDelegate: class {
-    func changeTheme()
+    func changeThemeWorkDelegate(theme: Theme) -> Theme
 }

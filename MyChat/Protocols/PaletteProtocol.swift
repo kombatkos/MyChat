@@ -23,6 +23,9 @@ protocol PaletteProtocol {
     /// BackgroundColor for ConversationVC bottom view
     var conversationBottomViewColor: UIColor {get}
     
+    /// Customizing TextFiewld
+    var placeHolderColor: UIColor {get}
+    
     // TableView block:
     var tableViewSubtitleColor: UIColor {get}
     var tableViewHeaderFooterColor: UIColor {get}
