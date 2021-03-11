@@ -17,9 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var state: String = "Not running"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         setupSwiftyBeaverLogging()
-        
         SwiftyBeaver.info(printLog(newState: "Inactive"))
         return true
     }

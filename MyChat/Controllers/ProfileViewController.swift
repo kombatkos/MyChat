@@ -51,7 +51,6 @@ class ProfileViewController: UIViewController {
         setProfile()
         let tap = UITapGestureRecognizer(target: self, action: #selector(containerAvatarViewTapped))
         containerAvatarView?.addGestureRecognizer(tap)
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -73,6 +72,10 @@ class ProfileViewController: UIViewController {
         // Далее размеры subviews компонуются в методе viewWillLayoutSubviews.
         // В методе viewDidLayoutSubviews размеры subviews уже известны.
         // Метод viewDidAppear показывает нам уже готовые views
+    }
+    
+    @IBAction func closeAction(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
