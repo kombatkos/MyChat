@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-enum Theme: Int, PaletteProtocol {
+enum Theme: String, PaletteProtocol {
     
     case classic, day, night
     
@@ -42,6 +42,24 @@ enum Theme: Int, PaletteProtocol {
             return .default
         case .night:
             return .blackTranslucent
+        }
+    }
+    
+    var keyboardStyle: UIKeyboardAppearance {
+        switch self {
+        case .night:
+            return UIKeyboardAppearance.dark
+        default:
+            return UIKeyboardAppearance.light
+        }
+    }
+    
+    var activityIndicatorStyle: UIActivityIndicatorView.Style {
+        switch self {
+        case .night:
+            return .white
+        default:
+            return .gray
         }
     }
     
@@ -177,16 +195,38 @@ let themeKey = "SelectedTheme"
 
 struct ThemesManager {
     
+    static let queue = DispatchQueue.global()
+    
     static func currentTheme() -> Theme {
-        if let storedTheme = (UserDefaults.standard.value(forKey: themeKey) as AnyObject).integerValue {
-            return Theme(rawValue: storedTheme) ?? .classic
+        let fileManager = FilesManager()
+        if let theme = fileManager.readThemeFile(fileName: "theme.txt") {
+            return theme
         } else {
             return .classic
         }
     }
     
-    static func applyTheme(theme: Theme) {
-        UserDefaults.standard.setValue(theme.rawValue, forKey: themeKey)
-        UserDefaults.standard.synchronize()
+    static func applyTheme(theme: Theme, completion: @escaping (Bool) -> ()) {
+        let fileManager = FilesManager()
+            do {
+                try fileManager.writeThemeFile(theme: theme, fileName: "theme.txt")
+                completion(true)
+            } catch let error {
+                print(error.localizedDescription)
+                completion(false)
+            }
     }
+    
+//    static func currentTheme() -> Theme {
+//        if let storedTheme = (UserDefaults.standard.value(forKey: themeKey) as AnyObject).integerValue {
+//            return Theme(rawValue: storedTheme) ?? .classic
+//        } else {
+//            return .classic
+//        }
+//    }
+//
+//    static func applyTheme(theme: Theme) {
+//        UserDefaults.standard.setValue(theme.rawValue, forKey: themeKey)
+//        UserDefaults.standard.synchronize()
+//    }
 }

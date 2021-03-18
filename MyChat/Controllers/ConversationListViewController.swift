@@ -7,12 +7,17 @@
 
 import UIKit
 
-class ConversationListViewController: UIViewController, ThemesPickerDelegate {
+class ConversationListViewController: UIViewController {
     
     var myFirstName: String? = "Marina"
     var myLastName: String? = "Dudarenko"
     
     var palette: PaletteProtocol?
+    var themeIsSaved: Bool = false {
+        didSet {
+            changeTheme()
+        }
+    }
     
     private var searchController = UISearchController(searchResultsController: nil)
     private var filteredChats: [MyChat] = []
@@ -73,7 +78,7 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate {
     @objc func settingAction() {
         let themesVC = ThemesViewController()
         
-//        themesVC.delegate = self  // OFF / ON working delegate
+        //        themesVC.delegate = self  // OFF / ON working delegate
         
         themesVC.palette = ThemesManager.currentTheme()
         themesVC.lastTheme = ThemesManager.currentTheme() // for work CancelButton
@@ -83,8 +88,11 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate {
             /// когда контроллер назначения закрывается слабые остаются только strong reference
             /// поэтому если убрать [week self] может образоваться retain cicle
             /// уменьшая память устройства с каждым входом в ThemeVC
-            ThemesManager.applyTheme(theme: theme)
-            self?.changeTheme()
+            DispatchQueue.global(qos: .background).async {
+                ThemesManager.applyTheme(theme: theme) { [weak self ] isSaved in
+                    self?.themeIsSaved = isSaved
+                }
+            }
             return theme
         }
         navigationController?.pushViewController(themesVC, animated: true)
@@ -92,28 +100,38 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate {
 }
 
 //MARK: - Сhange Theme
-extension ConversationListViewController {
+extension ConversationListViewController: ThemesPickerDelegate {
     
     func changeThemeWorkDelegate(theme: Theme) -> Theme {
-        ThemesManager.applyTheme(theme: theme)
-        changeTheme()
+        DispatchQueue.global(qos: .background).async {
+            ThemesManager.applyTheme(theme: theme) { [weak self] isSaved in
+                self?.themeIsSaved = isSaved
+            }
+        }
         return theme
     }
     
     func changeTheme() {
-        palette = ThemesManager.currentTheme()
+        DispatchQueue.main.async { [weak self] in
+            self?.palette = ThemesManager.currentTheme()
         
-        view.backgroundColor = palette?.backgroundColor ?? .white
-        
-        UITextField.appearance().backgroundColor = palette?.tableViewHeaderFooterColor
-        UILabel.appearance().textColor = palette?.labelColor
-        UIView.appearance(whenContainedInInstancesOf: [UITableViewHeaderFooterView.self]).backgroundColor = palette?.tableViewHeaderFooterColor
-        UITableViewCell.appearance().backgroundColor = palette?.backgroundColor
-        UITableViewCell.appearance().selectedBackgroundView = palette?.cellSelectedView
-        UITableView.appearance().backgroundColor = palette?.backgroundColor
-        UINavigationBar.appearance().barStyle = palette?.barStyle ?? .default
-        UIApplication.shared.keyWindow?.reload()
-        UIApplication.shared.keyWindow?.reload()
+            self?.view.backgroundColor = self?.palette?.backgroundColor ?? .white
+            
+            UIActivityIndicatorView.appearance().style = self?.palette?.activityIndicatorStyle ?? .gray
+            UITextField.appearance().keyboardAppearance = self?.palette?.keyboardStyle ?? .light
+            UITextView.appearance().textColor = self?.palette?.labelColor
+            UITextField.appearance().backgroundColor = self?.palette?.tableViewHeaderFooterColor
+            UITextField.appearance().textColor = self?.palette?.labelColor
+            UILabel.appearance().textColor = self?.palette?.labelColor
+            UIView.appearance(whenContainedInInstancesOf: [UITableViewHeaderFooterView.self]).backgroundColor = self?.palette?.tableViewHeaderFooterColor
+            UITableViewCell.appearance().backgroundColor = self?.palette?.backgroundColor
+            UITableViewCell.appearance().selectedBackgroundView = self?.palette?.cellSelectedView
+            UITableView.appearance().backgroundColor = self?.palette?.backgroundColor
+            UINavigationBar.appearance().barStyle = self?.palette?.barStyle ?? .default
+            
+            UIApplication.shared.keyWindow?.reload()
+            UIApplication.shared.keyWindow?.reload()
+        }
     }
 }
 
@@ -159,7 +177,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             cell.palette = palette
         }
         
-        cell.avatarImageView?.image = #imageLiteral(resourceName: "avatar.jpg")
+        cell.avatarImageView?.image = #imageLiteral(resourceName: "ava2")
         cell.dateLabel?.text = DateManager.getDate(date: chat?.date)
         cell.nameLabel?.text = chat?.name ?? "No Name"
         cell.messageLabel?.text = chat?.message

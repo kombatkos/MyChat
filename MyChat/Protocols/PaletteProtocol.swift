@@ -14,6 +14,12 @@ protocol PaletteProtocol {
     /// Customizing the Navigation Bar
     var barStyle: UIBarStyle {get}
     
+    /// Customizing the Keyboard
+    var keyboardStyle: UIKeyboardAppearance {get}
+    
+    /// Customizing the ActivityIndicator
+    var activityIndicatorStyle: UIActivityIndicatorView.Style {get}
+    
     /// Customizing the Alert Controller
     var alertStyle: UIUserInterfaceStyle {get}
 
