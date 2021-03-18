@@ -12,6 +12,8 @@ class IncomingCell: UITableViewCell {
     let containerView = UIView()
     let textMessageLabel = UILabel()
     
+    var palette: PaletteProtocol?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setCell()
@@ -21,6 +23,12 @@ class IncomingCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setCell()
+        setBezierForContainerView()
+    }
+    
     private func setCell() {
         setSubviews()
         contentView.addSubview(containerView)
@@ -28,10 +36,17 @@ class IncomingCell: UITableViewCell {
         setConstraints()
     }
     
+    @objc func setBezierForContainerView() {
+        let path = UIBezierPath(roundedRect: containerView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topRight], cornerRadii: CGSize(width: 15, height: 15))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        containerView.layer.mask = maskLayer
+    }
+    
     @objc func setSubviews() {
         textMessageLabel.numberOfLines = 0
-        containerView.backgroundColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1.00)
-        containerView.layer.cornerRadius = 15
+        containerView.backgroundColor = palette?.bubbleLeftColor ?? .darkGray
+        backgroundColor = palette?.backgroundColor ?? .white
     }
     
 }

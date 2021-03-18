@@ -8,7 +8,8 @@
 import UIKit
 
 class ConversationListCell: UITableViewCell {
-    static var reuseID: String = "ConversationListCell"
+    
+    var palette: PaletteProtocol?
     
     var online: Bool = false
     var hasUnreadMessages: Bool = false
@@ -26,14 +27,8 @@ class ConversationListCell: UITableViewCell {
     private func setSubviews() {
         
         messageLabel?.font = UIFont.systemFont(ofSize: 17)
-        messageLabel?.textColor = .darkGray
-        
-        if !online {
-            backgroundColor = .white
-        } else {
-            let color = UIColor(displayP3Red: 1, green: 1, blue: 0.88, alpha: 1)
-            backgroundColor = color
-        }
+        messageLabel?.textColor = palette?.tableViewSubtitleColor ?? .gray
+        dateLabel?.textColor = palette?.tableViewSubtitleColor ?? .gray
         
         if messageLabel?.text == nil || messageLabel?.text == "No messages yet" {
             messageLabel?.text = "No messages yet"
@@ -42,12 +37,7 @@ class ConversationListCell: UITableViewCell {
         
         if hasUnreadMessages {
             messageLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-            messageLabel?.textColor = .black
         }
-        nameLabel?.textColor = .black
-        
-        guard let frameAvatarImageView = avatarImageView?.frame else { return }
-        avatarImageView?.layer.cornerRadius = frameAvatarImageView.height / 2
     }
 
 }

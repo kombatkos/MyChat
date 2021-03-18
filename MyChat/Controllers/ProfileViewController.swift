@@ -13,6 +13,8 @@ class ProfileViewController: UIViewController {
     
 // MARK: - Properties
     
+    var palette: PaletteProtocol?
+    
     let firstName = "Marina"
     let lastName = "Dudarenko"
     
@@ -24,29 +26,16 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel?
     @IBOutlet weak var aboutMeLabel: UILabel?
     
-    @IBOutlet weak var editButton: UIButton? {
-        didSet {
-//             print(#function, editButton?.bounds ?? " editButton?.frame == nil")
-            // тут editButton получает размеры из interfaseBuilder, но координаты местоположения пока x:0, y:0
-        }
-    }
+    @IBOutlet weak var editButton: UIButton?
     @IBOutlet weak var trailingConstraintForContainerView: NSLayoutConstraint?
     @IBOutlet weak var leadingConstraintForContainerView: NSLayoutConstraint?
     
     // MARK: - Lifecycle
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        print(#function, editButton?.bounds ?? " editButton?.frame == nil")
-    // Свойство frame является вычислимым, размеры всех subviews еще не определены
-    // IBOutlets инициализируются после метода super.init()
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print(#function, editButton?.frame ?? " editButton?.frame == nil")
+        palette = ThemesManager.currentTheme()
+        view.backgroundColor = palette?.backgroundColor ?? .white
         
         setProfile()
         let tap = UITapGestureRecognizer(target: self, action: #selector(containerAvatarViewTapped))
@@ -60,18 +49,6 @@ class ProfileViewController: UIViewController {
             trailingConstraintForContainerView?.constant = 170
             leadingConstraintForContainerView?.constant = 170
         }
-        // Здесь размеры subviews уже известны.
-        // Тут можно задать, например, вычисляемый cornerRadius
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print(#function, editButton?.frame ?? " editButton?.frame == nil")
-        // Размеры subviews становятся известны после того как self.view примет свои размеры.
-        // В методе viewDidLoad размеры view загружаются из InterfaceBuilder.
-        // Далее размеры subviews компонуются в методе viewWillLayoutSubviews.
-        // В методе viewDidLayoutSubviews размеры subviews уже известны.
-        // Метод viewDidAppear показывает нам уже готовые views
     }
     
     @IBAction func closeAction(_ sender: UIButton) {
@@ -89,11 +66,12 @@ class ProfileViewController: UIViewController {
         let actionSheet = UIAlertController(title: nil,
                                             message: nil,
                                             preferredStyle: .actionSheet)
-        
+        if #available(iOS 13.0, *) {
+            actionSheet.overrideUserInterfaceStyle = palette?.alertStyle ?? .light
+        }
         let camera = UIAlertAction(title: "Camera", style: .default) { _ in
             self.chooseImagePicker(source: .camera)
         }
-        
         camera.setValue(cameraIcon, forKey: "image")
         camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         
@@ -119,6 +97,8 @@ class ProfileViewController: UIViewController {
         nameLabel?.text = "\(firstName) \(lastName)"
         firstWordOfName?.text = firstName.first?.uppercased()
         firstWordOfLastName?.text = lastName.first?.uppercased()
+        firstWordOfName?.textColor = .black
+        firstWordOfLastName?.textColor = .black
     }
     
     
@@ -141,7 +121,7 @@ extension ProfileViewController {
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func chooseImagePicker(source: UIImagePickerController.SourceType) {
+    private func chooseImagePicker(source: UIImagePickerController.SourceType) {
         
         if UIImagePickerController.isSourceTypeAvailable(source) {
             let imagePicker = UIImagePickerController()
@@ -167,7 +147,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true)
     }
     
-    func checkCamera(imagePicker: UIImagePickerController) {
+    private func checkCamera(imagePicker: UIImagePickerController) {
         let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch authStatus {
         case .authorized: present(imagePicker, animated: true)
@@ -180,7 +160,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
 
-    func alertToEncourageCameraAccessInitially() {
+    private func alertToEncourageCameraAccessInitially() {
         let alertVC = UIAlertController(title: "Access to the camera is closed", message: "Open Settings/MyChats and enable camera access", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

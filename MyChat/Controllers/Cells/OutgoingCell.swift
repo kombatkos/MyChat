@@ -8,12 +8,19 @@
 import UIKit
 
 class OutgoingCell: IncomingCell {
+    
+    override func setBezierForContainerView() {
+        let path = UIBezierPath(roundedRect: containerView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft], cornerRadii: CGSize(width: 15, height: 15))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        containerView.layer.mask = maskLayer
+    }
 
     override func setSubviews() {
         textMessageLabel.numberOfLines = 0
-        textMessageLabel.textColor = .white
-        containerView.backgroundColor = .systemGreen
-        containerView.layer.cornerRadius = 15
+        textMessageLabel.textColor = palette?.rightBubbleLabelColor ?? .black
+        containerView.backgroundColor = palette?.bubbleRightColor ?? .lightGray
+        backgroundColor = palette?.backgroundColor ?? .white
     }
     
     override func setLeadingAndTrailingConstraintForContainerView() {
