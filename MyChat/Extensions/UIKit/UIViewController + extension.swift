@@ -9,7 +9,7 @@ import UIKit
 
 extension UIViewController {
     
-    //MARK: - Kyeboard methods
+    // MARK: - Kyeboard methods
     
     func registerForKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)

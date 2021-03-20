@@ -11,6 +11,9 @@ protocol PaletteProtocol {
     /// Label Color
     var labelColor: UIColor {get}
     
+    /// Button Color
+    var buttonColor: UIColor {get}
+    
     /// Customizing the Navigation Bar
     var barStyle: UIBarStyle {get}
     

@@ -50,7 +50,7 @@ class ConversationViewController: UIViewController {
     }
 }
 
-//MARK: - TableView DataSource
+// MARK: - TableViewDataSource
 
 extension ConversationViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -79,14 +79,14 @@ extension ConversationViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
 
-    //MARK: - TableView Delegate
+    // MARK: - TableView Delegate
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
 
-//MARK: - Setup Constraints
+// MARK: - Setup Constraints
 extension ConversationViewController {
     
     private func setupConstraint() {
@@ -106,5 +106,3 @@ extension ConversationViewController {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
 }
-
-

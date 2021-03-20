@@ -42,10 +42,10 @@ class ConversationListViewController: UIViewController {
                 return "History"
             }
         }
-        func getOnlineChats(chats: [MyChat]?) ->[MyChat]? {
+        func getOnlineChats(chats: [MyChat]?) -> [MyChat]? {
             return chats?.filter({$0.online})
         }
-        func getHistoryChats(chats: [MyChat]?) ->[MyChat]?  {
+        func getHistoryChats(chats: [MyChat]?) -> [MyChat]? {
             return chats?.filter({!$0.online})
         }
     }
@@ -55,11 +55,11 @@ class ConversationListViewController: UIViewController {
         changeTheme()
         tableView?.dataSource = self
         tableView?.delegate = self
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         setProfileButton()
         setThemePickerButton()
         
-        //Setup the search controller
+        // Setup the search controller
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
@@ -67,7 +67,7 @@ class ConversationListViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    //MARK: - Navigation
+    // MARK: - Navigation
     
     @objc func profileAction() {
         let profile = UIStoryboard(name: "Profile", bundle: nil)
@@ -83,11 +83,11 @@ class ConversationListViewController: UIViewController {
         themesVC.palette = ThemesManager.currentTheme()
         themesVC.lastTheme = ThemesManager.currentTheme() // for work CancelButton
         themesVC.clousure = { [weak self] theme in
-            /// week позволяет использовать слабую ссылку на ConversationListViewController
-            /// clousure передает эту ссылку в контроллер назначения (ThemeVC)
-            /// когда контроллер назначения закрывается слабые остаются только strong reference
-            /// поэтому если убрать [week self] может образоваться retain cicle
-            /// уменьшая память устройства с каждым входом в ThemeVC
+        /*  week позволяет использовать слабую ссылку на ConversationListViewController
+            clousure передает эту ссылку в контроллер назначения (ThemeVC)
+            когда контроллер назначения закрывается слабые остаются только strong reference
+            поэтому если убрать [week self] может образоваться retain cicle
+            уменьшая память устройства с каждым входом в ThemeVC */
             DispatchQueue.global(qos: .background).async {
                 ThemesManager.applyTheme(theme: theme) { [weak self ] isSaved in
                     self?.themeIsSaved = isSaved
@@ -99,7 +99,7 @@ class ConversationListViewController: UIViewController {
     }
 }
 
-//MARK: - Сhange Theme
+// MARK: - Сhange Theme
 extension ConversationListViewController: ThemesPickerDelegate {
     
     func changeThemeWorkDelegate(theme: Theme) -> Theme {
@@ -156,7 +156,6 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         }
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationListCell", for: indexPath) as? ConversationListCell else { return UITableViewCell() }
@@ -187,7 +186,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         return cell
     }
     
-    //MARK: - TableView Delegate
+    // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -232,7 +231,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     }
     
 }
-//MARK: - NavigationItem setting
+// MARK: - NavigationItem setting
 extension ConversationListViewController {
     
     private func setProfileButton() {
@@ -270,14 +269,13 @@ extension ConversationListViewController {
     }
 }
 
-//MARK: - UISearchResultsUpdating
+// MARK: - UISearchResultsUpdating
 extension ConversationListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         filterContentForSearchText(searchText)
     }
-    
     
     private func filterContentForSearchText(_ searchText: String) {
         

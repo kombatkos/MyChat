@@ -7,39 +7,30 @@
 
 import UIKit
 import CoreData
-import SwiftyBeaver
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
 
     var window: UIWindow?
     var state: String = "Not running"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        setupSwiftyBeaverLogging()
-        SwiftyBeaver.info(printLog(newState: "Inactive"))
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        SwiftyBeaver.info(printLog(newState: "Inactive"))
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        SwiftyBeaver.info(printLog(newState: "Background"))
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        SwiftyBeaver.info(printLog(newState: "Inactive"))
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        SwiftyBeaver.info(printLog(newState: "Active"))
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        SwiftyBeaver.info(printLog(newState: "Suspended"))
     }
 
     // MARK: - Core Data stack
@@ -52,10 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          error conditions that could cause the creation of the store to fail.
         */
         let container = NSPersistentContainer(name: "MyChat")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                  
                 /*
                  Typical reasons for an error here include:
@@ -79,32 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 try context.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }
 
-}
-// MARK: - Setting Log
-// Description page for SwiftyBeaver: https://habr.com/ru/post/333852/
-
-extension AppDelegate {
-    
-    func setupSwiftyBeaverLogging() {
-        let console = ConsoleDestination()
-        SwiftyBeaver.addDestination(console)
-        
-        // use level "info" - application lifecycle information
-        // use level "verbose" - full information
-        console.minLevel = .warning
-    }
-    
-    private func printLog(newState: String) -> String {
-        let text = "Application moved from \(state) to \(newState)"
-        state = newState
-        return text
-    }
 }

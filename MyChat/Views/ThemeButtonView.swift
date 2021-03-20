@@ -37,7 +37,6 @@ class ThemeButtonView: UIView {
                 return figurePath.contains(point)
     }
     
-    
     func setClassicView() {
         
         containerView.translatesAutoresizingMaskIntoConstraints = false

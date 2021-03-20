@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftyBeaver
 import AVFoundation
 
 class ProfileViewController: UIViewController {
@@ -23,7 +22,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    //MARK: - IBOutlets
+    // MARK: - IBOutlets
     
     @IBOutlet weak var containerAvatarView: AvatarView?
     @IBOutlet weak var avatarImageView: UIImageView?
@@ -67,7 +66,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerForKeyboardNotification()
-        loadData(GCDProfileService(fileManager: FilesManager()))
+        loadData(SaveProfileService(fileManager: FilesManager()))
         aboutTextView?.delegate = self
         nameTextField?.delegate = self
         palette = ThemesManager.currentTheme()
@@ -91,7 +90,7 @@ class ProfileViewController: UIViewController {
         profileService?.cancel()
     }
     
-    //MARK: - IBAction
+    // MARK: - IBAction
     
     @IBAction func closeAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -106,24 +105,16 @@ class ProfileViewController: UIViewController {
         textEditing(isEditing: false)
         profileService?.cancel()
         blockingSaveButtons(isBlocked: true)
-        loadData(GCDProfileService(fileManager: FilesManager()))
-    }
-    @IBAction func saveGCDTapped(_ sender: UIButton) {
-        profileService = GCDProfileService(fileManager: FilesManager())
-        let profile = getProfile()
-        self.profile = profile
-        saveData(profileService, profile: profile)
-        blockingSaveButtons(isBlocked: true)
+        loadData(profileService)
     }
     
     @IBAction func saveOperationTapped(_ sender: UIButton) {
-        profileService = OperationProfileService(fileManager: FilesManager())
+        profileService = SaveProfileService(fileManager: FilesManager())
         let profile = getProfile()
         self.profile = profile
         saveData(profileService, profile: profile)
         blockingSaveButtons(isBlocked: true)
     }
-    
     
     @objc func containerAvatarViewTapped() {
         let cameraIcon = #imageLiteral(resourceName: "camera")
@@ -161,7 +152,7 @@ class ProfileViewController: UIViewController {
         textEditing(isEditing: true)
     }
     
-    //MARK: - Work data
+    // MARK: - Work data
     
     private func loadData(_ profileService: ProfileService?) {
         let profileService = profileService
@@ -169,7 +160,7 @@ class ProfileViewController: UIViewController {
             self?.nameTextField?.text = profile?.name
             self?.aboutTextView?.text = profile?.aboutMe
             
-            /// image logic
+            // image logic
             if profile?.name == "" && profile?.avatarImage == nil || profile?.name == nil
                 && profile?.avatarImage == nil {
                 self?.avatarImageView?.image = #imageLiteral(resourceName: "default-avatar")
@@ -177,17 +168,17 @@ class ProfileViewController: UIViewController {
                 self?.avatarImageView?.image = profile?.avatarImage
             }
             
-            /// set placeholder
+            // set placeholder
             if profile?.aboutMe == "" || profile?.aboutMe == nil {
                 self?.aboutTextView?.text = "About me..."
                 self?.aboutTextView?.textColor = UIColor.lightGray
             }
             
-            ///set activity indicator
+            // set activity indicator
             self?.activityIndicator?.isHidden = true
             self?.activityIndicator?.stopAnimating()
             
-            /// initials of the name logic
+            // initials of the name logic
             guard let fullNameArr = profile?.name?.split(separator: " ") else { return }
             if fullNameArr.count > 0 && profile?.avatarImage == nil {
                 let firstWord = fullNameArr[0].first
@@ -262,7 +253,7 @@ extension ProfileViewController {
     }
     
     private func setButtonsColor() {
-        let color = palette?.tableViewHeaderFooterColor
+        let color = palette?.buttonColor
         editButton?.backgroundColor = color
         saveOperationButton?.backgroundColor = color
         saveGCDButton?.backgroundColor = color
@@ -297,16 +288,16 @@ extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
     }
 }
 
-//MARK: - PlaceHolders
+// MARK: - PlaceHolders
 extension ProfileViewController {
     
     private func setPlaceholder() {
         nameTextField?.backgroundColor = .clear
-        nameTextField?.attributedPlaceholder = NSAttributedString(string: "Your name", attributes: [NSAttributedString.Key.foregroundColor: palette?.placeHolderColor ?? .lightGray])
+        nameTextField?.attributedPlaceholder = NSAttributedString(string: "My name", attributes: [NSAttributedString.Key.foregroundColor: palette?.placeHolderColor ?? .lightGray])
     }
 }
 
-//MARK: - Alert Controller
+// MARK: - Alert Controller
 extension ProfileViewController {
     
     private func showAlert(isSaved: Bool) {

@@ -29,7 +29,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         avatarImageView?.image = info[.editedImage] as? UIImage
         avatarImageView?.contentMode = .scaleAspectFill
@@ -51,12 +51,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
     }
 
-
     private func alertToEncourageCameraAccessInitially() {
         let alertVC = UIAlertController(title: "Access to the camera is closed", message: "Open Settings/MyChats and enable camera access", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let settingAction = UIAlertAction(title: "Settings", style: .default) { value in
+        let settingAction = UIAlertAction(title: "Settings", style: .default) { _ in
             let path = UIApplication.openSettingsURLString
             if let settingsURL = URL(string: path), UIApplication.shared.canOpenURL(settingsURL) {
                 UIApplication.shared.open(settingsURL)

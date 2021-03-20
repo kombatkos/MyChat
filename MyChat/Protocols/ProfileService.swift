@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ProfileService: class {
-    func saveProfile(profile: Profile, completion: @escaping (Bool) -> ())
-    func loadProfile(completion: @escaping (Profile?)->())
+    func saveProfile(profile: Profile, completion: @escaping (Bool) -> Void)
+    func loadProfile(completion: @escaping (Profile?) -> Void)
     func cancel()
 }

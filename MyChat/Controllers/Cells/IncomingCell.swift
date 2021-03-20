@@ -60,7 +60,6 @@ extension IncomingCell {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         textMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        
         containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
         

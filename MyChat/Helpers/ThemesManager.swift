@@ -24,12 +24,23 @@ enum Theme: String, PaletteProtocol {
         }
     }
     
+    /// Button Color
+    var buttonColor: UIColor {
+        switch self {
+        case .night:
+            return UIColor(red: 24 / 255, green: 24 / 255, blue: 26 / 255, alpha: 1)
+        default:
+            return UIColor(red: 228 / 255, green: 228 / 255, blue: 230 / 255, alpha: 1)
+        }
+    }
+    
+    /// Customizing Placeholder
     var placeHolderColor: UIColor {
         switch self {
         case .night:
-            return UIColor(red: 142/255, green: 142/255, blue: 147/255, alpha: 1)
+            return UIColor(red: 142 / 255, green: 142 / 255, blue: 147 / 255, alpha: 1)
         default:
-            return UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1)
+            return UIColor(red: 153 / 255, green: 153 / 255, blue: 153 / 255, alpha: 1)
         }
     }
     
@@ -45,6 +56,7 @@ enum Theme: String, PaletteProtocol {
         }
     }
     
+    /// Customizing Keyboard Style
     var keyboardStyle: UIKeyboardAppearance {
         switch self {
         case .night:
@@ -53,7 +65,8 @@ enum Theme: String, PaletteProtocol {
             return UIKeyboardAppearance.light
         }
     }
-    
+
+    /// Customizing Activity Indicator
     var activityIndicatorStyle: UIActivityIndicatorView.Style {
         switch self {
         case .night:
@@ -91,9 +104,9 @@ enum Theme: String, PaletteProtocol {
     var conversationBottomViewColor: UIColor {
         switch self {
         case .night:
-            return UIColor(red: 20/255, green: 21/255, blue: 20/255, alpha: 1)
+            return UIColor(red: 20 / 255, green: 21 / 255, blue: 20 / 255, alpha: 1)
         default:
-            return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+            return UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
         }
     }
     
@@ -105,11 +118,11 @@ enum Theme: String, PaletteProtocol {
     var tableViewHeaderFooterColor: UIColor {
         switch self {
         case .classic:
-            return UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 1)
         case .day:
-            return UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+            return UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
         case .night:
-            return UIColor(red: 18/255, green: 19/255, blue: 18/255, alpha: 1)
+            return UIColor(red: 18 / 255, green: 19 / 255, blue: 18 / 255, alpha: 1)
         }
     }
     
@@ -164,18 +177,18 @@ enum Theme: String, PaletteProtocol {
         case .day:
             return UIColor(red: 0.91, green: 0.92, blue: 0.93, alpha: 1.00)
         case .night:
-            return UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1)
+            return UIColor(red: 46 / 255, green: 46 / 255, blue: 46 / 255, alpha: 1)
         }
     }
     
     var bubbleRightColor: UIColor? {
         switch self {
         case .classic:
-            return UIColor(red: 221/255, green: 246/255, blue: 199/255, alpha: 1)
+            return UIColor(red: 221 / 255, green: 246 / 255, blue: 199 / 255, alpha: 1)
         case .day:
-            return UIColor(red: 76/255, green: 140/255, blue: 246/255, alpha: 1)
+            return UIColor(red: 76 / 255, green: 140 / 255, blue: 246 / 255, alpha: 1)
         case .night:
-            return UIColor(red: 92/255, green: 92/255, blue: 92/255, alpha: 1)
+            return UIColor(red: 92 / 255, green: 92 / 255, blue: 92 / 255, alpha: 1)
         }
     }
     
@@ -195,21 +208,19 @@ let themeKey = "SelectedTheme"
 
 struct ThemesManager {
     
-    static let queue = DispatchQueue.global()
-    
     static func currentTheme() -> Theme {
         let fileManager = FilesManager()
-        if let theme = fileManager.readThemeFile(fileName: "theme.txt") {
+        if let theme = fileManager.readThemeFile(fileName: FileNames.theme) {
             return theme
         } else {
             return .classic
         }
     }
     
-    static func applyTheme(theme: Theme, completion: @escaping (Bool) -> ()) {
+    static func applyTheme(theme: Theme, completion: @escaping (Bool) -> Void) {
         let fileManager = FilesManager()
             do {
-                try fileManager.writeThemeFile(theme: theme, fileName: "theme.txt")
+                try fileManager.writeThemeFile(theme: theme, fileName: FileNames.theme)
                 completion(true)
             } catch let error {
                 print(error.localizedDescription)

@@ -121,26 +121,14 @@
                                             <action selector="cancelButtonTapped:" destination="8Ah-Vp-w7l" eventType="touchUpInside" id="dyO-RR-CQb"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kP5-Hb-roq">
-                                        <rect key="frame" x="0.0" y="0.0" width="142" height="40"/>
-                                        <color key="backgroundColor" red="0.77247202400000003" green="0.77260285620000002" blue="0.77245479819999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="8wE-tJ-RNs"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="Save GCD"/>
-                                        <connections>
-                                            <action selector="saveGCDTapped:" destination="8Ah-Vp-w7l" eventType="touchUpInside" id="K3S-Dj-Gnv"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hYT-qv-EEY">
-                                        <rect key="frame" x="152" y="0.0" width="142" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="294" height="40"/>
                                         <color key="backgroundColor" red="0.77247202400000003" green="0.77260285620000002" blue="0.77245479819999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="lVM-Jf-5zT"/>
+                                            <constraint firstAttribute="height" constant="40" id="IdK-yn-pN4"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="Save Operation"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Save"/>
                                         <connections>
                                             <action selector="saveOperationTapped:" destination="8Ah-Vp-w7l" eventType="touchUpInside" id="4k7-Ec-tQ9"/>
                                         </connections>
@@ -148,17 +136,14 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="hYT-qv-EEY" secondAttribute="trailing" id="17i-ac-ZWj"/>
                                     <constraint firstAttribute="trailing" secondItem="bWV-0v-KgS" secondAttribute="trailing" id="77x-Bq-V4i"/>
-                                    <constraint firstItem="kP5-Hb-roq" firstAttribute="top" secondItem="cKm-sG-lPP" secondAttribute="top" id="80I-nr-8E0"/>
                                     <constraint firstAttribute="height" constant="90" id="Fma-aY-zjE"/>
-                                    <constraint firstItem="hYT-qv-EEY" firstAttribute="leading" secondItem="cKm-sG-lPP" secondAttribute="centerX" constant="5" id="QOQ-eC-cU1"/>
                                     <constraint firstItem="bWV-0v-KgS" firstAttribute="leading" secondItem="cKm-sG-lPP" secondAttribute="leading" id="S9Z-Su-FzT"/>
                                     <constraint firstAttribute="bottom" secondItem="bWV-0v-KgS" secondAttribute="bottom" id="TLj-bb-D8F"/>
-                                    <constraint firstItem="kP5-Hb-roq" firstAttribute="trailing" secondItem="cKm-sG-lPP" secondAttribute="centerX" constant="-5" id="Y74-yq-Anm"/>
-                                    <constraint firstItem="hYT-qv-EEY" firstAttribute="top" secondItem="cKm-sG-lPP" secondAttribute="top" id="aXO-Fo-gxN"/>
+                                    <constraint firstItem="hYT-qv-EEY" firstAttribute="leading" secondItem="cKm-sG-lPP" secondAttribute="leading" id="ZRA-e6-4Y7"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="999" constant="294" id="bQd-dM-NEm"/>
-                                    <constraint firstItem="kP5-Hb-roq" firstAttribute="leading" secondItem="cKm-sG-lPP" secondAttribute="leading" id="fpB-1j-d8s"/>
-                                    <constraint firstAttribute="trailing" secondItem="hYT-qv-EEY" secondAttribute="trailing" id="tua-85-hgW"/>
+                                    <constraint firstItem="hYT-qv-EEY" firstAttribute="top" secondItem="cKm-sG-lPP" secondAttribute="top" id="kwa-Zd-MLn"/>
                                 </constraints>
                             </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="s8d-tU-hjh">
@@ -209,7 +194,6 @@
                         <outlet property="leadingConstraintForContainerView" destination="YbE-77-pnh" id="Vm7-Im-Otl"/>
                         <outlet property="nameTextField" destination="PYO-BT-nYq" id="95A-QC-cAE"/>
                         <outlet property="saveBar" destination="cKm-sG-lPP" id="vRl-Pd-dcu"/>
-                        <outlet property="saveGCDButton" destination="kP5-Hb-roq" id="gmX-sI-Fyy"/>
                         <outlet property="saveOperationButton" destination="hYT-qv-EEY" id="KR0-IF-UUA"/>
                         <outlet property="trailingConstraintForContainerView" destination="2XC-ez-Si9" id="gA0-8Y-oAs"/>
                     </connections>
