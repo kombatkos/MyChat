@@ -3,113 +3,70 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = AE7B4FB01588B9E6DF09CB79FC7CE7BD /* Build configuration list for PBXAggregateTarget "SwiftLint" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = SwiftLint;
+			productName = SwiftLint;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		03BF07F2F8A6ED79D3FE8E00AF9DC066 /* FilterValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A3F835B7839C26A0813783BD4A6BEF /* FilterValidator.swift */; };
-		08FB87102540C9917F2B9818EC294B8A /* BaseDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFAEFF0317633B47642EA871C1819D2 /* BaseDestination.swift */; };
-		12C307CFA4BF58355D82DC2FEF3B7FEF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F0A27B4B03972ED2520A79F14D3BA /* Extensions.swift */; };
-		3A332F19811B66B1BB332E6DA74378F9 /* ConsoleDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF833FBE0C14DE0F23861D094B5CA49 /* ConsoleDestination.swift */; };
-		5D0F690D40F6666BF3E861DAD7F01ED6 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC64ED15B7EBA3053FBF676026904A7E /* Filter.swift */; };
-		60181ACAAEB45738C31824C8A2B217E0 /* SwiftyBeaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434573D81323DFA69BF0E1C08DB2A03 /* SwiftyBeaver.swift */; };
-		60982165A0AEF5C970AAA1D36DADB08E /* FileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73D821914D31B3B5E8C0659595C34C2 /* FileDestination.swift */; };
-		7B660FBBB1E5A8DFB0542D4CAF2FC877 /* Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = D982D05C9A993119A2C12445911B142F /* Base64.swift */; };
-		9FB640EF796FF3B06C16878AEC3BB7A0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		A02237797E2C5888CE67F7F68B06F32B /* SwiftyBeaver-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 15FDB9D97E28F05C15037028EC62AE6E /* SwiftyBeaver-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A1B6695BF715AE769FB45DF6AFC196AE /* SwiftyBeaver-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C872A6A852A3184FF6CD98FF83E151A5 /* SwiftyBeaver-dummy.m */; };
-		ADAA8148C3FCA4BCDC78DE4E0D45DF28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		BE65E4E713D0EAE19B3E490B200FEBD1 /* GoogleCloudDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B491FB34207E9E4BA39CA58CC74017A /* GoogleCloudDestination.swift */; };
-		C5883C150A7361A7E63DCBC743C71C1D /* SBPlatformDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB04878280EE73DCFE411961940484C /* SBPlatformDestination.swift */; };
-		D5A6CFCBEF37125C6FE160B97C0E8F09 /* Pods-MyChat-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 86237BC3A9110ECE3C033CB7EB3F4217 /* Pods-MyChat-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D7EB859C3C4AB1D61BA25CD61A666A4C /* Pods-MyChat-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E10B449645CA23BDAF7B7AD4A1D91A6 /* Pods-MyChat-dummy.m */; };
-		DCEFD2A2B6DCBF97ED1C223D0D2310B2 /* AES256CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AC29B48E18E1849D9CE8D20524A53F /* AES256CBC.swift */; };
+		0E63EB7D0966D4BF74CAAE089F808AC0 /* Pods-MyChat-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BC15532326984223FEC10787AA05697 /* Pods-MyChat-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		36535BD1DC7C11DB9D7B2DAA0FA37C8E /* Pods-MyChat-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B6158A48B7B08BC0DCB1189ECA91DF34 /* Pods-MyChat-dummy.m */; };
+		752463748774326972FDA25D3A226B1B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4E21110E16DE723AA018766146EBB896 /* PBXContainerItemProxy */ = {
+		859C42A801D03288BC16C323D377E588 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 1740FECD5A74A42ADAE96F3A8246787A;
-			remoteInfo = SwiftyBeaver;
+			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
+			remoteInfo = SwiftLint;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		15FDB9D97E28F05C15037028EC62AE6E /* SwiftyBeaver-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyBeaver-umbrella.h"; sourceTree = "<group>"; };
-		1DFAEFF0317633B47642EA871C1819D2 /* BaseDestination.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BaseDestination.swift; path = Sources/BaseDestination.swift; sourceTree = "<group>"; };
-		39223ECD2CB0FDB70F7B78BD8AB35901 /* Pods-MyChat-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MyChat-acknowledgements.plist"; sourceTree = "<group>"; };
-		3E2F0A27B4B03972ED2520A79F14D3BA /* Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Extensions.swift; sourceTree = "<group>"; };
-		42AC29B48E18E1849D9CE8D20524A53F /* AES256CBC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AES256CBC.swift; path = Sources/AES256CBC.swift; sourceTree = "<group>"; };
-		5EB04878280EE73DCFE411961940484C /* SBPlatformDestination.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SBPlatformDestination.swift; path = Sources/SBPlatformDestination.swift; sourceTree = "<group>"; };
-		6336805085E2503F54AF560BF9BF0FAA /* SwiftyBeaver.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyBeaver.release.xcconfig; sourceTree = "<group>"; };
+		06850DFFA0C9C299B9611C5EF6D0C16D /* Pods-MyChat-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MyChat-acknowledgements.plist"; sourceTree = "<group>"; };
+		2BC15532326984223FEC10787AA05697 /* Pods-MyChat-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MyChat-umbrella.h"; sourceTree = "<group>"; };
+		3EC0124719FE8EF5FDDD72C26F8A2F57 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
+		408F1EFD45C7756D0A6A89D15BE0D896 /* Pods-MyChat-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MyChat-acknowledgements.markdown"; sourceTree = "<group>"; };
+		6FB8C664E86CFE37D865E7514532B8F3 /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		77A3F835B7839C26A0813783BD4A6BEF /* FilterValidator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilterValidator.swift; path = Sources/FilterValidator.swift; sourceTree = "<group>"; };
-		7A5F7001277980B8F3EEA75BCD346E53 /* SwiftyBeaver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyBeaver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73D88EA701095DABB88025E129E7AF0B /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
 		7B04ECBE01AEF250A270B8FDADE9CC0E /* Pods_MyChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E10B449645CA23BDAF7B7AD4A1D91A6 /* Pods-MyChat-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MyChat-dummy.m"; sourceTree = "<group>"; };
-		86237BC3A9110ECE3C033CB7EB3F4217 /* Pods-MyChat-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MyChat-umbrella.h"; sourceTree = "<group>"; };
-		8B129B9CA4051B7016C420D63DC6263A /* SwiftyBeaver-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftyBeaver-Info.plist"; sourceTree = "<group>"; };
-		8B491FB34207E9E4BA39CA58CC74017A /* GoogleCloudDestination.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GoogleCloudDestination.swift; path = Sources/GoogleCloudDestination.swift; sourceTree = "<group>"; };
-		9434573D81323DFA69BF0E1C08DB2A03 /* SwiftyBeaver.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftyBeaver.swift; path = Sources/SwiftyBeaver.swift; sourceTree = "<group>"; };
+		7EAB1DA481EDDC005A251D3A5E6BE4CD /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9FF833FBE0C14DE0F23861D094B5CA49 /* ConsoleDestination.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConsoleDestination.swift; path = Sources/ConsoleDestination.swift; sourceTree = "<group>"; };
-		A14DDE8EBBFEC2197C6737B94D0AA026 /* SwiftyBeaver.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyBeaver.debug.xcconfig; sourceTree = "<group>"; };
-		A73D821914D31B3B5E8C0659595C34C2 /* FileDestination.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileDestination.swift; path = Sources/FileDestination.swift; sourceTree = "<group>"; };
-		A9B9867BF6A7035DFC5AC5697E7113E3 /* SwiftyBeaver-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyBeaver-prefix.pch"; sourceTree = "<group>"; };
-		B70F647714E3FAB232D9FA7D22F3EA58 /* Pods-MyChat-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MyChat-Info.plist"; sourceTree = "<group>"; };
-		C872A6A852A3184FF6CD98FF83E151A5 /* SwiftyBeaver-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftyBeaver-dummy.m"; sourceTree = "<group>"; };
-		CAA4570F39F0D4F0FDEC41EBC7D482FF /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
-		CC64ED15B7EBA3053FBF676026904A7E /* Filter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Sources/Filter.swift; sourceTree = "<group>"; };
-		D400B8791F613DE67489CC281C712850 /* Pods-MyChat-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MyChat-acknowledgements.markdown"; sourceTree = "<group>"; };
-		D982D05C9A993119A2C12445911B142F /* Base64.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Base64.swift; path = Sources/Base64.swift; sourceTree = "<group>"; };
-		E33364619BE1FFEA257B6B5DC6AE5211 /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
-		EE5B25D4739D193385DB5844782FD733 /* SwiftyBeaver.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftyBeaver.modulemap; sourceTree = "<group>"; };
-		EFD2835CCEBE39B89CB0592BF73ACE42 /* Pods-MyChat.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MyChat.modulemap"; sourceTree = "<group>"; };
-		F01DAB6D2FB1A5CFE7C40E96540DE458 /* Pods-MyChat-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MyChat-frameworks.sh"; sourceTree = "<group>"; };
+		B6158A48B7B08BC0DCB1189ECA91DF34 /* Pods-MyChat-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MyChat-dummy.m"; sourceTree = "<group>"; };
+		C25513ACD9C54A231A28A7884CB8BA89 /* Pods-MyChat.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MyChat.modulemap"; sourceTree = "<group>"; };
+		FC25BE9675FC1B6D9016C4756FA89720 /* Pods-MyChat-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MyChat-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		596CF6677000CE2457520D985528B08F /* Frameworks */ = {
+		F236E8107EF4E244E2F59230F4D359F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FB640EF796FF3B06C16878AEC3BB7A0 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EB55415E522035DE5A53594871984F44 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ADAA8148C3FCA4BCDC78DE4E0D45DF28 /* Foundation.framework in Frameworks */,
+				752463748774326972FDA25D3A226B1B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4282CBDB41224EE35F125BEC26B6BA00 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				EE5B25D4739D193385DB5844782FD733 /* SwiftyBeaver.modulemap */,
-				C872A6A852A3184FF6CD98FF83E151A5 /* SwiftyBeaver-dummy.m */,
-				8B129B9CA4051B7016C420D63DC6263A /* SwiftyBeaver-Info.plist */,
-				A9B9867BF6A7035DFC5AC5697E7113E3 /* SwiftyBeaver-prefix.pch */,
-				15FDB9D97E28F05C15037028EC62AE6E /* SwiftyBeaver-umbrella.h */,
-				A14DDE8EBBFEC2197C6737B94D0AA026 /* SwiftyBeaver.debug.xcconfig */,
-				6336805085E2503F54AF560BF9BF0FAA /* SwiftyBeaver.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/SwiftyBeaver";
-			sourceTree = "<group>";
-		};
-		4ECEF21594D559D2557E1CE0F4DFBCB1 /* Products */ = {
+		41879F42E1071B3B0F43F7BA8DFBE914 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				7B04ECBE01AEF250A270B8FDADE9CC0E /* Pods_MyChat.framework */,
-				7A5F7001277980B8F3EEA75BCD346E53 /* SwiftyBeaver.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,29 +79,28 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		A8D03095BFEA8C27F89848B9E8B4385F /* SwiftyBeaver */ = {
+		7FDA596DBE0337ACDFE55A210D54EF26 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				42AC29B48E18E1849D9CE8D20524A53F /* AES256CBC.swift */,
-				D982D05C9A993119A2C12445911B142F /* Base64.swift */,
-				1DFAEFF0317633B47642EA871C1819D2 /* BaseDestination.swift */,
-				9FF833FBE0C14DE0F23861D094B5CA49 /* ConsoleDestination.swift */,
-				3E2F0A27B4B03972ED2520A79F14D3BA /* Extensions.swift */,
-				A73D821914D31B3B5E8C0659595C34C2 /* FileDestination.swift */,
-				CC64ED15B7EBA3053FBF676026904A7E /* Filter.swift */,
-				77A3F835B7839C26A0813783BD4A6BEF /* FilterValidator.swift */,
-				8B491FB34207E9E4BA39CA58CC74017A /* GoogleCloudDestination.swift */,
-				5EB04878280EE73DCFE411961940484C /* SBPlatformDestination.swift */,
-				9434573D81323DFA69BF0E1C08DB2A03 /* SwiftyBeaver.swift */,
-				4282CBDB41224EE35F125BEC26B6BA00 /* Support Files */,
+				3EC0124719FE8EF5FDDD72C26F8A2F57 /* SwiftLint.debug.xcconfig */,
+				7EAB1DA481EDDC005A251D3A5E6BE4CD /* SwiftLint.release.xcconfig */,
 			);
-			path = SwiftyBeaver;
+			name = "Support Files";
+			path = "../Target Support Files/SwiftLint";
 			sourceTree = "<group>";
 		};
-		B591800895A9EDFAE5FE8096B8F0BEF2 /* Targets Support Files */ = {
+		965877409E01FB3D85D85E90E6B30185 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FABA4C0D07771853B74CFB402774B184 /* Pods-MyChat */,
+				D96179D43A67C5D5323B0682D32C133C /* SwiftLint */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AAFC4D4CF93C9F16C9E9590077D396AA /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				DF341E1F598AF178A3A679FCB7B83D44 /* Pods-MyChat */,
 			);
 			name = "Targets Support Files";
 			sourceTree = "<group>";
@@ -154,18 +110,10 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				CF94ED953BB548C8547288A67F0A9245 /* Pods */,
-				4ECEF21594D559D2557E1CE0F4DFBCB1 /* Products */,
-				B591800895A9EDFAE5FE8096B8F0BEF2 /* Targets Support Files */,
+				965877409E01FB3D85D85E90E6B30185 /* Pods */,
+				41879F42E1071B3B0F43F7BA8DFBE914 /* Products */,
+				AAFC4D4CF93C9F16C9E9590077D396AA /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		CF94ED953BB548C8547288A67F0A9245 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A8D03095BFEA8C27F89848B9E8B4385F /* SwiftyBeaver */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
@@ -176,18 +124,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FABA4C0D07771853B74CFB402774B184 /* Pods-MyChat */ = {
+		D96179D43A67C5D5323B0682D32C133C /* SwiftLint */ = {
 			isa = PBXGroup;
 			children = (
-				EFD2835CCEBE39B89CB0592BF73ACE42 /* Pods-MyChat.modulemap */,
-				D400B8791F613DE67489CC281C712850 /* Pods-MyChat-acknowledgements.markdown */,
-				39223ECD2CB0FDB70F7B78BD8AB35901 /* Pods-MyChat-acknowledgements.plist */,
-				7E10B449645CA23BDAF7B7AD4A1D91A6 /* Pods-MyChat-dummy.m */,
-				F01DAB6D2FB1A5CFE7C40E96540DE458 /* Pods-MyChat-frameworks.sh */,
-				B70F647714E3FAB232D9FA7D22F3EA58 /* Pods-MyChat-Info.plist */,
-				86237BC3A9110ECE3C033CB7EB3F4217 /* Pods-MyChat-umbrella.h */,
-				E33364619BE1FFEA257B6B5DC6AE5211 /* Pods-MyChat.debug.xcconfig */,
-				CAA4570F39F0D4F0FDEC41EBC7D482FF /* Pods-MyChat.release.xcconfig */,
+				7FDA596DBE0337ACDFE55A210D54EF26 /* Support Files */,
+			);
+			path = SwiftLint;
+			sourceTree = "<group>";
+		};
+		DF341E1F598AF178A3A679FCB7B83D44 /* Pods-MyChat */ = {
+			isa = PBXGroup;
+			children = (
+				C25513ACD9C54A231A28A7884CB8BA89 /* Pods-MyChat.modulemap */,
+				408F1EFD45C7756D0A6A89D15BE0D896 /* Pods-MyChat-acknowledgements.markdown */,
+				06850DFFA0C9C299B9611C5EF6D0C16D /* Pods-MyChat-acknowledgements.plist */,
+				B6158A48B7B08BC0DCB1189ECA91DF34 /* Pods-MyChat-dummy.m */,
+				FC25BE9675FC1B6D9016C4756FA89720 /* Pods-MyChat-Info.plist */,
+				2BC15532326984223FEC10787AA05697 /* Pods-MyChat-umbrella.h */,
+				6FB8C664E86CFE37D865E7514532B8F3 /* Pods-MyChat.debug.xcconfig */,
+				73D88EA701095DABB88025E129E7AF0B /* Pods-MyChat.release.xcconfig */,
 			);
 			name = "Pods-MyChat";
 			path = "Target Support Files/Pods-MyChat";
@@ -196,56 +151,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		82CBB7B4709E3A2CB9C9371ACC0C7590 /* Headers */ = {
+		40522D7ADEA8DD8FD4D6349B5B27CD7A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5A6CFCBEF37125C6FE160B97C0E8F09 /* Pods-MyChat-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D323AD6E00D8FF3006CF68DF0312B2A7 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A02237797E2C5888CE67F7F68B06F32B /* SwiftyBeaver-umbrella.h in Headers */,
+				0E63EB7D0966D4BF74CAAE089F808AC0 /* Pods-MyChat-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1740FECD5A74A42ADAE96F3A8246787A /* SwiftyBeaver */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2C6B51E34A0129A0E1C6878ABDC01FAB /* Build configuration list for PBXNativeTarget "SwiftyBeaver" */;
-			buildPhases = (
-				D323AD6E00D8FF3006CF68DF0312B2A7 /* Headers */,
-				BF9F3D51BF875C0DEA446CC44D4AAD53 /* Sources */,
-				EB55415E522035DE5A53594871984F44 /* Frameworks */,
-				311E8D0B1286A327EDB8C92414836D79 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SwiftyBeaver;
-			productName = SwiftyBeaver;
-			productReference = 7A5F7001277980B8F3EEA75BCD346E53 /* SwiftyBeaver.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		8F7CE5E3F75A1091B24E684CF40D8F0E /* Pods-MyChat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 36630DF3A1332A6609679D74329917DC /* Build configuration list for PBXNativeTarget "Pods-MyChat" */;
+			buildConfigurationList = 94D36C9EE3D6B2134C67E4A202103CB7 /* Build configuration list for PBXNativeTarget "Pods-MyChat" */;
 			buildPhases = (
-				82CBB7B4709E3A2CB9C9371ACC0C7590 /* Headers */,
-				4818DE77773A7FB8D35A676DAB08B234 /* Sources */,
-				596CF6677000CE2457520D985528B08F /* Frameworks */,
-				EC92578A2D1CE8047A3B6DD2BEA92535 /* Resources */,
+				40522D7ADEA8DD8FD4D6349B5B27CD7A /* Headers */,
+				5C8334167D60C9C0761D2D8B87F7A103 /* Sources */,
+				F236E8107EF4E244E2F59230F4D359F1 /* Frameworks */,
+				35DF9102EA06E9D710D5F255E6214298 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7C99DD32DC85897713F08CE2AB1330F4 /* PBXTargetDependency */,
+				544AE4B2A75B6E80FC607F566B3CC0B6 /* PBXTargetDependency */,
 			);
 			name = "Pods-MyChat";
 			productName = "Pods-MyChat";
@@ -262,7 +191,7 @@
 				LastUpgradeCheck = 1240;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -270,25 +199,18 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 4ECEF21594D559D2557E1CE0F4DFBCB1 /* Products */;
+			productRefGroup = 41879F42E1071B3B0F43F7BA8DFBE914 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8F7CE5E3F75A1091B24E684CF40D8F0E /* Pods-MyChat */,
-				1740FECD5A74A42ADAE96F3A8246787A /* SwiftyBeaver */,
+				52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		311E8D0B1286A327EDB8C92414836D79 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EC92578A2D1CE8047A3B6DD2BEA92535 /* Resources */ = {
+		35DF9102EA06E9D710D5F255E6214298 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -298,41 +220,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4818DE77773A7FB8D35A676DAB08B234 /* Sources */ = {
+		5C8334167D60C9C0761D2D8B87F7A103 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7EB859C3C4AB1D61BA25CD61A666A4C /* Pods-MyChat-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BF9F3D51BF875C0DEA446CC44D4AAD53 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DCEFD2A2B6DCBF97ED1C223D0D2310B2 /* AES256CBC.swift in Sources */,
-				7B660FBBB1E5A8DFB0542D4CAF2FC877 /* Base64.swift in Sources */,
-				08FB87102540C9917F2B9818EC294B8A /* BaseDestination.swift in Sources */,
-				3A332F19811B66B1BB332E6DA74378F9 /* ConsoleDestination.swift in Sources */,
-				12C307CFA4BF58355D82DC2FEF3B7FEF /* Extensions.swift in Sources */,
-				60982165A0AEF5C970AAA1D36DADB08E /* FileDestination.swift in Sources */,
-				5D0F690D40F6666BF3E861DAD7F01ED6 /* Filter.swift in Sources */,
-				03BF07F2F8A6ED79D3FE8E00AF9DC066 /* FilterValidator.swift in Sources */,
-				BE65E4E713D0EAE19B3E490B200FEBD1 /* GoogleCloudDestination.swift in Sources */,
-				C5883C150A7361A7E63DCBC743C71C1D /* SBPlatformDestination.swift in Sources */,
-				A1B6695BF715AE769FB45DF6AFC196AE /* SwiftyBeaver-dummy.m in Sources */,
-				60181ACAAEB45738C31824C8A2B217E0 /* SwiftyBeaver.swift in Sources */,
+				36535BD1DC7C11DB9D7B2DAA0FA37C8E /* Pods-MyChat-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7C99DD32DC85897713F08CE2AB1330F4 /* PBXTargetDependency */ = {
+		544AE4B2A75B6E80FC607F566B3CC0B6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SwiftyBeaver;
-			target = 1740FECD5A74A42ADAE96F3A8246787A /* SwiftyBeaver */;
-			targetProxy = 4E21110E16DE723AA018766146EBB896 /* PBXContainerItemProxy */;
+			name = SwiftLint;
+			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
+			targetProxy = 859C42A801D03288BC16C323D377E588 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -403,44 +306,9 @@
 			};
 			name = Debug;
 		};
-		0D0D2E8ACB38D67A51DFEBE0E43EFF93 /* Release */ = {
+		0477387B8AF86F32ECAD8FBF886ABF1E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6336805085E2503F54AF560BF9BF0FAA /* SwiftyBeaver.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftyBeaver/SwiftyBeaver-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftyBeaver/SwiftyBeaver-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/SwiftyBeaver/SwiftyBeaver.modulemap";
-				PRODUCT_MODULE_NAME = SwiftyBeaver;
-				PRODUCT_NAME = SwiftyBeaver;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.1;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		2206F2EBD0244D1B490EC4FDB712FE40 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CAA4570F39F0D4F0FDEC41EBC7D482FF /* Pods-MyChat.release.xcconfig */;
+			baseConfigurationReference = 73D88EA701095DABB88025E129E7AF0B /* Pods-MyChat.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -476,9 +344,9 @@
 			};
 			name = Release;
 		};
-		62F6A308C7F5C0D0FF5E76D230DF7FE6 /* Debug */ = {
+		966E0B5ECA4D7C77F829CE38EEF5413F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E33364619BE1FFEA257B6B5DC6AE5211 /* Pods-MyChat.debug.xcconfig */;
+			baseConfigurationReference = 6FB8C664E86CFE37D865E7514532B8F3 /* Pods-MyChat.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -513,39 +381,22 @@
 			};
 			name = Debug;
 		};
-		6ADC7D031DFA6BE56EFD9D1A33835DAF /* Debug */ = {
+		AD81E62ACCB0B7A923FC8AA288F9921E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A14DDE8EBBFEC2197C6737B94D0AA026 /* SwiftyBeaver.debug.xcconfig */;
+			baseConfigurationReference = 7EAB1DA481EDDC005A251D3A5E6BE4CD /* SwiftLint.release.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftyBeaver/SwiftyBeaver-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftyBeaver/SwiftyBeaver-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
 				);
-				MODULEMAP_FILE = "Target Support Files/SwiftyBeaver/SwiftyBeaver.modulemap";
-				PRODUCT_MODULE_NAME = SwiftyBeaver;
-				PRODUCT_NAME = SwiftyBeaver;
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		E5B12AB88A4F6C443C963D290ECB2428 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -609,32 +460,48 @@
 			};
 			name = Release;
 		};
+		EADD1F50ABC8096A0D6CB18822BB4EE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EC0124719FE8EF5FDDD72C26F8A2F57 /* SwiftLint.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2C6B51E34A0129A0E1C6878ABDC01FAB /* Build configuration list for PBXNativeTarget "SwiftyBeaver" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6ADC7D031DFA6BE56EFD9D1A33835DAF /* Debug */,
-				0D0D2E8ACB38D67A51DFEBE0E43EFF93 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		36630DF3A1332A6609679D74329917DC /* Build configuration list for PBXNativeTarget "Pods-MyChat" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				62F6A308C7F5C0D0FF5E76D230DF7FE6 /* Debug */,
-				2206F2EBD0244D1B490EC4FDB712FE40 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0082FC00BCCBFCAA63AA5C98EA587C17 /* Debug */,
 				E5B12AB88A4F6C443C963D290ECB2428 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94D36C9EE3D6B2134C67E4A202103CB7 /* Build configuration list for PBXNativeTarget "Pods-MyChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				966E0B5ECA4D7C77F829CE38EEF5413F /* Debug */,
+				0477387B8AF86F32ECAD8FBF886ABF1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE7B4FB01588B9E6DF09CB79FC7CE7BD /* Build configuration list for PBXAggregateTarget "SwiftLint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EADD1F50ABC8096A0D6CB18822BB4EE4 /* Debug */,
+				AD81E62ACCB0B7A923FC8AA288F9921E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

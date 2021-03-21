@@ -7,12 +7,17 @@
 
 import UIKit
 
-class ConversationListViewController: UIViewController, ThemesPickerDelegate {
+class ConversationListViewController: UIViewController {
     
     var myFirstName: String? = "Marina"
     var myLastName: String? = "Dudarenko"
     
     var palette: PaletteProtocol?
+    var themeIsSaved: Bool = false {
+        didSet {
+            changeTheme()
+        }
+    }
     
     private var searchController = UISearchController(searchResultsController: nil)
     private var filteredChats: [MyChat] = []
@@ -37,10 +42,10 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate {
                 return "History"
             }
         }
-        func getOnlineChats(chats: [MyChat]?) ->[MyChat]? {
+        func getOnlineChats(chats: [MyChat]?) -> [MyChat]? {
             return chats?.filter({$0.online})
         }
-        func getHistoryChats(chats: [MyChat]?) ->[MyChat]?  {
+        func getHistoryChats(chats: [MyChat]?) -> [MyChat]? {
             return chats?.filter({!$0.online})
         }
     }
@@ -50,11 +55,11 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate {
         changeTheme()
         tableView?.dataSource = self
         tableView?.delegate = self
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         setProfileButton()
         setThemePickerButton()
         
-        //Setup the search controller
+        // Setup the search controller
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
@@ -62,7 +67,7 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate {
         definesPresentationContext = true
     }
     
-    //MARK: - Navigation
+    // MARK: - Navigation
     
     @objc func profileAction() {
         let profile = UIStoryboard(name: "Profile", bundle: nil)
@@ -73,47 +78,60 @@ class ConversationListViewController: UIViewController, ThemesPickerDelegate {
     @objc func settingAction() {
         let themesVC = ThemesViewController()
         
-//        themesVC.delegate = self  // OFF / ON working delegate
+        //        themesVC.delegate = self  // OFF / ON working delegate
         
         themesVC.palette = ThemesManager.currentTheme()
         themesVC.lastTheme = ThemesManager.currentTheme() // for work CancelButton
         themesVC.clousure = { [weak self] theme in
-            /// week позволяет использовать слабую ссылку на ConversationListViewController
-            /// clousure передает эту ссылку в контроллер назначения (ThemeVC)
-            /// когда контроллер назначения закрывается слабые остаются только strong reference
-            /// поэтому если убрать [week self] может образоваться retain cicle
-            /// уменьшая память устройства с каждым входом в ThemeVC
-            ThemesManager.applyTheme(theme: theme)
-            self?.changeTheme()
+        /*  week позволяет использовать слабую ссылку на ConversationListViewController
+            clousure передает эту ссылку в контроллер назначения (ThemeVC)
+            когда контроллер назначения закрывается слабые остаются только strong reference
+            поэтому если убрать [week self] может образоваться retain cicle
+            уменьшая память устройства с каждым входом в ThemeVC */
+            DispatchQueue.global(qos: .background).async {
+                ThemesManager.applyTheme(theme: theme) { [weak self ] isSaved in
+                    self?.themeIsSaved = isSaved
+                }
+            }
             return theme
         }
         navigationController?.pushViewController(themesVC, animated: true)
     }
 }
 
-//MARK: - Сhange Theme
-extension ConversationListViewController {
+// MARK: - Сhange Theme
+extension ConversationListViewController: ThemesPickerDelegate {
     
     func changeThemeWorkDelegate(theme: Theme) -> Theme {
-        ThemesManager.applyTheme(theme: theme)
-        changeTheme()
+        DispatchQueue.global(qos: .background).async {
+            ThemesManager.applyTheme(theme: theme) { [weak self] isSaved in
+                self?.themeIsSaved = isSaved
+            }
+        }
         return theme
     }
     
     func changeTheme() {
-        palette = ThemesManager.currentTheme()
+        DispatchQueue.main.async { [weak self] in
+            self?.palette = ThemesManager.currentTheme()
         
-        view.backgroundColor = palette?.backgroundColor ?? .white
-        
-        UITextField.appearance().backgroundColor = palette?.tableViewHeaderFooterColor
-        UILabel.appearance().textColor = palette?.labelColor
-        UIView.appearance(whenContainedInInstancesOf: [UITableViewHeaderFooterView.self]).backgroundColor = palette?.tableViewHeaderFooterColor
-        UITableViewCell.appearance().backgroundColor = palette?.backgroundColor
-        UITableViewCell.appearance().selectedBackgroundView = palette?.cellSelectedView
-        UITableView.appearance().backgroundColor = palette?.backgroundColor
-        UINavigationBar.appearance().barStyle = palette?.barStyle ?? .default
-        UIApplication.shared.keyWindow?.reload()
-        UIApplication.shared.keyWindow?.reload()
+            self?.view.backgroundColor = self?.palette?.backgroundColor ?? .white
+            
+            UIActivityIndicatorView.appearance().style = self?.palette?.activityIndicatorStyle ?? .gray
+            UITextField.appearance().keyboardAppearance = self?.palette?.keyboardStyle ?? .light
+            UITextView.appearance().textColor = self?.palette?.labelColor
+            UITextField.appearance().backgroundColor = self?.palette?.tableViewHeaderFooterColor
+            UITextField.appearance().textColor = self?.palette?.labelColor
+            UILabel.appearance().textColor = self?.palette?.labelColor
+            UIView.appearance(whenContainedInInstancesOf: [UITableViewHeaderFooterView.self]).backgroundColor = self?.palette?.tableViewHeaderFooterColor
+            UITableViewCell.appearance().backgroundColor = self?.palette?.backgroundColor
+            UITableViewCell.appearance().selectedBackgroundView = self?.palette?.cellSelectedView
+            UITableView.appearance().backgroundColor = self?.palette?.backgroundColor
+            UINavigationBar.appearance().barStyle = self?.palette?.barStyle ?? .default
+            
+            UIApplication.shared.keyWindow?.reload()
+            UIApplication.shared.keyWindow?.reload()
+        }
     }
 }
 
@@ -138,7 +156,6 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         }
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationListCell", for: indexPath) as? ConversationListCell else { return UITableViewCell() }
@@ -159,7 +176,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             cell.palette = palette
         }
         
-        cell.avatarImageView?.image = #imageLiteral(resourceName: "avatar.jpg")
+        cell.avatarImageView?.image = #imageLiteral(resourceName: "ava2")
         cell.dateLabel?.text = DateManager.getDate(date: chat?.date)
         cell.nameLabel?.text = chat?.name ?? "No Name"
         cell.messageLabel?.text = chat?.message
@@ -169,7 +186,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         return cell
     }
     
-    //MARK: - TableView Delegate
+    // MARK: - TableView Delegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -214,7 +231,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     }
     
 }
-//MARK: - NavigationItem setting
+// MARK: - NavigationItem setting
 extension ConversationListViewController {
     
     private func setProfileButton() {
@@ -252,14 +269,13 @@ extension ConversationListViewController {
     }
 }
 
-//MARK: - UISearchResultsUpdating
+// MARK: - UISearchResultsUpdating
 extension ConversationListViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         filterContentForSearchText(searchText)
     }
-    
     
     private func filterContentForSearchText(_ searchText: String) {
         

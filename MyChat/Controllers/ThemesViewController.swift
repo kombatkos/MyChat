@@ -10,7 +10,7 @@ import UIKit
 class ThemesViewController: UIViewController {
     
     var delegate: ThemesPickerDelegate?
-    var clousure: ((Theme)->(Theme))?
+    var clousure: ((Theme) -> (Theme))?
     
     var lastTheme: PaletteProtocol?
     var palette: PaletteProtocol?
@@ -55,10 +55,9 @@ class ThemesViewController: UIViewController {
         setBorderColorForButtons()
     }
     
-
 }
 
-//MARK: -  Set Subviews
+// MARK: - Set Subviews
 extension ThemesViewController {
    
     private func setClassicView() {
@@ -66,11 +65,10 @@ extension ThemesViewController {
         classicView.containerView.backgroundColor = .lightGray
         classicView.textLabel.text = "Classic"
         classicView.containerView.layer.cornerRadius = 20
-        classicView.rightBubble.backgroundColor = UIColor(red: 221/255, green: 246/255, blue: 199/255, alpha: 1)
-        classicView.leftBubble.backgroundColor = UIColor(red: 223/255, green: 223/255, blue: 223/255, alpha: 1)
+        classicView.rightBubble.backgroundColor = UIColor(red: 221 / 255, green: 246 / 255, blue: 199 / 255, alpha: 1)
+        classicView.leftBubble.backgroundColor = UIColor(red: 223 / 255, green: 223 / 255, blue: 223 / 255, alpha: 1)
         classicView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(classicView)
-        
         
         classicView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         classicView.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
@@ -87,26 +85,23 @@ extension ThemesViewController {
         dayView.containerView.backgroundColor = .gray
         dayView.textLabel.text = "Day"
         dayView.containerView.layer.cornerRadius = 20
-        dayView.rightBubble.backgroundColor = UIColor(red: 76/255, green: 140/255, blue: 246/255, alpha: 1)
-        dayView.leftBubble.backgroundColor = UIColor(red: 223/255, green: 223/255, blue: 223/255, alpha: 1)
+        dayView.rightBubble.backgroundColor = UIColor(red: 76 / 255, green: 140 / 255, blue: 246 / 255, alpha: 1)
+        dayView.leftBubble.backgroundColor = UIColor(red: 223 / 255, green: 223 / 255, blue: 223 / 255, alpha: 1)
         dayView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dayView)
-        
         
         dayView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         dayView.topAnchor.constraint(equalTo: classicView.bottomAnchor, constant: 50).isActive = true
         dayView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 37).isActive = true
         dayView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -37).isActive = true
         
-        
         nightView.containerView.backgroundColor = .black
         nightView.textLabel.text = "Night"
         nightView.containerView.layer.cornerRadius = 20
         nightView.rightBubble.backgroundColor = .lightGray
-        nightView.leftBubble.backgroundColor = UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1)
+        nightView.leftBubble.backgroundColor = UIColor(red: 46 / 255, green: 46 / 255, blue: 46 / 255, alpha: 1)
         nightView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nightView)
-        
         
         nightView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         nightView.topAnchor.constraint(equalTo: dayView.bottomAnchor, constant: 50).isActive = true
@@ -122,7 +117,7 @@ extension ThemesViewController {
     }
 }
 
-//MARK: - NavigationItem setting
+// MARK: - NavigationItem setting
 extension ThemesViewController {
     
     private func setCancelButton() {

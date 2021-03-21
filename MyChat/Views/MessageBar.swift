@@ -22,19 +22,17 @@ class MessageBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         setupConstraints()
     }
 }
 
-//MARK: - Setup Constraints
+// MARK: - Setup Constraints
 extension MessageBar {
     private func setupConstraints() {
         messageTextField.translatesAutoresizingMaskIntoConstraints = false
         plusButton.translatesAutoresizingMaskIntoConstraints = false
-        
         
         self.addSubview(plusButton)
         setupUIElements()

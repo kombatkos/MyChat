@@ -6,57 +6,114 @@
 //
 
 import UIKit
-import SwiftyBeaver
 import AVFoundation
 
 class ProfileViewController: UIViewController {
     
-// MARK: - Properties
+    // MARK: - Properties
     
     var palette: PaletteProtocol?
+    var profileService: ProfileService?
     
-    let firstName = "Marina"
-    let lastName = "Dudarenko"
+    var profile: Profile?
+    var avatarImageViewChanged: Bool = false {
+        didSet {
+            blockingSaveButtons(isBlocked: false)
+        }
+    }
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var containerAvatarView: AvatarView?
     @IBOutlet weak var avatarImageView: UIImageView?
     @IBOutlet weak var firstWordOfName: UILabel?
     @IBOutlet weak var firstWordOfLastName: UILabel?
     
-    @IBOutlet weak var nameLabel: UILabel?
-    @IBOutlet weak var aboutMeLabel: UILabel?
-    
     @IBOutlet weak var editButton: UIButton?
     @IBOutlet weak var trailingConstraintForContainerView: NSLayoutConstraint?
     @IBOutlet weak var leadingConstraintForContainerView: NSLayoutConstraint?
+    
+    @IBOutlet weak var saveBar: UIView?
+    @IBOutlet weak var cancelButton: UIButton?
+    @IBOutlet weak var saveGCDButton: UIButton?
+    @IBOutlet weak var saveOperationButton: UIButton?
+    
+    @IBOutlet weak var nameTextField: UITextField?
+    @IBOutlet weak var aboutTextView: UITextView?
+    
+    @IBOutlet weak var distanceBetweenTextviewAndButton: NSLayoutConstraint?
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
+    
+    func blockingSaveButtons(isBlocked: Bool) {
+        saveGCDButton?.isEnabled = !isBlocked
+        saveOperationButton?.isEnabled = !isBlocked
+    }
+    
+    func textEditing(isEditing: Bool) {
+        nameTextField?.isEnabled = isEditing
+        aboutTextView?.isEditable = isEditing
+        editButton?.isHidden = isEditing
+        saveBar?.isHidden = !isEditing
+        if isEditing {
+            distanceBetweenTextviewAndButton?.constant = -70
+        } else {
+            distanceBetweenTextviewAndButton?.constant = +70
+        }
+    }
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        registerForKeyboardNotification()
+        loadData(SaveProfileService(fileManager: FilesManager()))
+        aboutTextView?.delegate = self
+        nameTextField?.delegate = self
         palette = ThemesManager.currentTheme()
         view.backgroundColor = palette?.backgroundColor ?? .white
         
-        setProfile()
         let tap = UITapGestureRecognizer(target: self, action: #selector(containerAvatarViewTapped))
         containerAvatarView?.addGestureRecognizer(tap)
+        
+        blockingSaveButtons(isBlocked: true)
+        textEditing(isEditing: false)
     }
     
     override func viewDidLayoutSubviews() {
-        editButton?.layer.cornerRadius = 14
         setFontForLabels()
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            trailingConstraintForContainerView?.constant = 170
-            leadingConstraintForContainerView?.constant = 170
-        }
+        setProfile()
+        setPlaceholder()
     }
+    
+    deinit {
+        removeForKeyboardNotification()
+        profileService?.cancel()
+    }
+    
+    // MARK: - IBAction
     
     @IBAction func closeAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
-        
+        textEditing(isEditing: true)
+        nameTextField?.becomeFirstResponder()
+    }
+    
+    @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        textEditing(isEditing: false)
+        profileService?.cancel()
+        blockingSaveButtons(isBlocked: true)
+        loadData(profileService)
+    }
+    
+    @IBAction func saveOperationTapped(_ sender: UIButton) {
+        profileService = SaveProfileService(fileManager: FilesManager())
+        let profile = getProfile()
+        self.profile = profile
+        saveData(profileService, profile: profile)
+        blockingSaveButtons(isBlocked: true)
     }
     
     @objc func containerAvatarViewTapped() {
@@ -91,17 +148,79 @@ class ProfileViewController: UIViewController {
         actionSheet.pruneNegativeWidthConstraints()
         actionSheet.popoverPresentationController?.sourceView = containerAvatarView
         present(actionSheet, animated: true)
+        
+        textEditing(isEditing: true)
     }
     
-    private func setProfile() {
-        nameLabel?.text = "\(firstName) \(lastName)"
-        firstWordOfName?.text = firstName.first?.uppercased()
-        firstWordOfLastName?.text = lastName.first?.uppercased()
-        firstWordOfName?.textColor = .black
-        firstWordOfLastName?.textColor = .black
+    // MARK: - Work data
+    
+    private func loadData(_ profileService: ProfileService?) {
+        let profileService = profileService
+        profileService?.loadProfile(completion: { [weak self] profile in
+            self?.nameTextField?.text = profile?.name
+            self?.aboutTextView?.text = profile?.aboutMe
+            
+            // image logic
+            if profile?.name == "" && profile?.avatarImage == nil || profile?.name == nil
+                && profile?.avatarImage == nil {
+                self?.avatarImageView?.image = #imageLiteral(resourceName: "default-avatar")
+            } else {
+                self?.avatarImageView?.image = profile?.avatarImage
+            }
+            
+            // set placeholder
+            if profile?.aboutMe == "" || profile?.aboutMe == nil {
+                self?.aboutTextView?.text = "About me..."
+                self?.aboutTextView?.textColor = UIColor.lightGray
+            }
+            
+            // set activity indicator
+            self?.activityIndicator?.isHidden = true
+            self?.activityIndicator?.stopAnimating()
+            
+            // initials of the name logic
+            guard let fullNameArr = profile?.name?.split(separator: " ") else { return }
+            if fullNameArr.count > 0 && profile?.avatarImage == nil {
+                let firstWord = fullNameArr[0].first
+                self?.firstWordOfName?.text = String(firstWord ?? "?")
+                self?.avatarImageView?.image = nil
+            } else {
+                self?.firstWordOfName?.text = ""
+            }
+            if fullNameArr.count > 1 {
+                let firstWord = fullNameArr[1].first
+                self?.firstWordOfLastName?.text = String(firstWord ?? "?")
+            } else {
+                self?.firstWordOfLastName?.text = ""
+            }
+        })
     }
     
+    private func saveData(_ profileService: ProfileService?, profile: Profile) {
+        
+        profileService?.saveProfile(profile: profile, completion: { [weak self] isSaved in
+            self?.showAlert(isSaved: isSaved)
+            self?.loadData(profileService)
+            self?.textEditing(isEditing: false)
+        })
+        activityIndicator?.isHidden = false
+        activityIndicator?.startAnimating()
+    }
     
+    private func getProfile() -> Profile {
+        var image: UIImage?
+        if avatarImageView?.image == #imageLiteral(resourceName: "default-avatar") || !avatarImageViewChanged {
+            image = nil
+        } else {
+            image = avatarImageView?.image
+        }
+        let about = aboutTextView?.text == "About me..." ? "" : aboutTextView?.text
+    
+        let profile = Profile(name: nameTextField?.text,
+                              aboutMe: about,
+                              avatarImage: image)
+        return profile
+    }
 }
 
 // MARK: - Settup UI
@@ -110,69 +229,98 @@ extension ProfileViewController {
     
     private func setFontForLabels() {
         guard let avatarViewWidth = containerAvatarView?.frame.width else { return }
-        nameLabel?.font = UIFont.boldSystemFont(ofSize: avatarViewWidth / 10)
-        aboutMeLabel?.font = UIFont.systemFont(ofSize: avatarViewWidth / 16)
-        firstWordOfName?.font = UIFont.systemFont(ofSize: avatarViewWidth / 2)
-        firstWordOfLastName?.font = UIFont.systemFont(ofSize: avatarViewWidth / 2)
+        let fontSizeAboutMeLabel = avatarViewWidth / 16
+        let fontSizeInitiales = avatarViewWidth / 2
+        aboutTextView?.font = UIFont.systemFont(ofSize: fontSizeAboutMeLabel)
+        firstWordOfName?.font = UIFont.systemFont(ofSize: fontSizeInitiales)
+        firstWordOfLastName?.font = UIFont.systemFont(ofSize: fontSizeInitiales)
+        aboutTextView?.font = UIFont.systemFont(ofSize: fontSizeAboutMeLabel)
+    }
+    
+    private func setProfile() {
+        firstWordOfName?.textColor = .black
+        firstWordOfLastName?.textColor = .black
+        setCornerRadiusForButtons()
+        setButtonsColor()
+    }
+    
+    private func setCornerRadiusForButtons() {
+        let radius: CGFloat = 14
+        editButton?.layer.cornerRadius = radius
+        saveGCDButton?.layer.cornerRadius = radius
+        saveOperationButton?.layer.cornerRadius = radius
+        cancelButton?.layer.cornerRadius = radius
+    }
+    
+    private func setButtonsColor() {
+        let color = palette?.buttonColor
+        editButton?.backgroundColor = color
+        saveOperationButton?.backgroundColor = color
+        saveGCDButton?.backgroundColor = color
+        cancelButton?.backgroundColor = color
     }
 }
 
-// MARK: - Work with image
-
-extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+// MARK: - UITextViewDelegate, UITextFieldDelegate
+extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
     
-    private func chooseImagePicker(source: UIImagePickerController.SourceType) {
-        
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            if source == .camera {
-                imagePicker.cameraDevice = .front
-                checkCamera(imagePicker: imagePicker)
-            } else if source == .photoLibrary {
-                present(imagePicker, animated: true)
-            }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = ""
+            textView.textColor = palette?.labelColor
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        avatarImageView?.image = info[.editedImage] as? UIImage
-        avatarImageView?.contentMode = .scaleAspectFill
-        avatarImageView?.clipsToBounds = true
-        
-        dismiss(animated: true)
+    func textViewDidChange(_ textView: UITextView) {
+        blockingSaveButtons(isBlocked: false)
     }
     
-    private func checkCamera(imagePicker: UIImagePickerController) {
-        let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
-        switch authStatus {
-        case .authorized: present(imagePicker, animated: true)
-        case .denied: alertToEncourageCameraAccessInitially()
-        case .notDetermined: present(imagePicker, animated: true)
-        case .restricted: print("Camera - restricted")
-        @unknown default:
-            return
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            aboutTextView?.text = "About me..."
+            textView.textColor = UIColor.lightGray
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        blockingSaveButtons(isBlocked: false)
+        return true
+    }
+}
 
+// MARK: - PlaceHolders
+extension ProfileViewController {
+    
+    private func setPlaceholder() {
+        nameTextField?.backgroundColor = .clear
+        nameTextField?.attributedPlaceholder = NSAttributedString(string: "My name", attributes: [NSAttributedString.Key.foregroundColor: palette?.placeHolderColor ?? .lightGray])
+    }
+}
 
-    private func alertToEncourageCameraAccessInitially() {
-        let alertVC = UIAlertController(title: "Access to the camera is closed", message: "Open Settings/MyChats and enable camera access", preferredStyle: .alert)
+// MARK: - Alert Controller
+extension ProfileViewController {
+    
+    private func showAlert(isSaved: Bool) {
+        guard let profile = self.profile else { return }
+        blockingSaveButtons(isBlocked: true)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let settingAction = UIAlertAction(title: "Settings", style: .default) { value in
-            let path = UIApplication.openSettingsURLString
-            if let settingsURL = URL(string: path), UIApplication.shared.canOpenURL(settingsURL) {
-                UIApplication.shared.open(settingsURL)
-            }
+        let saved = UIAlertController(title: "Data saved", message: "", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default)
+        saved.addAction(ok)
+        
+        let nonSaved = UIAlertController(title: "Error", message: "Failed to save data", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "OK", style: .default) 
+        let repeatButton = UIAlertAction(title: "Repeat", style: .cancel) { [weak self] _ in
+            self?.saveData(self?.profileService, profile: profile)
         }
-        alertVC.addAction(settingAction)
-        alertVC.addAction(cancelAction)
-        present(alertVC, animated: true, completion: nil)
+        
+        nonSaved.addAction(okButton)
+        nonSaved.addAction(repeatButton)
+        
+        if isSaved {
+            present(saved, animated: true)
+        } else {
+            present(nonSaved, animated: true)
+        }
     }
-
 }

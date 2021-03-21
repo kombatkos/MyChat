@@ -48,29 +48,9 @@ class ConversationViewController: UIViewController {
             tableView.reloadData()
         }
     }
-    
-    //MARK: - Kyeboard methods
-    func registerForKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    func removeForKeyboardNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(_ notofication: Notification) {
-        let userInfo = notofication.userInfo
-        guard let kewboardFrameSize = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        view.frame.origin.y = -kewboardFrameSize.height
-    }
-    @objc func keyboardWillHide() {
-        view.frame.origin.y = 0
-    }
 }
 
-//MARK: - TableView DataSource
+// MARK: - TableViewDataSource
 
 extension ConversationViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -99,14 +79,14 @@ extension ConversationViewController: UITableViewDataSource, UITableViewDelegate
         }
     }
 
-    //MARK: - TableView Delegate
+    // MARK: - TableView Delegate
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 }
 
-//MARK: - Setup Constraints
+// MARK: - Setup Constraints
 extension ConversationViewController {
     
     private func setupConstraint() {
@@ -126,5 +106,3 @@ extension ConversationViewController {
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
 }
-
-
