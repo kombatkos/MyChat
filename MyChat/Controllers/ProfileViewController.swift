@@ -15,6 +15,7 @@ class ProfileViewController: UIViewController {
     var palette: PaletteProtocol?
     var profileService: ProfileService?
     var profile: Profile?
+    weak var delegate: ConversationListVCDelegate?
     
     var avatarImageViewChanged: Bool = false {
         didSet { blockingSaveButtons(isBlocked: false) }
@@ -68,6 +69,7 @@ class ProfileViewController: UIViewController {
     deinit {
         removeForKeyboardNotification()
         profileService?.cancel()
+        delegate?.setProfileButton()
     }
     
     // MARK: - UI behavior
