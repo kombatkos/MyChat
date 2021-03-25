@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 class ListenerService {
     
-    let id = UIDevice.current.identifierForVendor?.uuidString
+    let appID = UIDevice.current.identifierForVendor?.uuidString
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
     lazy var channelID = ""
@@ -43,25 +43,25 @@ class ListenerService {
     func messagesObserve(channelID: String, completion: @escaping (Result<Message, Error>) -> Void) {
         let ref = reference.document(channelID).collection("messages")
         ref.addSnapshotListener { (querySnapshot, error) in
-            guard let snapshot = querySnapshot else {
-                completion(.failure(error!))
+            if let error = error {
+                completion(.failure(error))
                 return
-            }
-            
-            snapshot.documentChanges.forEach { (diff) in
-                guard let content = diff.document.data()["content"] as? String,
-                      let created = diff.document.data()["created"] as? Timestamp,
-                      let senderId = diff.document.data()["senderId"] as? String,
-                      let senderName = diff.document.data()["senderName"] as? String else { return }
-                
-                let message = Message(content: content, created: Date(timeIntervalSince1970: TimeInterval(created.seconds)), senderId: senderId, senderName: senderName)
-                switch diff.type {
-                case .added:
-                    completion(.success(message))
-                case .modified:
-                    break
-                case .removed:
-                    break
+            } else if let snapshot = querySnapshot {
+                snapshot.documentChanges.forEach { (diff) in
+                    guard let content = diff.document.data()["content"] as? String,
+                          let created = diff.document.data()["created"] as? Timestamp,
+                          let senderId = diff.document.data()["senderId"] as? String,
+                          let senderName = diff.document.data()["senderName"] as? String else { return }
+                    
+                    let message = Message(content: content, created: Date(timeIntervalSince1970: TimeInterval(created.seconds)), senderId: senderId, senderName: senderName)
+                    switch diff.type {
+                    case .added:
+                        completion(.success(message))
+                    case .modified:
+                        break
+                    case .removed:
+                        break
+                    }
                 }
             }
         }

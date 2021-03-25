@@ -47,6 +47,7 @@
 		87BB3FC425FE707200FAB54B /* SaveProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BB3FC325FE707200FAB54B /* SaveProfileService.swift */; };
 		87BB3FC725FE70F000FAB54B /* FilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BB3FC625FE70F000FAB54B /* FilesManager.swift */; };
 		87BB3FCA25FE8ED500FAB54B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BB3FC925FE8ED500FAB54B /* Profile.swift */; };
+		87C0C919260CDDF5009C66D5 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0C918260CDDF5009C66D5 /* ErrorAlert.swift */; };
 		A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,7 @@
 		87BB3FC325FE707200FAB54B /* SaveProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveProfileService.swift; sourceTree = "<group>"; };
 		87BB3FC625FE70F000FAB54B /* FilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesManager.swift; sourceTree = "<group>"; };
 		87BB3FC925FE8ED500FAB54B /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		87C0C918260CDDF5009C66D5 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.release.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +244,7 @@
 				8759982225F687DA00D6F710 /* ThemesManager.swift */,
 				87BB3FC625FE70F000FAB54B /* FilesManager.swift */,
 				873FAEA726068B4200ECBE33 /* FileNames.swift */,
+				87C0C918260CDDF5009C66D5 /* ErrorAlert.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				87BB3FCA25FE8ED500FAB54B /* Profile.swift in Sources */,
 				870D4A2F25FFD76500104806 /* ProfileVC + Extension.swift in Sources */,
 				875F539325FFCF3300038B1F /* UIViewController + extension.swift in Sources */,
+				87C0C919260CDDF5009C66D5 /* ErrorAlert.swift in Sources */,
 				8752E98325E9789D00DECEF3 /* MessageCellConfiguration.swift in Sources */,
 				8759982325F687DA00D6F710 /* ThemesManager.swift in Sources */,
 				8759A9AF25E9530D00B945D5 /* ConversationViewController.swift in Sources */,

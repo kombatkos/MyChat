@@ -49,7 +49,9 @@ class ConversationViewController: UIViewController {
                 })
                 self?.tableView.reloadData()
             case .failure(let error):
-                print(error.localizedDescription)
+                ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
+                    self?.present(alert, animated: true)
+                }
             }
         }
     }
@@ -69,7 +71,7 @@ class ConversationViewController: UIViewController {
         
         profileService.loadProfile { [weak self] profile in
             guard let newMessage = self?.messageBar.messageTextView.text else { return }
-            guard let id = self?.listenerSerice.id else { return }
+            guard let id = self?.listenerSerice.appID else { return }
             let message = newMessage.trim()
             if !message.isBlank {
                 let message = Message(content: newMessage, created: Date(), senderId: id, senderName: profile?.name ?? "Incognito")
@@ -92,7 +94,7 @@ extension ConversationViewController: UITableViewDataSource {
         
         let message = listMessages[indexPath.row]
         
-        if message.senderId == listenerSerice.id {
+        if message.senderId == listenerSerice.appID {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "OutgoingCell", for: indexPath) as? OutgoingCell else { return UITableViewCell()}
             cell.textMessageLabel.text = message.content
             cell.dateLabel.text = DateManager.getDate(date: message.created)

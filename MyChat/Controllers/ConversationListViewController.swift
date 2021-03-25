@@ -61,7 +61,9 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
                 })
                 self?.tableView?.reloadData()
             case .failure(let error):
-                print(error.localizedDescription)
+                ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
+                    self?.present(alert, animated: true)
+                }
             }
         }
     }
