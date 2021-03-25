@@ -25,7 +25,7 @@ class ConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraint()
-        messageBar.backgroundColor = palette?.conversationBottomViewColor ?? .red
+        messageBar.backgroundColor = palette?.conversationBottomViewColor ?? .lightGray
         view.backgroundColor = palette?.backgroundColor ?? .white
         tableView.separatorStyle = .none
         tableView.delegate = self
@@ -33,6 +33,9 @@ class ConversationViewController: UIViewController {
         tableView.register(IncomingCell.self, forCellReuseIdentifier: "IncomingCell")
         tableView.register(OutgoingCell.self, forCellReuseIdentifier: "OutgoingCell")
         tableView.transform = CGAffineTransform(rotationAngle: .pi)
+        let contentInset: CGFloat = 60
+        tableView.contentInset.bottom = contentInset
+        tableView.contentInset.top -= contentInset
         registerForKeyboardNotification()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
@@ -134,7 +137,6 @@ extension ConversationViewController {
         messageBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         messageBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         messageBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        messageBar.heightAnchor.constraint(greaterThanOrEqualToConstant: messageBar.messageTextView.contentSize.height * 5).isActive = true
         
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

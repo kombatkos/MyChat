@@ -20,8 +20,9 @@ class MessageTextView: UITextView {
         
         font = UIFont.systemFont(ofSize: 14)
         textColor = palette?.labelColor
-        self.isScrollEnabled = false
+        isScrollEnabled = false
         textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 35)
+        keyboardAppearance = palette?.keyboardStyle ?? .light
         
         delegate = self
         textColor = .lightGray
@@ -32,7 +33,7 @@ class MessageTextView: UITextView {
         
         sendButton.setImage(UIImage(named: "Sent"), for: .normal)
         sendButton.tintColor = UIColor.darkGray
-        self.addSubview(sendButton)
+        addSubview(sendButton)
         
         let margins = self.layoutMarginsGuide
         sendButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 0).isActive = true
