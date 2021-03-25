@@ -85,7 +85,16 @@
                             <constraint firstItem="ffh-rC-bPs" firstAttribute="leading" secondItem="KSm-wA-Ses" secondAttribute="leading" id="hKW-BC-XD1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="kXt-uV-MjH"/>
+                    <navigationItem key="navigationItem" title="Tinkoff Chat" largeTitleDisplayMode="always" id="kXt-uV-MjH">
+                        <rightBarButtonItems>
+                            <barButtonItem id="CyO-iQ-kYq"/>
+                            <barButtonItem title="Item" image="Shape" id="YdO-72-Q8O">
+                                <connections>
+                                    <action selector="addNewChannel:" destination="5Ju-ZX-cgK" id="fRR-l0-4LB"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ffh-rC-bPs" id="yYU-sk-Xnt"/>
                     </connections>
@@ -114,6 +123,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Shape" width="20" height="20"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

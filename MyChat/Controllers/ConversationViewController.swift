@@ -6,19 +6,22 @@
 //
 
 import UIKit
+import Firebase
 
 class ConversationViewController: UIViewController {
     
+    // Dependenses
     var palette: PaletteProtocol?
+    let listenerSerice = ListenerService()
     
-    var listMessages: [Messages] = [ Messages(text: "Конечно!", outgoing: true),
-                                    Messages(text: "Тоже не плохо, идешь сегодня на роликах кататься?", outgoing: false),
-                                    Messages(text: "Привет, все хорошо, а у тебя?", outgoing: true),
-                                    Messages(text: "Привет, как дела", outgoing: false)]
+    // Properties
+    var listMessages: [Message] = []
+    var channelID = ""
     
     var tableView = UITableView()
     var messageBar = MessageBar()
-
+    
+    // MARK: - Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraint()
@@ -31,28 +34,55 @@ class ConversationViewController: UIViewController {
         tableView.register(OutgoingCell.self, forCellReuseIdentifier: "OutgoingCell")
         tableView.transform = CGAffineTransform(rotationAngle: .pi)
         registerForKeyboardNotification()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tapGesture)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(sendMessage))
-        messageBar.messageTextField.rightView?.addGestureRecognizer(tap)
+        messageBar.messageTextView.sendButton.addGestureRecognizer(tap)
+        
+        listenerSerice.messagesObserve(channelID: channelID) { [weak self] result in
+            switch result {
+            case .success(let message):
+                self?.listMessages.append(message)
+                self?.listMessages.sort(by: { (message1, message2) -> Bool in
+                    message1.created > message2.created
+                })
+                self?.tableView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     deinit {
         removeForKeyboardNotification()
     }
     
+    // MARK: - Actions
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        messageBar.messageTextView.resignFirstResponder()
+    }
+    
     @objc func sendMessage() {
-        let newMessage = messageBar.messageTextField.text
-        if newMessage != "" {
-            listMessages.insert(Messages(text: newMessage, outgoing: true), at: 0)
-            messageBar.messageTextField.text = ""
-            tableView.reloadData()
+        let firesoreService = FirestoreService(channelID: channelID)
+        let profileService = SaveProfileService(fileManager: FilesManager())
+        
+        profileService.loadProfile { [weak self] profile in
+            guard let newMessage = self?.messageBar.messageTextView.text else { return }
+            guard let id = self?.listenerSerice.id else { return }
+            let message = newMessage.trim()
+            if !message.isBlank {
+                let message = Message(content: newMessage, created: Date(), senderId: id, senderName: profile?.name ?? "Incognito")
+                firesoreService.sendMessage(message: message)
+                self?.messageBar.messageTextView.text = ""
+            }
         }
     }
 }
 
 // MARK: - TableViewDataSource
 
-extension ConversationViewController: UITableViewDataSource, UITableViewDelegate {
+extension ConversationViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         listMessages.count
@@ -62,25 +92,30 @@ extension ConversationViewController: UITableViewDataSource, UITableViewDelegate
         
         let message = listMessages[indexPath.row]
         
-        if message.outgoing {
+        if message.senderId == listenerSerice.id {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "OutgoingCell", for: indexPath) as? OutgoingCell else { return UITableViewCell()}
-            cell.textMessageLabel.text = message.text ?? ""
+            cell.textMessageLabel.text = message.content
+            cell.dateLabel.text = DateManager.getDate(date: message.created)
             cell.palette = palette
             cell.selectionStyle = .none
             cell.transform = CGAffineTransform(rotationAngle: .pi)
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "IncomingCell", for: indexPath) as? IncomingCell else { return UITableViewCell() }
-            cell.textMessageLabel.text = message.text ?? ""
+            cell.textMessageLabel.text = message.content
+            cell.dateLabel.text = DateManager.getDate(date: message.created)
+            cell.nameLabel.text = message.senderName
             cell.palette = palette
             cell.selectionStyle = .none
             cell.transform = CGAffineTransform(rotationAngle: .pi)
             return cell
         }
     }
+}
 
-    // MARK: - TableView Delegate
-
+// MARK: - TableView Delegate
+extension ConversationViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -97,7 +132,7 @@ extension ConversationViewController {
         messageBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         messageBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         messageBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        messageBar.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        messageBar.heightAnchor.constraint(greaterThanOrEqualToConstant: messageBar.messageTextView.contentSize.height * 5).isActive = true
         
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

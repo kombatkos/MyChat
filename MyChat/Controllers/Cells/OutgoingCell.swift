@@ -19,6 +19,8 @@ class OutgoingCell: IncomingCell {
     override func setSubviews() {
         textMessageLabel.numberOfLines = 0
         textMessageLabel.textColor = palette?.rightBubbleLabelColor ?? .black
+        dateLabel.font = .preferredFont(forTextStyle: .caption1)
+        dateLabel.textColor = UIColor.gray
         containerView.backgroundColor = palette?.bubbleRightColor ?? .lightGray
         backgroundColor = palette?.backgroundColor ?? .white
     }
