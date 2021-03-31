@@ -206,7 +206,7 @@ extension ConversationListViewController {
         SaveProfileService(fileManager: FilesManager()).loadProfile { (profile) in
             var initiales = ""
             if let fullNameArr = profile?.name?.split(separator: " ") {
-                if fullNameArr.count > 0 && profile?.avatarImage == nil {
+                if fullNameArr.count > 0 {
                     guard let firstWord = fullNameArr[0].first else { return }
                     initiales += String(firstWord)
                 }

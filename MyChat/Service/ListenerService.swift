@@ -17,7 +17,7 @@ class ListenerService {
     
     func channelObserve(completion: @escaping (Result<[Channel], Error>) -> Void) {
         let ref = reference
-        ref.addSnapshotListener { (querySnapshot, error) in
+        ref.addSnapshotListener { [unowned self] (querySnapshot, error) in
             if let error = error {
                 completion(.failure(error))
             } else if let documents = querySnapshot?.documents {
@@ -30,7 +30,7 @@ class ListenerService {
                         let lastActivity = lastActivityTimestamp?.dateValue()
                         let lastMessage = data["lastMessage"] as? String
                         channels.append(Channel(identifier: identifire,
-                                                name: name,
+                                                name: self.nameHandler(text: name, isEmpty: "NoName"),
                                                 lastMessage: lastMessage,
                                                 lastActivity: lastActivity))
                     }
@@ -65,5 +65,11 @@ class ListenerService {
                 }
             }
         }
+    }
+    
+    private func nameHandler(text: String?, isEmpty: String) -> String {
+        let channelName = (text ?? isEmpty).trim()
+        let name = channelName.isBlank ? isEmpty : channelName
+        return name
     }
 }

@@ -48,6 +48,7 @@
 		87BB3FC725FE70F000FAB54B /* FilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BB3FC625FE70F000FAB54B /* FilesManager.swift */; };
 		87BB3FCA25FE8ED500FAB54B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BB3FC925FE8ED500FAB54B /* Profile.swift */; };
 		87C0C919260CDDF5009C66D5 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0C918260CDDF5009C66D5 /* ErrorAlert.swift */; };
+		87C2187E26134CB800E17BF3 /* SpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C2187D26134CB800E17BF3 /* SpeechBubble.swift */; };
 		A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +98,7 @@
 		87BB3FC625FE70F000FAB54B /* FilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesManager.swift; sourceTree = "<group>"; };
 		87BB3FC925FE8ED500FAB54B /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		87C0C918260CDDF5009C66D5 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
+		87C2187D26134CB800E17BF3 /* SpeechBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechBubble.swift; sourceTree = "<group>"; };
 		926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.release.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,6 +173,7 @@
 				8733C02C25E558E100705BD4 /* AvatarView.swift */,
 				8712503E25F3DA4900804702 /* ThemeButtonView.swift */,
 				8700E501260BA3CC00606A26 /* MessageTextView.swift */,
+				87C2187D26134CB800E17BF3 /* SpeechBubble.swift */,
 				8700E4FE260BA36A00606A26 /* MessageBar.swift */,
 			);
 			path = Views;
@@ -450,6 +453,7 @@
 				8706E18C26092790003DF879 /* ListenerService.swift in Sources */,
 				874E44A325E2959F0045DCEE /* UIAlertController + Extension.swift in Sources */,
 				879232BC260776BA004422A2 /* Channel.swift in Sources */,
+				87C2187E26134CB800E17BF3 /* SpeechBubble.swift in Sources */,
 				8759A9B325E953E000B945D5 /* IncomingCell.swift in Sources */,
 				872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */,
 				8700E502260BA3CC00606A26 /* MessageTextView.swift in Sources */,
