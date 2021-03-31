@@ -78,22 +78,6 @@ class CoreDataStack {
     
     // MARK: - Save Context
     
-//    func performSave(_ block: (NSManagedObjectContext) -> Void) {
-//        let context = saveContext()
-//        context.performAndWait {
-//            block(context)
-//            if context.hasChanges {
-//                do { try performSave(in: context)
-//                } catch { assertionFailure(error.localizedDescription) }
-//            }
-//        }
-//    }
-//
-//    private func performSave(in context: NSManagedObjectContext) throws {
-//        try context.save()
-//        if let parent = context.parent { try performSave(in: parent) }
-//    }
-
     func performSave(_ block: (NSManagedObjectContext) -> Void) {
         let context = saveContext()
         context.performAndWait {
@@ -103,7 +87,7 @@ class CoreDataStack {
             }
         }
     }
-
+    
     private func performSave(in context: NSManagedObjectContext) {
         context.performAndWait {
             do {
@@ -114,51 +98,65 @@ class CoreDataStack {
         }
         if let parent = context.parent { performSave(in: parent) }
     }
-
-// MARK: - CoreData Observers
-
-func enableObservers() {
-    let notificationCenter = NotificationCenter.default
-    notificationCenter.addObserver(self,
-                                   selector: #selector(managedObjectContextObjectsDidChange(notification:)),
-                                   name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
-                                   object: mainContext)
-}
-
-@objc
-private func managedObjectContextObjectsDidChange(notification: NSNotification) {
-    guard let userInfo = notification.userInfo else { return }
     
-    didUpdateDataBase?(self)
+    // MARK: - CoreData Observers
     
-    if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>,
-       inserts.count > 0 {
-        print("Добавлено объектов: ", inserts.count)
+    func enableObservers() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,
+                                       selector: #selector(managedObjectContextObjectsDidChange(notification:)),
+                                       name: NSNotification.Name.NSManagedObjectContextObjectsDidChange,
+                                       object: mainContext)
     }
     
-    if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>,
-       updates.count > 0 {
-        print("Обновлено объектов: ", updates.count)
-    }
-    
-    if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>,
-       deletes.count > 0 {
-        print("Удалено объектов: ", deletes.count)
-    }
-}
-
-// MARK: - Core Data Logs
-
-func printDatabaseStatistice() {
-    mainContext.perform {
-        do {
-            let count = try self.mainContext.count(for: ChannelCD.fetchRequest())
-            print("\(count) каналов")
-            let array = try self.mainContext.fetch(ChannelCD.fetchRequest()) as? [ChannelCD] ?? []
-            array.forEach { print($0.about) }
-        } catch {
-            fatalError(error.localizedDescription)
+    @objc
+    private func managedObjectContextObjectsDidChange(notification: NSNotification) {
+        guard let userInfo = notification.userInfo else { return }
+        
+        didUpdateDataBase?(self)
+        
+        var shouldLogTextAnalyzer = false
+        if ProcessInfo.processInfo.environment["text_analyzer_log"] == "verbose" {
+            shouldLogTextAnalyzer = true
+        }
+        
+        if shouldLogTextAnalyzer {
+            if let inserts = userInfo[NSInsertedObjectsKey] as? Set<NSManagedObject>,
+               inserts.count > 0 {
+                print("Добавлено объектов: ", inserts.count)
+            }
+            
+            if let updates = userInfo[NSUpdatedObjectsKey] as? Set<NSManagedObject>,
+               updates.count > 0 {
+                print("Обновлено объектов: ", updates.count)
+            }
+            
+            if let deletes = userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>,
+               deletes.count > 0 {
+                print("Удалено объектов: ", deletes.count)
+            }
         }
     }
-}
+    
+    // MARK: - Core Data Logs
+    
+    func printDatabaseStatistice() {
+        mainContext.perform {
+            var shouldLogTextAnalyzer = false
+            if ProcessInfo.processInfo.environment["text_analyzer_log"] == "verbose" {
+                shouldLogTextAnalyzer = true
+            }
+            
+            if shouldLogTextAnalyzer {
+                do {
+                    let count = try self.mainContext.count(for: ChannelCD.fetchRequest())
+                    print("\(count) каналов")
+                    let array = try self.mainContext.fetch(ChannelCD.fetchRequest()) as? [ChannelCD] ?? []
+                    array.forEach { print($0.about) }
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
+            }
+        }
+    }
 }

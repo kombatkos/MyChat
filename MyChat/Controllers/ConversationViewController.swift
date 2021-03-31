@@ -73,13 +73,19 @@ class ConversationViewController: UIViewController {
         }
     }
     
+    deinit {
+        removeForKeyboardNotification()
+        var shouldLogTextAnalyzer = false
+        if ProcessInfo.processInfo.environment["text_analyzer_log"] == "deinit" {
+            shouldLogTextAnalyzer = true
+        }
+        if shouldLogTextAnalyzer { print("Deinit ConversationViewController") }
+    }
+    
+    // CoreData method
     private func saveMessages(identifier: String) {
         let request = MyChatRequest(coreDataStack: coreDataStack)
         request.saveMessageRequest(channelID: self.channelID, messages: self.listMessages, messageID: identifier)
-    }
-    
-    deinit {
-        removeForKeyboardNotification()
     }
     
     // MARK: - Actions

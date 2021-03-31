@@ -70,6 +70,11 @@ class ProfileViewController: UIViewController {
         removeForKeyboardNotification()
         profileService?.cancel()
         delegate?.setProfileButton()
+        var shouldLogTextAnalyzer = false
+        if ProcessInfo.processInfo.environment["text_analyzer_log"] == "deinit" {
+            shouldLogTextAnalyzer = true
+        }
+        if shouldLogTextAnalyzer { print("Deinit ProfileViewController") }
     }
     
     // MARK: - UI behavior

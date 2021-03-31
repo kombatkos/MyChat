@@ -5,7 +5,7 @@
 //  Created by Konstantin Porokhov on 22.03.2021.
 //
 
-import UIKit
+import Foundation
 import FirebaseFirestore
 
 class FirestoreService {
@@ -28,23 +28,14 @@ class FirestoreService {
         messagesRef.addDocument(data: dictionary)
     }
     
-    func addNewChannel(completion: (UIAlertController) -> Void) {
-        let alert = UIAlertController(title: "Add shannel", message: "", preferredStyle: .alert)
-        alert.addTextField { textField in
-            textField.backgroundColor = .white
-            alert.textFields?.first?.textColor = .black
-            textField.placeholder = "New channel..."
-        }
-        let addChannel = UIAlertAction(title: "Add", style: .default) { _ in
-            guard let text = alert.textFields?.first?.text else { return }
+    func addNewChannel(text: String?) {
+        guard let text = text?.trim() else { return }
+        if !text.isBlank {
             self.reference.addDocument(data: ["name": text])
         }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(cancel)
-        alert.addAction(addChannel)
-        
-        completion(alert)
     }
     
+    func deleteChannel() {
+        reference.document(channelID).delete()
+    }
 }

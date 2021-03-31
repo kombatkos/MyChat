@@ -10,11 +10,11 @@ import CoreData
 
 struct MyChatRequest {
     let coreDataStack: CoreDataStack
-
+    
     init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
     }
-
+    
     func saveMessageRequest(channelID: String, messages: [Message], messageID: String) {
         
         getChannel(context: coreDataStack.mainContext, channelID: channelID) { channel in
@@ -41,12 +41,15 @@ struct MyChatRequest {
     
     func saveChannelRequest(channels: [Channel]) {
         
-        coreDataStack.performSave { context in
-            channels.forEach { (channel) in
-                let _ = ChannelCD(name: channel.name,
-                                        identifier: channel.identifier,
-                                        lastMessage: channel.lastMessage,
-                                        lastActivity: channel.lastActivity, in: context)
+        let queue = DispatchQueue.global(qos: .background)
+        queue.async {
+            coreDataStack.performSave { context in
+                channels.forEach { (channel) in
+                    _ = ChannelCD(name: channel.name,
+                                  identifier: channel.identifier,
+                                  lastMessage: channel.lastMessage,
+                                  lastActivity: channel.lastActivity, in: context)
+                }
             }
         }
     }

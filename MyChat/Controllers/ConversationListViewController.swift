@@ -20,6 +20,7 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     private var palette: PaletteProtocol?
     private let listenerService = ListenerService()
     private var coreDataStack = CoreDataStack()
+    private var request: MyChatRequest?
     
     // Theme
     private var themeIsSaved: Bool = false {
@@ -75,19 +76,30 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         }
     }
     
+    // MARK: - Actions
     private func saveChat() {
-        let request = MyChatRequest(coreDataStack: coreDataStack)
-        let queue = DispatchQueue.global(qos: .background)
-        queue.async {
-            request.saveChannelRequest(channels: self.channels ?? [])
-        }
+        request = MyChatRequest(coreDataStack: coreDataStack)
+        request?.saveChannelRequest(channels: self.channels ?? [])
     }
     
     @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
         let fireStoreService = FirestoreService(channelID: "")
-        fireStoreService.addNewChannel { alert in
-            present(alert, animated: true)
+        
+        let alert = UIAlertController(title: "Add shannel", message: "", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.backgroundColor = .white
+            alert.textFields?.first?.textColor = .black
+            textField.placeholder = "New channel..."
         }
+        let addChannel = UIAlertAction(title: "Add", style: .default) { _ in
+            let text = alert.textFields?.first?.text
+            fireStoreService.addNewChannel(text: text)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(cancel)
+        alert.addAction(addChannel)
+        
+        present(alert, animated: true)
     }
     
     func reloadData() {
@@ -207,6 +219,18 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             vc.channelID = channels?[indexPath.row].identifier ?? ""
             navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let channelID = channels?[indexPath.row].identifier
+        else { fatalError("failed to get channelID ") }
+        let fireStoreService = FirestoreService(channelID: channelID)
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _  in
+            fireStoreService.deleteChannel()
+        }
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -13,11 +13,10 @@ class ListenerService {
     let appID = UIDevice.current.identifierForVendor?.uuidString
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
-    lazy var channelID = ""
     
     func channelObserve(completion: @escaping (Result<[Channel], Error>) -> Void) {
         let ref = reference
-        ref.addSnapshotListener { [unowned self] (querySnapshot, error) in
+        ref.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(.failure(error))
             } else if let documents = querySnapshot?.documents {
@@ -29,8 +28,9 @@ class ListenerService {
                         let lastActivityTimestamp = document["lastActivity"] as? Timestamp
                         let lastActivity = lastActivityTimestamp?.dateValue()
                         let lastMessage = data["lastMessage"] as? String
+                        let correctName = !name.trim().isBlank ? name.trim() : "NoName"
                         let channel = Channel(identifier: identifire,
-                                              name: self.nameHandler(text: name, isEmpty: "NoName"),
+                                              name: correctName,
                                               lastMessage: lastMessage,
                                               lastActivity: lastActivity)
                         channels.append(channel)
@@ -64,11 +64,5 @@ class ListenerService {
                 }
             }
         }
-    }
-    
-    private func nameHandler(text: String?, isEmpty: String) -> String {
-        let channelName = (text ?? isEmpty).trim()
-        let name = channelName.isBlank ? isEmpty : channelName
-        return name
     }
 }
