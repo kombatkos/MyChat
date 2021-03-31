@@ -21,6 +21,9 @@
 		872346AD25D6858400ED3E4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 872346AC25D6858400ED3E4E /* Assets.xcassets */; };
 		872346B025D6858400ED3E4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 872346AE25D6858400ED3E4E /* LaunchScreen.storyboard */; };
 		8733C02D25E558E100705BD4 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8733C02C25E558E100705BD4 /* AvatarView.swift */; };
+		873F8CBA2614671F009C9BCD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873F8CB92614671F009C9BCD /* CoreDataStack.swift */; };
+		873F8CBD2614675E009C9BCD /* ObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873F8CBC2614675E009C9BCD /* ObjectExtensions.swift */; };
+		873F8CC026146EE7009C9BCD /* MyChatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */; };
 		873FAEA826068B4200ECBE33 /* FileNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873FAEA726068B4200ECBE33 /* FileNames.swift */; };
 		87476A27260C8EAA00979EB3 /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87476A26260C8EAA00979EB3 /* String + Extension.swift */; };
 		874E44A325E2959F0045DCEE /* UIAlertController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */; };
@@ -71,6 +74,9 @@
 		872346AF25D6858400ED3E4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		872346B125D6858400ED3E4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8733C02C25E558E100705BD4 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		873F8CB92614671F009C9BCD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		873F8CBC2614675E009C9BCD /* ObjectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectExtensions.swift; sourceTree = "<group>"; };
+		873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatRequest.swift; sourceTree = "<group>"; };
 		873FAEA726068B4200ECBE33 /* FileNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNames.swift; sourceTree = "<group>"; };
 		87476A26260C8EAA00979EB3 /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Extension.swift"; sourceTree = "<group>"; };
@@ -153,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				8770ACC426090D210024D69D /* GoogleService-Info.plist */,
+				873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */,
 				87409C5425E2C489001EA77D /* SupportingFiles */,
 				8770ACCC260924CC0024D69D /* Service */,
 				8762A28125EFAB42000C4679 /* Helpers */,
@@ -236,6 +243,8 @@
 			isa = PBXGroup;
 			children = (
 				872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */,
+				873F8CB92614671F009C9BCD /* CoreDataStack.swift */,
+				873F8CBC2614675E009C9BCD /* ObjectExtensions.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -455,7 +464,9 @@
 				879232BC260776BA004422A2 /* Channel.swift in Sources */,
 				87C2187E26134CB800E17BF3 /* SpeechBubble.swift in Sources */,
 				8759A9B325E953E000B945D5 /* IncomingCell.swift in Sources */,
+				873F8CBD2614675E009C9BCD /* ObjectExtensions.swift in Sources */,
 				872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */,
+				873F8CBA2614671F009C9BCD /* CoreDataStack.swift in Sources */,
 				8700E502260BA3CC00606A26 /* MessageTextView.swift in Sources */,
 				876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */,
 				877DD89C25E8E1BE002B8ADC /* ConversationCellConfiguration.swift in Sources */,
@@ -464,6 +475,7 @@
 				872346A125D6858100ED3E4E /* AppDelegate.swift in Sources */,
 				8759A9AC25E94C4000B945D5 /* Date + Extension.swift in Sources */,
 				8712503F25F3DA4900804702 /* ThemeButtonView.swift in Sources */,
+				873F8CC026146EE7009C9BCD /* MyChatRequest.swift in Sources */,
 				879E6BCD25F7796800E0EB8A /* PaletteProtocol.swift in Sources */,
 				8709378B25F4F5DD0036CD73 /* UIWindow + Extension.swift in Sources */,
 			);

@@ -29,39 +29,38 @@ class ListenerService {
                         let lastActivityTimestamp = document["lastActivity"] as? Timestamp
                         let lastActivity = lastActivityTimestamp?.dateValue()
                         let lastMessage = data["lastMessage"] as? String
-                        channels.append(Channel(identifier: identifire,
-                                                name: self.nameHandler(text: name, isEmpty: "NoName"),
-                                                lastMessage: lastMessage,
-                                                lastActivity: lastActivity))
+                        let channel = Channel(identifier: identifire,
+                                              name: self.nameHandler(text: name, isEmpty: "NoName"),
+                                              lastMessage: lastMessage,
+                                              lastActivity: lastActivity)
+                        channels.append(channel)
                     }
                 }
+                
                 completion(.success(channels))
             }
         }
     }
     
-    func messagesObserve(channelID: String, completion: @escaping (Result<Message, Error>) -> Void) {
+    func messagesObserve(channelID: String, completion: @escaping (Result<([Message], String), Error>) -> Void) {
         let ref = reference.document(channelID).collection("messages")
         ref.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(.failure(error))
                 return
-            } else if let snapshot = querySnapshot {
-                snapshot.documentChanges.forEach { (diff) in
-                    guard let content = diff.document.data()["content"] as? String,
-                          let created = diff.document.data()["created"] as? Timestamp,
-                          let senderId = diff.document.data()["senderId"] as? String,
-                          let senderName = diff.document.data()["senderName"] as? String else { return }
+            } else if let documents = querySnapshot?.documents {
+                var messages: [Message] = []
+                documents.forEach { document in
+                    let data = document.data()
+                    guard let content = data["content"] as? String,
+                          let created = data["created"] as? Timestamp,
+                          let senderId = data["senderId"] as? String,
+                          let senderName = data["senderName"] as? String else { return }
                     
                     let message = Message(content: content, created: Date(timeIntervalSince1970: TimeInterval(created.seconds)), senderId: senderId, senderName: senderName)
-                    switch diff.type {
-                    case .added:
-                        completion(.success(message))
-                    case .modified:
-                        break
-                    case .removed:
-                        break
-                    }
+                    let identifier = document.documentID
+                    messages.append(message)
+                    completion(.success((messages, identifier)))
                 }
             }
         }

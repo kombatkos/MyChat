@@ -19,6 +19,7 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     // Dependenses
     private var palette: PaletteProtocol?
     private let listenerService = ListenerService()
+    private var coreDataStack = CoreDataStack()
     
     // Theme
     private var themeIsSaved: Bool = false {
@@ -51,6 +52,11 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         setThemePickerButton()
         setSearchController()
         
+        coreDataStack.didUpdateDataBase = { stack in
+            stack.printDatabaseStatistice()
+        }
+        coreDataStack.enableObservers()
+        
         listenerService.channelObserve { [weak self] (result) in
             switch result {
             case .success(let channels):
@@ -60,11 +66,20 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
                     return (first.lastActivity ?? defaulDate > last.lastActivity ?? defaulDate)
                 })
                 self?.tableView?.reloadData()
+                self?.saveChat()
             case .failure(let error):
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                     self?.present(alert, animated: true)
                 }
             }
+        }
+    }
+    
+    private func saveChat() {
+        let request = MyChatRequest(coreDataStack: coreDataStack)
+        let queue = DispatchQueue.global(qos: .background)
+        queue.async {
+            request.saveChannelRequest(channels: self.channels ?? [])
         }
     }
     
@@ -181,7 +196,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = ConversationViewController()
+        let vc = ConversationViewController(coreDataStack: coreDataStack)
         vc.palette = palette
         if isFiltering {
             vc.title = filteredChannels?[indexPath.row].name
