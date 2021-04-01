@@ -38,6 +38,9 @@ class ConversationListCell: UITableViewCell {
         if hasUnreadMessages {
             messageLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         }
+        guard let heighImage = avatarImageView?.frame.height else { return }
+        avatarImageView?.backgroundColor = palette?.tableViewHeaderFooterColor ?? .gray
+        avatarImageView?.layer.cornerRadius = heighImage / 2
     }
 
 }

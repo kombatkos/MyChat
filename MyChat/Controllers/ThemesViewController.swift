@@ -12,9 +12,11 @@ class ThemesViewController: UIViewController {
     var delegate: ThemesPickerDelegate?
     var clousure: ((Theme) -> (Theme))?
     
+    // Dependenses
     var lastTheme: PaletteProtocol?
     var palette: PaletteProtocol?
     
+    // Properties
     private let classicView = ThemeButtonView()
     private let dayView = ThemeButtonView()
     private let nightView = ThemeButtonView()
@@ -34,6 +36,7 @@ class ThemesViewController: UIViewController {
         nightView.addGestureRecognizer(tapNightTheme)
     }
     
+    // MARK: - Actions
     @objc func classicThemeAction() {
         palette = clousure?(.classic)
 //        palette = delegate?.changeThemeWorkDelegate(theme: .classic)
@@ -128,7 +131,7 @@ extension ThemesViewController {
     @objc func cancelAction() {
         guard let theme = lastTheme as? Theme else { return }
         palette = clousure?(theme)
-        palette = delegate?.changeThemeWorkDelegate(theme: theme)
+//        palette = delegate?.changeThemeWorkDelegate(theme: theme)
         navigationController?.popViewController(animated: true)
     }
 }

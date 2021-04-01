@@ -20,7 +20,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BYb-do-JrF" customClass="AvatarView" customModule="MyChat" customModuleProvider="target">
                                 <rect key="frame" x="70" y="131" width="274" height="274"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillProportionally" alignment="center" spacing="-10" translatesAutoresizingMaskIntoConstraints="NO" id="HFq-al-Qs2">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="-10" translatesAutoresizingMaskIntoConstraints="NO" id="HFq-al-Qs2">
                                         <rect key="frame" x="92" y="112" width="90" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uy8-rj-D95">
@@ -194,7 +194,7 @@
                         <outlet property="leadingConstraintForContainerView" destination="YbE-77-pnh" id="Vm7-Im-Otl"/>
                         <outlet property="nameTextField" destination="PYO-BT-nYq" id="95A-QC-cAE"/>
                         <outlet property="saveBar" destination="cKm-sG-lPP" id="vRl-Pd-dcu"/>
-                        <outlet property="saveOperationButton" destination="hYT-qv-EEY" id="KR0-IF-UUA"/>
+                        <outlet property="saveButton" destination="hYT-qv-EEY" id="KR0-IF-UUA"/>
                         <outlet property="trailingConstraintForContainerView" destination="2XC-ez-Si9" id="gA0-8Y-oAs"/>
                     </connections>
                 </viewController>

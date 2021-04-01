@@ -7,90 +7,100 @@
 
 import UIKit
 
-class ConversationListViewController: UIViewController {
+protocol ConversationListVCDelegate: class {
+    func reloadData()
+    func setProfileButton()
+}
+
+class ConversationListViewController: UIViewController, ConversationListVCDelegate {
     
-    var myFirstName: String? = "Marina"
-    var myLastName: String? = "Dudarenko"
+    // MARK: - Properties
     
-    var palette: PaletteProtocol?
-    var themeIsSaved: Bool = false {
-        didSet {
-            changeTheme()
-        }
+    // Dependenses
+    private var palette: PaletteProtocol?
+    private let listenerService = ListenerService()
+    
+    // Theme
+    private var themeIsSaved: Bool = false {
+        didSet { changeTheme() }
     }
     
+    // Search controller
     private var searchController = UISearchController(searchResultsController: nil)
-    private var filteredChats: [MyChat] = []
+    private var filteredChannels: [Channel]?
     private var searchBarIsEmpty: Bool {
         guard let text = searchController.searchBar.text else { return false }
         return text.isEmpty
     }
-    
     private var isFiltering: Bool {
         return searchController.isActive && !searchBarIsEmpty
     }
+    
+    private var channels: [Channel]?
+    
     @IBOutlet weak var tableView: UITableView?
     
-    enum SectionsData: Int, CaseIterable {
-        case online, history
-        
-        func description() -> String {
-            switch self {
-            case .online:
-                return "Online"
-            case .history:
-                return "History"
-            }
-        }
-        func getOnlineChats(chats: [MyChat]?) -> [MyChat]? {
-            return chats?.filter({$0.online})
-        }
-        func getHistoryChats(chats: [MyChat]?) -> [MyChat]? {
-            return chats?.filter({!$0.online})
-        }
-    }
-    
+    // MARK: - Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
-        changeTheme()
         tableView?.dataSource = self
         tableView?.delegate = self
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        changeTheme()
         setProfileButton()
         setThemePickerButton()
+        setSearchController()
         
-        // Setup the search controller
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+        listenerService.channelObserve { [weak self] (result) in
+            switch result {
+            case .success(let channels):
+                self?.channels = channels
+                self?.channels?.sort(by: { (first, last) -> Bool in
+                    let defaulDate = Date(timeIntervalSince1970: 99)
+                    return (first.lastActivity ?? defaulDate > last.lastActivity ?? defaulDate)
+                })
+                self?.tableView?.reloadData()
+            case .failure(let error):
+                ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
+                    self?.present(alert, animated: true)
+                }
+            }
+        }
+    }
+    
+    @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
+        let fireStoreService = FirestoreService(channelID: "")
+        fireStoreService.addNewChannel { alert in
+            present(alert, animated: true)
+        }
+    }
+    
+    func reloadData() {
+        tableView?.reloadData()
     }
     
     // MARK: - Navigation
     
     @objc func profileAction() {
         let profile = UIStoryboard(name: "Profile", bundle: nil)
-        let destinationVC = profile.instantiateViewController(withIdentifier: "ProfileVC")
+        guard let destinationVC = profile.instantiateViewController(withIdentifier: "ProfileVC") as? ProfileViewController else { return }
+        destinationVC.delegate = self
         present(destinationVC, animated: true, completion: nil)
     }
     
     @objc func settingAction() {
         let themesVC = ThemesViewController()
         
-        //        themesVC.delegate = self  // OFF / ON working delegate
-        
         themesVC.palette = ThemesManager.currentTheme()
         themesVC.lastTheme = ThemesManager.currentTheme() // for work CancelButton
         themesVC.clousure = { [weak self] theme in
-        /*  week позволяет использовать слабую ссылку на ConversationListViewController
-            clousure передает эту ссылку в контроллер назначения (ThemeVC)
-            когда контроллер назначения закрывается слабые остаются только strong reference
-            поэтому если убрать [week self] может образоваться retain cicle
-            уменьшая память устройства с каждым входом в ThemeVC */
+            
             DispatchQueue.global(qos: .background).async {
                 ThemesManager.applyTheme(theme: theme) { [weak self ] isSaved in
                     self?.themeIsSaved = isSaved
+                    DispatchQueue.main.async {
+                        self?.tableView?.reloadData()
+                    }
                 }
             }
             return theme
@@ -100,21 +110,12 @@ class ConversationListViewController: UIViewController {
 }
 
 // MARK: - Сhange Theme
-extension ConversationListViewController: ThemesPickerDelegate {
-    
-    func changeThemeWorkDelegate(theme: Theme) -> Theme {
-        DispatchQueue.global(qos: .background).async {
-            ThemesManager.applyTheme(theme: theme) { [weak self] isSaved in
-                self?.themeIsSaved = isSaved
-            }
-        }
-        return theme
-    }
+extension ConversationListViewController {
     
     func changeTheme() {
         DispatchQueue.main.async { [weak self] in
             self?.palette = ThemesManager.currentTheme()
-        
+            
             self?.view.backgroundColor = self?.palette?.backgroundColor ?? .white
             
             UIActivityIndicatorView.appearance().style = self?.palette?.activityIndicatorStyle ?? .gray
@@ -139,49 +140,28 @@ extension ConversationListViewController: ThemesPickerDelegate {
 extension ConversationListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return isFiltering ? 1 : 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering { return filteredChats.count } else {
-            let sectionData = SectionsData(rawValue: section)
-            switch sectionData {
-            case .online:
-                return sectionData?.getOnlineChats(chats: chats)?.count ?? 0
-            case .history:
-                return sectionData?.getHistoryChats(chats: chats)?.count ?? 0
-            case .none:
-                return 0
-            }
+        if isFiltering { return filteredChannels?.count ?? 0 } else {
+            return channels?.count ?? 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationListCell", for: indexPath) as? ConversationListCell else { return UITableViewCell() }
+        var channel: Channel?
         
-        var chat: MyChat?
-        
-        if isFiltering { chat = filteredChats[indexPath.row] } else {
-            
-            let sectionData = SectionsData(rawValue: indexPath.section)
-            switch sectionData {
-            case .online:
-                chat = sectionData?.getOnlineChats(chats: chats)?[indexPath.row]
-            case .history:
-                chat = sectionData?.getHistoryChats(chats: chats)?[indexPath.row]
-            case .none:
-                break
-            }
-            cell.palette = palette
+        if isFiltering { channel = filteredChannels?[indexPath.row] } else {
+            channel = self.channels?[indexPath.row]
         }
-        
-        cell.avatarImageView?.image = #imageLiteral(resourceName: "ava2")
-        cell.dateLabel?.text = DateManager.getDate(date: chat?.date)
-        cell.nameLabel?.text = chat?.name ?? "No Name"
-        cell.messageLabel?.text = chat?.message
-        cell.online = chat?.online ?? false
-        cell.hasUnreadMessages = chat?.hasUnreadMessages ?? false
+        cell.avatarImageView?.image = #imageLiteral(resourceName: "tv")
+        cell.dateLabel?.text = DateManager.getDate(date: channel?.lastActivity)
+        cell.nameLabel?.text = channel?.name
+        cell.messageLabel?.text = channel?.lastMessage
+        cell.palette = palette
         
         return cell
     }
@@ -194,15 +174,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if isFiltering { return "Search"} else {
-            let sectionData = SectionsData(rawValue: section)
-            switch sectionData {
-            case .online:
-                return sectionData?.description()
-            case .history:
-                return sectionData?.description()
-            case .none:
-                return ""
-            }
+            return "Channels"
         }
     }
     
@@ -212,48 +184,63 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         let vc = ConversationViewController()
         vc.palette = palette
         if isFiltering {
-            vc.title = filteredChats[indexPath.row].name
+            vc.title = filteredChannels?[indexPath.row].name
+            vc.channelID = filteredChannels?[indexPath.row].identifier ?? ""
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let sectionData = SectionsData(rawValue: indexPath.section)
-            switch sectionData {
-            case .online:
-                let selectionChat = sectionData?.getOnlineChats(chats: chats)?[indexPath.row]
-                vc.title = selectionChat?.name
-                navigationController?.pushViewController(vc, animated: true)
-            case .history:
-                let selectionChat = sectionData?.getHistoryChats(chats: chats)?[indexPath.row]
-                vc.title = selectionChat?.name
-                navigationController?.pushViewController(vc, animated: true)
-            case .none: break
-            }
+            vc.title = channels?[indexPath.row].name
+            vc.channelID = channels?[indexPath.row].identifier ?? ""
+            navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        30
     }
     
 }
 // MARK: - NavigationItem setting
 extension ConversationListViewController {
     
-    private func setProfileButton() {
-        var initiales = "NO"
-        if let firstWord = myFirstName?.first?.uppercased(),
-           let lastWord = myLastName?.first?.uppercased() {
-            initiales = "\(firstWord)\(lastWord)"
+    private func getInitiales(completion: @escaping (String?) -> Void) {
+        SaveProfileService(fileManager: FilesManager()).loadProfile { (profile) in
+            var initiales = ""
+            if let fullNameArr = profile?.name?.split(separator: " ") {
+                if fullNameArr.count > 0 && profile?.avatarImage == nil {
+                    guard let firstWord = fullNameArr[0].first else { return }
+                    initiales += String(firstWord)
+                }
+                if fullNameArr.count > 1 {
+                    guard let firstWord = fullNameArr[1].first else { return }
+                    initiales += String(firstWord)
+                }
+            }
+            completion(initiales)
         }
-        
+    }
+    
+    func setProfileButton() {
         let button: UIButton = UIButton(type: UIButton.ButtonType.custom)
         button.backgroundColor = .yellow
         button.layer.cornerRadius = 17.5
         button.layer.borderWidth = 0.5
         button.layer.borderColor = UIColor.lightGray.cgColor
-        button.setTitle(initiales, for: UIControl.State.normal)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.white, for: .highlighted)
-        button.addTarget(self, action: #selector(profileAction), for: UIControl.Event.touchUpInside)
+        button.addTarget(self, action: #selector(self.profileAction), for: UIControl.Event.touchUpInside)
         button.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
-        
         let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.rightBarButtonItem = barButton
+        
+        getInitiales { [weak self] initiales in
+            if let initiales = initiales, initiales != "" {
+                button.setTitle(initiales, for: UIControl.State.normal)
+                button.setTitleColor(.black, for: .normal)
+                button.setTitleColor(.white, for: .highlighted)
+                self?.navigationItem.rightBarButtonItem = barButton
+            } else {
+                button.setImage(#imageLiteral(resourceName: "avatarSmall"), for: .normal)
+                button.clipsToBounds = true
+                self?.navigationItem.rightBarButtonItem = barButton
+            }
+        }
     }
     
     private func setThemePickerButton() {
@@ -272,15 +259,22 @@ extension ConversationListViewController {
 // MARK: - UISearchResultsUpdating
 extension ConversationListViewController: UISearchResultsUpdating {
     
+    private func setSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         filterContentForSearchText(searchText)
     }
     
     private func filterContentForSearchText(_ searchText: String) {
-        
-        filteredChats = chats?.filter({($0.name?.contains(searchText) ?? false)
-        }) ?? []
+        guard let channels = self.channels else { return }
+        filteredChannels = channels.filter({ ($0.name.contains(searchText.lowercased())) })
         tableView?.reloadData()
     }
 }

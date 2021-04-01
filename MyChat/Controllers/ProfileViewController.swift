@@ -9,17 +9,16 @@ import UIKit
 import AVFoundation
 
 class ProfileViewController: UIViewController {
-    
     // MARK: - Properties
     
+    // Dependenses
     var palette: PaletteProtocol?
     var profileService: ProfileService?
-    
     var profile: Profile?
+    weak var delegate: ConversationListVCDelegate?
+    
     var avatarImageViewChanged: Bool = false {
-        didSet {
-            blockingSaveButtons(isBlocked: false)
-        }
+        didSet { blockingSaveButtons(isBlocked: false) }
     }
     
     // MARK: - IBOutlets
@@ -35,31 +34,13 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var saveBar: UIView?
     @IBOutlet weak var cancelButton: UIButton?
-    @IBOutlet weak var saveGCDButton: UIButton?
-    @IBOutlet weak var saveOperationButton: UIButton?
+    @IBOutlet weak var saveButton: UIButton?
     
     @IBOutlet weak var nameTextField: UITextField?
     @IBOutlet weak var aboutTextView: UITextView?
     
     @IBOutlet weak var distanceBetweenTextviewAndButton: NSLayoutConstraint?
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
-    
-    func blockingSaveButtons(isBlocked: Bool) {
-        saveGCDButton?.isEnabled = !isBlocked
-        saveOperationButton?.isEnabled = !isBlocked
-    }
-    
-    func textEditing(isEditing: Bool) {
-        nameTextField?.isEnabled = isEditing
-        aboutTextView?.isEditable = isEditing
-        editButton?.isHidden = isEditing
-        saveBar?.isHidden = !isEditing
-        if isEditing {
-            distanceBetweenTextviewAndButton?.constant = -70
-        } else {
-            distanceBetweenTextviewAndButton?.constant = +70
-        }
-    }
     
     // MARK: - Lifecycle
     
@@ -88,6 +69,25 @@ class ProfileViewController: UIViewController {
     deinit {
         removeForKeyboardNotification()
         profileService?.cancel()
+        delegate?.setProfileButton()
+    }
+    
+    // MARK: - UI behavior
+    
+    func blockingSaveButtons(isBlocked: Bool) {
+        saveButton?.isEnabled = !isBlocked
+    }
+    
+    func textEditing(isEditing: Bool) {
+        nameTextField?.isEnabled = isEditing
+        aboutTextView?.isEditable = isEditing
+        editButton?.isHidden = isEditing
+        saveBar?.isHidden = !isEditing
+        if isEditing {
+            distanceBetweenTextviewAndButton?.constant = -70
+        } else {
+            distanceBetweenTextviewAndButton?.constant = +70
+        }
     }
     
     // MARK: - IBAction
@@ -247,16 +247,14 @@ extension ProfileViewController {
     private func setCornerRadiusForButtons() {
         let radius: CGFloat = 14
         editButton?.layer.cornerRadius = radius
-        saveGCDButton?.layer.cornerRadius = radius
-        saveOperationButton?.layer.cornerRadius = radius
+        saveButton?.layer.cornerRadius = radius
         cancelButton?.layer.cornerRadius = radius
     }
     
     private func setButtonsColor() {
         let color = palette?.buttonColor
         editButton?.backgroundColor = color
-        saveOperationButton?.backgroundColor = color
-        saveGCDButton?.backgroundColor = color
+        saveButton?.backgroundColor = color
         cancelButton?.backgroundColor = color
     }
 }
