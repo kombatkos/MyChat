@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8700E4FF260BA36A00606A26 /* MessageBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8700E4FE260BA36A00606A26 /* MessageBar.swift */; };
 		8700E502260BA3CC00606A26 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8700E501260BA3CC00606A26 /* MessageTextView.swift */; };
+		8701FBB82615C21A00B06005 /* CGFloat + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701FBB72615C21A00B06005 /* CGFloat + Extension.swift */; };
+		8701FBBB2615C26000B06005 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701FBBA2615C26000B06005 /* UIColor + Extension.swift */; };
 		8706E189260926CF003DF879 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8706E188260926CF003DF879 /* FirestoreService.swift */; };
 		8706E18C26092790003DF879 /* ListenerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8706E18B26092790003DF879 /* ListenerService.swift */; };
 		8709378B25F4F5DD0036CD73 /* UIWindow + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */; };
@@ -60,6 +62,8 @@
 		3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.debug.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
 		8700E4FE260BA36A00606A26 /* MessageBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBar.swift; sourceTree = "<group>"; };
 		8700E501260BA3CC00606A26 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
+		8701FBB72615C21A00B06005 /* CGFloat + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat + Extension.swift"; sourceTree = "<group>"; };
+		8701FBBA2615C26000B06005 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		8706E188260926CF003DF879 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		8706E18B26092790003DF879 /* ListenerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerService.swift; sourceTree = "<group>"; };
 		8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow + Extension.swift"; sourceTree = "<group>"; };
@@ -296,6 +300,8 @@
 		877DD8B925E8F92C002B8ADC /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				8701FBB72615C21A00B06005 /* CGFloat + Extension.swift */,
+				8701FBBA2615C26000B06005 /* UIColor + Extension.swift */,
 				874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */,
 				8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */,
 				877A571E25F9825C00742428 /* UIImageView + Extension.swift */,
@@ -459,6 +465,7 @@
 				8733C02D25E558E100705BD4 /* AvatarView.swift in Sources */,
 				87BB3FC725FE70F000FAB54B /* FilesManager.swift in Sources */,
 				873FAEA826068B4200ECBE33 /* FileNames.swift in Sources */,
+				8701FBBB2615C26000B06005 /* UIColor + Extension.swift in Sources */,
 				8706E18C26092790003DF879 /* ListenerService.swift in Sources */,
 				874E44A325E2959F0045DCEE /* UIAlertController + Extension.swift in Sources */,
 				879232BC260776BA004422A2 /* Channel.swift in Sources */,
@@ -474,6 +481,7 @@
 				87B7C8B825EA9D9B00A99C94 /* OutgoingCell.swift in Sources */,
 				872346A125D6858100ED3E4E /* AppDelegate.swift in Sources */,
 				8759A9AC25E94C4000B945D5 /* Date + Extension.swift in Sources */,
+				8701FBB82615C21A00B06005 /* CGFloat + Extension.swift in Sources */,
 				8712503F25F3DA4900804702 /* ThemeButtonView.swift in Sources */,
 				873F8CC026146EE7009C9BCD /* MyChatRequest.swift in Sources */,
 				879E6BCD25F7796800E0EB8A /* PaletteProtocol.swift in Sources */,

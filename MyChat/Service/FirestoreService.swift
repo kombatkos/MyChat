@@ -24,7 +24,6 @@ class FirestoreService {
                                          "content": message.content,
                                          "created": Timestamp(date: message.created),
                                          "senderId": message.senderId]
-        
         messagesRef.addDocument(data: dictionary)
     }
     

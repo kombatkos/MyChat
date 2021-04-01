@@ -39,6 +39,9 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     }
     
     private var channels: [Channel]?
+    private lazy var saveChannel: Void = {
+        saveChat()
+    }()
     
     @IBOutlet weak var tableView: UITableView?
     
@@ -67,13 +70,17 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
                     return (first.lastActivity ?? defaulDate > last.lastActivity ?? defaulDate)
                 })
                 self?.tableView?.reloadData()
-                self?.saveChat()
+                _ = self?.saveChannel
             case .failure(let error):
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                     self?.present(alert, animated: true)
                 }
             }
         }
+    }
+    
+    deinit {
+        saveChat()
     }
     
     // MARK: - Actions
@@ -189,6 +196,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         cell.nameLabel?.text = channel?.name
         cell.messageLabel?.text = channel?.lastMessage
         cell.palette = palette
+        cell.avatarImageView?.backgroundColor = .random()
         
         return cell
     }
@@ -222,11 +230,22 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let channelID = channels?[indexPath.row].identifier
-        else { fatalError("failed to get channelID ") }
+        var channelID = ""
+        if isFiltering {
+            guard let id = filteredChannels?[indexPath.row].identifier
+            else { fatalError("failed to get channelID ") }
+            channelID = id
+        } else {
+            guard let id = channels?[indexPath.row].identifier
+            else { fatalError("failed to get channelID ") }
+            channelID = id
+        }
         let fireStoreService = FirestoreService(channelID: channelID)
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _  in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self]_, _, _  in
             fireStoreService.deleteChannel()
+            if self?.isFiltering == true {
+                self?.filteredChannels?.remove(at: indexPath.row)
+            }
         }
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = true

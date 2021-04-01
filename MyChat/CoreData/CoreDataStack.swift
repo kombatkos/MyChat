@@ -9,6 +9,8 @@ import Foundation
 import CoreData
 
 class CoreDataStack {
+    
+    let queue = DispatchQueue.global(qos: .default)
     var didUpdateDataBase: ((CoreDataStack) -> Void)?
     
     private var storeUrl: URL = {

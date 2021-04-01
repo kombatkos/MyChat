@@ -35,7 +35,7 @@ extension ChannelCD {
 extension MessageCD {
     convenience init(content: String,
                      created: Date,
-                     identifier: String,
+                     identifier: Double,
                      senderID: String,
                      senderName: String,
                      in context: NSManagedObjectContext) {

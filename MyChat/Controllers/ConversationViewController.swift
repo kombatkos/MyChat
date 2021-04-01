@@ -20,6 +20,9 @@ class ConversationViewController: UIViewController {
     var channelID = ""
     
     var listMessages: [Message] = []
+    private lazy var saveMessages: Void = {
+        saveMessagesCD()
+    }()
     
     var tableView = UITableView()
     var messageBar = MessageBar()
@@ -58,13 +61,13 @@ class ConversationViewController: UIViewController {
         
         listenerSerice.messagesObserve(channelID: channelID) { [weak self] result in
             switch result {
-            case .success((let message, let identifier)):
+            case .success((let message)):
                 self?.listMessages = message
                 self?.listMessages.sort(by: { (message1, message2) -> Bool in
                     message1.created > message2.created
                 })
                 self?.tableView.reloadData()
-                self?.saveMessages(identifier: identifier)
+                _ = self?.saveMessages
             case .failure(let error):
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                     self?.present(alert, animated: true)
@@ -80,12 +83,13 @@ class ConversationViewController: UIViewController {
             shouldLogTextAnalyzer = true
         }
         if shouldLogTextAnalyzer { print("Deinit ConversationViewController") }
+        saveMessagesCD()
     }
     
     // CoreData method
-    private func saveMessages(identifier: String) {
+    private func saveMessagesCD() {
         let request = MyChatRequest(coreDataStack: coreDataStack)
-        request.saveMessageRequest(channelID: self.channelID, messages: self.listMessages, messageID: identifier)
+            request.saveMessageRequest(channelID: channelID, messages: listMessages)
     }
     
     // MARK: - Actions

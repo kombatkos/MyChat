@@ -42,7 +42,7 @@ class ListenerService {
         }
     }
     
-    func messagesObserve(channelID: String, completion: @escaping (Result<([Message], String), Error>) -> Void) {
+    func messagesObserve(channelID: String, completion: @escaping (Result<[Message], Error>) -> Void) {
         let ref = reference.document(channelID).collection("messages")
         ref.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
@@ -57,11 +57,10 @@ class ListenerService {
                           let senderId = data["senderId"] as? String,
                           let senderName = data["senderName"] as? String else { return }
                     
-                    let message = Message(content: content, created: Date(timeIntervalSince1970: TimeInterval(created.seconds)), senderId: senderId, senderName: senderName)
-                    let identifier = document.documentID
+                    let message = Message(content: content, created: Date(timeIntervalSince1970: TimeInterval(created.nanoseconds)), senderId: senderId, senderName: senderName)
                     messages.append(message)
-                    completion(.success((messages, identifier)))
                 }
+                completion(.success(messages))
             }
         }
     }
