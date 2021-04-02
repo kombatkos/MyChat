@@ -71,7 +71,7 @@ class ProfileViewController: UIViewController {
         profileService?.cancel()
         delegate?.setProfileButton()
         var shouldLogTextAnalyzer = false
-        if ProcessInfo.processInfo.environment["text_analyzer_log"] == "deinit" {
+        if ProcessInfo.processInfo.environment["deinit_log"] == "verbose" {
             shouldLogTextAnalyzer = true
         }
         if shouldLogTextAnalyzer { print("Deinit ProfileViewController") }

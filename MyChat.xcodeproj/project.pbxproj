@@ -163,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				8770ACC426090D210024D69D /* GoogleService-Info.plist */,
-				873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */,
 				87409C5425E2C489001EA77D /* SupportingFiles */,
 				8770ACCC260924CC0024D69D /* Service */,
 				8762A28125EFAB42000C4679 /* Helpers */,
@@ -247,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */,
+				873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */,
 				873F8CB92614671F009C9BCD /* CoreDataStack.swift */,
 				873F8CBC2614675E009C9BCD /* ObjectExtensions.swift */,
 			);

@@ -118,7 +118,7 @@ class CoreDataStack {
         didUpdateDataBase?(self)
         
         var shouldLogTextAnalyzer = false
-        if ProcessInfo.processInfo.environment["text_analyzer_log"] == "verbose" {
+        if ProcessInfo.processInfo.environment["CoreData_save_log"] == "verbose" {
             shouldLogTextAnalyzer = true
         }
         
@@ -145,7 +145,7 @@ class CoreDataStack {
     func printDatabaseStatistice() {
         mainContext.perform {
             var shouldLogTextAnalyzer = false
-            if ProcessInfo.processInfo.environment["text_analyzer_log"] == "verbose" {
+            if ProcessInfo.processInfo.environment["CoreData_save_log"] == "verbose" {
                 shouldLogTextAnalyzer = true
             }
             
