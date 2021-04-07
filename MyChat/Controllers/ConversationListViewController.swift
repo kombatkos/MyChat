@@ -19,6 +19,8 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     // Dependenses
     private var palette: PaletteProtocol?
     private let listenerService = ListenerService()
+    private var coreDataStack = CoreDataStack()
+    private var request: MyChatRequest?
     
     // Theme
     private var themeIsSaved: Bool = false {
@@ -37,6 +39,9 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     }
     
     private var channels: [Channel]?
+    private lazy var saveChannel: Void = {
+        saveChat()
+    }()
     
     @IBOutlet weak var tableView: UITableView?
     
@@ -51,6 +56,11 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         setThemePickerButton()
         setSearchController()
         
+        coreDataStack.didUpdateDataBase = { stack in
+            stack.printDatabaseStatistice()
+        }
+        coreDataStack.enableObservers()
+        
         listenerService.channelObserve { [weak self] (result) in
             switch result {
             case .success(let channels):
@@ -60,6 +70,7 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
                     return (first.lastActivity ?? defaulDate > last.lastActivity ?? defaulDate)
                 })
                 self?.tableView?.reloadData()
+                _ = self?.saveChannel
             case .failure(let error):
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                     self?.present(alert, animated: true)
@@ -68,11 +79,34 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         }
     }
     
+    deinit {
+        saveChat()
+    }
+    
+    // MARK: - Actions
+    private func saveChat() {
+        request = MyChatRequest(coreDataStack: coreDataStack)
+        request?.saveChannelRequest(channels: self.channels ?? [])
+    }
+    
     @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
         let fireStoreService = FirestoreService(channelID: "")
-        fireStoreService.addNewChannel { alert in
-            present(alert, animated: true)
+        
+        let alert = UIAlertController(title: "Add shannel", message: "", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.backgroundColor = .white
+            alert.textFields?.first?.textColor = .black
+            textField.placeholder = "New channel..."
         }
+        let addChannel = UIAlertAction(title: "Add", style: .default) { _ in
+            let text = alert.textFields?.first?.text
+            fireStoreService.addNewChannel(text: text)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(cancel)
+        alert.addAction(addChannel)
+        
+        present(alert, animated: true)
     }
     
     func reloadData() {
@@ -162,6 +196,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         cell.nameLabel?.text = channel?.name
         cell.messageLabel?.text = channel?.lastMessage
         cell.palette = palette
+        cell.avatarImageView?.backgroundColor = .random()
         
         return cell
     }
@@ -181,7 +216,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = ConversationViewController()
+        let vc = ConversationViewController(coreDataStack: coreDataStack)
         vc.palette = palette
         if isFiltering {
             vc.title = filteredChannels?[indexPath.row].name
@@ -192,6 +227,29 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             vc.channelID = channels?[indexPath.row].identifier ?? ""
             navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        var channelID = ""
+        if isFiltering {
+            guard let id = filteredChannels?[indexPath.row].identifier
+            else { fatalError("failed to get channelID ") }
+            channelID = id
+        } else {
+            guard let id = channels?[indexPath.row].identifier
+            else { fatalError("failed to get channelID ") }
+            channelID = id
+        }
+        let fireStoreService = FirestoreService(channelID: channelID)
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self]_, _, _  in
+            fireStoreService.deleteChannel()
+            if self?.isFiltering == true {
+                self?.filteredChannels?.remove(at: indexPath.row)
+            }
+        }
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -206,7 +264,7 @@ extension ConversationListViewController {
         SaveProfileService(fileManager: FilesManager()).loadProfile { (profile) in
             var initiales = ""
             if let fullNameArr = profile?.name?.split(separator: " ") {
-                if fullNameArr.count > 0 && profile?.avatarImage == nil {
+                if fullNameArr.count > 0 {
                     guard let firstWord = fullNameArr[0].first else { return }
                     initiales += String(firstWord)
                 }

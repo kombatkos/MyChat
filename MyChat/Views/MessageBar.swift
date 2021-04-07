@@ -36,15 +36,15 @@ extension MessageBar {
         self.addSubview(plusButton)
         setupUIElements()
         plusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-        plusButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        plusButton.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
         plusButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         plusButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
         self.addSubview(messageTextView)
         messageTextView.leadingAnchor.constraint(equalTo: plusButton.trailingAnchor, constant: 14).isActive = true
         messageTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-        messageTextView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20).isActive = true
-        messageTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20).isActive = true
+        messageTextView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
+        messageTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30).isActive = true
     }
     
     private func setupUIElements() {

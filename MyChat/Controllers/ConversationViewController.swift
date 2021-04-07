@@ -13,15 +13,31 @@ class ConversationViewController: UIViewController {
     // Dependenses
     var palette: PaletteProtocol?
     let listenerSerice = ListenerService()
+    var coreDataStack: CoreDataStack
     
     // Properties
-    var listMessages: [Message] = []
+    
     var channelID = ""
+    
+    var listMessages: [Message] = []
+    private lazy var saveMessages: Void = {
+        saveMessagesCD()
+    }()
     
     var tableView = UITableView()
     var messageBar = MessageBar()
     
     // MARK: - Life cicle
+    
+    init(coreDataStack: CoreDataStack) {
+        self.coreDataStack = coreDataStack
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraint()
@@ -45,12 +61,13 @@ class ConversationViewController: UIViewController {
         
         listenerSerice.messagesObserve(channelID: channelID) { [weak self] result in
             switch result {
-            case .success(let message):
-                self?.listMessages.append(message)
+            case .success((let message)):
+                self?.listMessages = message
                 self?.listMessages.sort(by: { (message1, message2) -> Bool in
                     message1.created > message2.created
                 })
                 self?.tableView.reloadData()
+                _ = self?.saveMessages
             case .failure(let error):
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                     self?.present(alert, animated: true)
@@ -61,6 +78,18 @@ class ConversationViewController: UIViewController {
     
     deinit {
         removeForKeyboardNotification()
+        var shouldLogTextAnalyzer = false
+        if ProcessInfo.processInfo.environment["deinit_log"] == "verbose" {
+            shouldLogTextAnalyzer = true
+        }
+        if shouldLogTextAnalyzer { print("Deinit ConversationViewController") }
+        saveMessagesCD()
+    }
+    
+    // CoreData method
+    private func saveMessagesCD() {
+        let request = MyChatRequest(coreDataStack: coreDataStack)
+            request.saveMessageRequest(channelID: channelID, messages: listMessages)
     }
     
     // MARK: - Actions

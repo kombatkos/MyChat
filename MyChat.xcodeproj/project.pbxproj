@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8700E4FF260BA36A00606A26 /* MessageBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8700E4FE260BA36A00606A26 /* MessageBar.swift */; };
 		8700E502260BA3CC00606A26 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8700E501260BA3CC00606A26 /* MessageTextView.swift */; };
+		8701FBB82615C21A00B06005 /* CGFloat + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701FBB72615C21A00B06005 /* CGFloat + Extension.swift */; };
+		8701FBBB2615C26000B06005 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701FBBA2615C26000B06005 /* UIColor + Extension.swift */; };
 		8706E189260926CF003DF879 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8706E188260926CF003DF879 /* FirestoreService.swift */; };
 		8706E18C26092790003DF879 /* ListenerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8706E18B26092790003DF879 /* ListenerService.swift */; };
 		8709378B25F4F5DD0036CD73 /* UIWindow + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */; };
@@ -21,6 +23,9 @@
 		872346AD25D6858400ED3E4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 872346AC25D6858400ED3E4E /* Assets.xcassets */; };
 		872346B025D6858400ED3E4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 872346AE25D6858400ED3E4E /* LaunchScreen.storyboard */; };
 		8733C02D25E558E100705BD4 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8733C02C25E558E100705BD4 /* AvatarView.swift */; };
+		873F8CBA2614671F009C9BCD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873F8CB92614671F009C9BCD /* CoreDataStack.swift */; };
+		873F8CBD2614675E009C9BCD /* ObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873F8CBC2614675E009C9BCD /* ObjectExtensions.swift */; };
+		873F8CC026146EE7009C9BCD /* MyChatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */; };
 		873FAEA826068B4200ECBE33 /* FileNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873FAEA726068B4200ECBE33 /* FileNames.swift */; };
 		87476A27260C8EAA00979EB3 /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87476A26260C8EAA00979EB3 /* String + Extension.swift */; };
 		874E44A325E2959F0045DCEE /* UIAlertController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */; };
@@ -48,6 +53,7 @@
 		87BB3FC725FE70F000FAB54B /* FilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BB3FC625FE70F000FAB54B /* FilesManager.swift */; };
 		87BB3FCA25FE8ED500FAB54B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BB3FC925FE8ED500FAB54B /* Profile.swift */; };
 		87C0C919260CDDF5009C66D5 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0C918260CDDF5009C66D5 /* ErrorAlert.swift */; };
+		87C2187E26134CB800E17BF3 /* SpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C2187D26134CB800E17BF3 /* SpeechBubble.swift */; };
 		A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +62,8 @@
 		3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.debug.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
 		8700E4FE260BA36A00606A26 /* MessageBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBar.swift; sourceTree = "<group>"; };
 		8700E501260BA3CC00606A26 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
+		8701FBB72615C21A00B06005 /* CGFloat + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat + Extension.swift"; sourceTree = "<group>"; };
+		8701FBBA2615C26000B06005 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		8706E188260926CF003DF879 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		8706E18B26092790003DF879 /* ListenerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerService.swift; sourceTree = "<group>"; };
 		8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow + Extension.swift"; sourceTree = "<group>"; };
@@ -70,6 +78,9 @@
 		872346AF25D6858400ED3E4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		872346B125D6858400ED3E4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8733C02C25E558E100705BD4 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		873F8CB92614671F009C9BCD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		873F8CBC2614675E009C9BCD /* ObjectExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectExtensions.swift; sourceTree = "<group>"; };
+		873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatRequest.swift; sourceTree = "<group>"; };
 		873FAEA726068B4200ECBE33 /* FileNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNames.swift; sourceTree = "<group>"; };
 		87476A26260C8EAA00979EB3 /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
 		874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController + Extension.swift"; sourceTree = "<group>"; };
@@ -97,6 +108,7 @@
 		87BB3FC625FE70F000FAB54B /* FilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesManager.swift; sourceTree = "<group>"; };
 		87BB3FC925FE8ED500FAB54B /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		87C0C918260CDDF5009C66D5 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
+		87C2187D26134CB800E17BF3 /* SpeechBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechBubble.swift; sourceTree = "<group>"; };
 		926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.release.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,6 +183,7 @@
 				8733C02C25E558E100705BD4 /* AvatarView.swift */,
 				8712503E25F3DA4900804702 /* ThemeButtonView.swift */,
 				8700E501260BA3CC00606A26 /* MessageTextView.swift */,
+				87C2187D26134CB800E17BF3 /* SpeechBubble.swift */,
 				8700E4FE260BA36A00606A26 /* MessageBar.swift */,
 			);
 			path = Views;
@@ -233,6 +246,9 @@
 			isa = PBXGroup;
 			children = (
 				872346A925D6858100ED3E4E /* MyChat.xcdatamodeld */,
+				873F8CBF26146EE7009C9BCD /* MyChatRequest.swift */,
+				873F8CB92614671F009C9BCD /* CoreDataStack.swift */,
+				873F8CBC2614675E009C9BCD /* ObjectExtensions.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -284,6 +300,8 @@
 		877DD8B925E8F92C002B8ADC /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				8701FBB72615C21A00B06005 /* CGFloat + Extension.swift */,
+				8701FBBA2615C26000B06005 /* UIColor + Extension.swift */,
 				874E44A225E2959F0045DCEE /* UIAlertController + Extension.swift */,
 				8709378A25F4F5DD0036CD73 /* UIWindow + Extension.swift */,
 				877A571E25F9825C00742428 /* UIImageView + Extension.swift */,
@@ -417,7 +435,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "(${PODS_ROOT}/SwiftLint/swiftlint)\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -447,11 +465,15 @@
 				8733C02D25E558E100705BD4 /* AvatarView.swift in Sources */,
 				87BB3FC725FE70F000FAB54B /* FilesManager.swift in Sources */,
 				873FAEA826068B4200ECBE33 /* FileNames.swift in Sources */,
+				8701FBBB2615C26000B06005 /* UIColor + Extension.swift in Sources */,
 				8706E18C26092790003DF879 /* ListenerService.swift in Sources */,
 				874E44A325E2959F0045DCEE /* UIAlertController + Extension.swift in Sources */,
 				879232BC260776BA004422A2 /* Channel.swift in Sources */,
+				87C2187E26134CB800E17BF3 /* SpeechBubble.swift in Sources */,
 				8759A9B325E953E000B945D5 /* IncomingCell.swift in Sources */,
+				873F8CBD2614675E009C9BCD /* ObjectExtensions.swift in Sources */,
 				872346AB25D6858100ED3E4E /* MyChat.xcdatamodeld in Sources */,
+				873F8CBA2614671F009C9BCD /* CoreDataStack.swift in Sources */,
 				8700E502260BA3CC00606A26 /* MessageTextView.swift in Sources */,
 				876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */,
 				877DD89C25E8E1BE002B8ADC /* ConversationCellConfiguration.swift in Sources */,
@@ -459,7 +481,9 @@
 				87B7C8B825EA9D9B00A99C94 /* OutgoingCell.swift in Sources */,
 				872346A125D6858100ED3E4E /* AppDelegate.swift in Sources */,
 				8759A9AC25E94C4000B945D5 /* Date + Extension.swift in Sources */,
+				8701FBB82615C21A00B06005 /* CGFloat + Extension.swift in Sources */,
 				8712503F25F3DA4900804702 /* ThemeButtonView.swift in Sources */,
+				873F8CC026146EE7009C9BCD /* MyChatRequest.swift in Sources */,
 				879E6BCD25F7796800E0EB8A /* PaletteProtocol.swift in Sources */,
 				8709378B25F4F5DD0036CD73 /* UIWindow + Extension.swift in Sources */,
 			);

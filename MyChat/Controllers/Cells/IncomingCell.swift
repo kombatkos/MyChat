@@ -9,7 +9,7 @@ import UIKit
 
 class IncomingCell: UITableViewCell {
     
-    let containerView = UIView()
+    var containerView: SpeechBubble
     let textMessageLabel = UILabel()
     let nameLabel = UILabel()
     let dateLabel = UILabel()
@@ -17,6 +17,7 @@ class IncomingCell: UITableViewCell {
     var palette: PaletteProtocol?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        containerView = SpeechBubble(side: .left)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setCell()
     }
@@ -28,24 +29,15 @@ class IncomingCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         setCell()
-//        setBezierForContainerView()
-        containerView.layer.cornerRadius = 15
     }
     
-    private func setCell() {
+    @objc func setCell() {
         setSubviews()
         contentView.addSubview(containerView)
         containerView.addSubview(nameLabel)
         containerView.addSubview(textMessageLabel)
         containerView.addSubview(dateLabel)
         setConstraints()
-    }
-    
-    @objc func setBezierForContainerView() {
-        let path = UIBezierPath(roundedRect: containerView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topRight], cornerRadii: CGSize(width: 15, height: 15))
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = path.cgPath
-        containerView.layer.mask = maskLayer
     }
     
     @objc func setSubviews() {

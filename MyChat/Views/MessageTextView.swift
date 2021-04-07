@@ -15,7 +15,6 @@ class MessageTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
-        let palette: PaletteProtocol? = ThemesManager.currentTheme()
         backgroundColor = palette?.bubbleLeftColor ?? .gray
         
         font = UIFont.systemFont(ofSize: 14)
@@ -40,7 +39,6 @@ class MessageTextView: UITextView {
         sendButton.centerYAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         sendButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
