@@ -47,6 +47,7 @@ class CoreDataStack {
                                                configurationName: nil,
                                                at: self.storeUrl,
                                                options: nil)
+            print(storeUrl)
         } catch {
             fatalError(error.localizedDescription)
         }
@@ -66,7 +67,7 @@ class CoreDataStack {
         let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         context.parent = writterContext
         context.automaticallyMergesChangesFromParent = true
-        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        context.mergePolicy = NSManagedObjectConstraintMergeError
         return context
     }()
     

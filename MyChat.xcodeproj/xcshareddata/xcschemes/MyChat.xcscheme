@@ -72,7 +72,7 @@
          <EnvironmentVariable
             key = "CoreData_save_log"
             value = "verbose"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "deinit_log"

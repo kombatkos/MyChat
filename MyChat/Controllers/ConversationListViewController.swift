@@ -38,7 +38,7 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         return searchController.isActive && !searchBarIsEmpty
     }
     
-    private var channels: [Channel]?
+    private var channels = [Channel]()
     private lazy var saveChannel: Void = {
         saveChat()
     }()
@@ -61,16 +61,32 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         }
         coreDataStack.enableObservers()
         
-        listenerService.channelObserve { [weak self] (result) in
+//        listenerService.channelObserve { [weak self] (result) in
+//            switch result {
+//            case .success(let channels):
+//                self?.channels = channels
+//                self?.channels?.sort(by: { (first, last) -> Bool in
+//                    let defaulDate = Date(timeIntervalSince1970: 99)
+//                    return (first.lastActivity ?? defaulDate > last.lastActivity ?? defaulDate)
+//                })
+//                self?.tableView?.reloadData()
+//                _ = self?.saveChannel
+//            case .failure(let error):
+//                ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
+//                    self?.present(alert, animated: true)
+//                }
+//            }
+//        }
+        listenerService.channelObserve2(channels: channels) { [weak self] (result) in
             switch result {
             case .success(let channels):
                 self?.channels = channels
-                self?.channels?.sort(by: { (first, last) -> Bool in
+                self?.channels.sort(by: { (first, last) -> Bool in
                     let defaulDate = Date(timeIntervalSince1970: 99)
                     return (first.lastActivity ?? defaulDate > last.lastActivity ?? defaulDate)
                 })
                 self?.tableView?.reloadData()
-                _ = self?.saveChannel
+                self?.saveChat()
             case .failure(let error):
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                     self?.present(alert, animated: true)
@@ -86,7 +102,7 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     // MARK: - Actions
     private func saveChat() {
         request = MyChatRequest(coreDataStack: coreDataStack)
-        request?.saveChannelRequest(channels: self.channels ?? [])
+        request?.saveChannelRequest(channels: self.channels)
     }
     
     @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
@@ -179,7 +195,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering { return filteredChannels?.count ?? 0 } else {
-            return channels?.count ?? 0
+            return channels.count
         }
     }
     
@@ -189,7 +205,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
         var channel: Channel?
         
         if isFiltering { channel = filteredChannels?[indexPath.row] } else {
-            channel = self.channels?[indexPath.row]
+            channel = self.channels[indexPath.row]
         }
         cell.avatarImageView?.image = #imageLiteral(resourceName: "tv")
         cell.dateLabel?.text = DateManager.getDate(date: channel?.lastActivity)
@@ -223,8 +239,8 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             vc.channelID = filteredChannels?[indexPath.row].identifier ?? ""
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            vc.title = channels?[indexPath.row].name
-            vc.channelID = channels?[indexPath.row].identifier ?? ""
+            vc.title = channels[indexPath.row].name
+            vc.channelID = channels[indexPath.row].identifier
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -236,8 +252,7 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             else { fatalError("failed to get channelID ") }
             channelID = id
         } else {
-            guard let id = channels?[indexPath.row].identifier
-            else { fatalError("failed to get channelID ") }
+            let id = channels[indexPath.row].identifier
             channelID = id
         }
         let fireStoreService = FirestoreService(channelID: channelID)
@@ -331,7 +346,6 @@ extension ConversationListViewController: UISearchResultsUpdating {
     }
     
     private func filterContentForSearchText(_ searchText: String) {
-        guard let channels = self.channels else { return }
         filteredChannels = channels.filter({ ($0.name.contains(searchText.lowercased())) })
         tableView?.reloadData()
     }

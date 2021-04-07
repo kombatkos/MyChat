@@ -42,6 +42,58 @@ class ListenerService {
         }
     }
     
+    func channelObserve2(channels: [Channel], completion: @escaping (Result<[Channel], Error>) -> Void) {
+        var channels = channels
+        let ref = reference
+        ref.addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            guard let snapshot = querySnapshot else { return }
+            snapshot.documentChanges.forEach { diff in
+                guard let channel = Channel(document: diff.document) else { return }
+                switch diff.type {
+                case .added:
+                    guard !channels.contains(channel) else { return }
+                    channels.append(channel)
+                case .modified:
+                    guard let index = channels.firstIndex(of: channel) else { return }
+                    channels[index] = channel
+                case .removed:
+                    guard let index = channels.firstIndex(of: channel) else { return }
+                    channels.remove(at: index)
+                }
+            }
+            completion(.success(channels))
+        }
+    }
+    
+    func messagesObserve2(messages: [Message], channelID: String, completion: @escaping (Result<[Message], Error>) -> Void) {
+        var messages = messages
+        let ref = reference.document(channelID).collection("messages")
+        ref.addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            guard let snapshot = querySnapshot else { return }
+            snapshot.documentChanges.forEach { diff in
+                guard let message = Message(document: diff.document) else { return }
+                switch diff.type {
+                case .added:
+                    guard !messages.contains(message) else { return }
+                    messages.append(message)
+                case .modified:
+                    guard let index = messages.firstIndex(of: message) else { return }
+                    messages[index] = message
+                case .removed:
+                    guard let index = messages.firstIndex(of: message) else { return }
+                    messages.remove(at: index)
+                }
+            }
+            completion(.success(messages))
+        }
+    }
+    
     func messagesObserve(channelID: String, completion: @escaping (Result<[Message], Error>) -> Void) {
         let ref = reference.document(channelID).collection("messages")
         ref.addSnapshotListener { (querySnapshot, error) in
@@ -53,15 +105,16 @@ class ListenerService {
                 documents.forEach { document in
                     let data = document.data()
                     guard let content = data["content"] as? String,
-                          let created = data["created"] as? Timestamp,
+                          let created = (data["created"] as? Timestamp)?.dateValue(),
                           let senderId = data["senderId"] as? String,
                           let senderName = data["senderName"] as? String else { return }
                     
-                    let message = Message(content: content, created: Date(timeIntervalSince1970: TimeInterval(created.nanoseconds)), senderId: senderId, senderName: senderName)
+                    let message = Message(content: content, created: created, senderId: senderId, senderName: senderName)
                     messages.append(message)
                 }
                 completion(.success(messages))
             }
         }
     }
+    
 }

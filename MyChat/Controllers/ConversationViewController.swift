@@ -59,7 +59,24 @@ class ConversationViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(sendMessage))
         messageBar.messageTextView.sendButton.addGestureRecognizer(tap)
         
-        listenerSerice.messagesObserve(channelID: channelID) { [weak self] result in
+//        listenerSerice.messagesObserve(channelID: channelID) { [weak self] result in
+//            switch result {
+//            case .success((let message)):
+//                self?.listMessages = message
+//                self?.listMessages.sort(by: { (message1, message2) -> Bool in
+//                    message1.created > message2.created
+//                })
+//                self?.tableView.reloadData()
+//                _ = self?.saveMessages
+//            case .failure(let error):
+//                ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
+//                    self?.present(alert, animated: true)
+//                }
+//            }
+//        }
+        
+        listenerSerice.messagesObserve2(messages: listMessages,
+                                        channelID: channelID) { [weak self] result in
             switch result {
             case .success((let message)):
                 self?.listMessages = message
