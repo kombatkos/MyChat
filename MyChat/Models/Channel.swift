@@ -22,7 +22,7 @@ extension Channel {
         guard let name = data["name"] as? String else { return nil }
         let identifier = document.documentID
         let lastMessage = data["lastMessage"] as? String
-        let lastActivity = data["lastActivity"] as? Date
+        let lastActivity = (data["lastActivity"] as? Timestamp)?.dateValue()
         
         self.identifier = identifier
         self.name = name

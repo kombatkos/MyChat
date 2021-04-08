@@ -9,61 +9,91 @@ import Foundation
 import CoreData
 
 struct MyChatRequest {
-    let coreDataStack: CoreDataStack
+    let coreDataStack: ModernCoreDataStack
     
-    init(coreDataStack: CoreDataStack) {
+    init(coreDataStack: ModernCoreDataStack) {
         self.coreDataStack = coreDataStack
     }
     
-    func saveMessageRequest(channelID: String, messages: [Message]) {
-        let queue = DispatchQueue.global(qos: .default)
-        getChannelRequest(context: coreDataStack.mainContext, channelID: channelID) { channel in
+    func insertChannelRequest(channel: Channel) {
+        let context = coreDataStack.container.newBackgroundContext()
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.performAndWait {
+            let newChannel = ChannelCD(name: channel.name,
+                                       identifier: channel.identifier,
+                                       lastMessage: channel.lastMessage,
+                                       lastActivity: channel.lastActivity,
+                                       in: context)
             
-            queue.async {
-                coreDataStack.performSave { context in
-                    let channel = ChannelCD(name: channel.name ?? "",
-                                            identifier: channel.identifier ?? "",
-                                            lastMessage: channel.lastMessage,
-                                            lastActivity: channel.lastActivity, in: context)
-                    messages.forEach { message in
-                        let message = MessageCD(content: message.content,
-                                                created: message.created,
-                                                senderID: message.senderId,
-                                                senderName: message.senderName, in: context)
-                        channel.addToMessages(message)
-                    }
-                }
-            }
+            let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()
+            request.fetchLimit = 1
             
+            do {
+                var result = try context.fetch(request)
+                result.append(newChannel)
+                try context.save()
+            } catch let error { print(error.localizedDescription) }
         }
     }
     
-    func saveChannelRequest(channels: [Channel]) {
+    func modifiedChanelRequest(channel: Channel) {
+        let context = coreDataStack.container.newBackgroundContext()
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.performAndWait {
+            let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()
+            request.predicate = NSPredicate(format: "identifier == %@", channel.identifier)
+            
+            do {
+                let result = try context.fetch(request)
+                result.first?.lastMessage = channel.lastMessage
+                result.first?.lastActivity = channel.lastActivity
+                try context.save()
+            } catch let error { print(error.localizedDescription) }
+        }
+    }
+    
+    func removeChannelRequest(channel: Channel) {
+        let context = coreDataStack.container.newBackgroundContext()
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        context.performAndWait {
+            guard let object = fetchRequestWithPredicateUser(by: "identifier", with: channel.identifier, context: context)?.first else { return }
+            object.managedObjectContext?.delete(object)
+            
+            do { try context.save() } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchRequestWithPredicateUser(by field: String, with value: String, context: NSManagedObjectContext) -> [NSManagedObject]? {
+        let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()
         
-        let queue = DispatchQueue.global(qos: .default)
-        queue.async {
-            coreDataStack.performSave { context in
-                channels.forEach { (channel) in
-                    _ = ChannelCD(name: channel.name,
-                                  identifier: channel.identifier,
-                                  lastMessage: channel.lastMessage,
-                                  lastActivity: channel.lastActivity, in: context)
-                }
-            }
+        request.predicate = NSPredicate(format: "\(field) == %@", value)
+        
+        do {
+            let result = try context.fetch(request)
+            return result
+        } catch {
+            return nil
         }
     }
     
-    func getChannelRequest(context: NSManagedObjectContext, channelID: String, completion: @escaping (_ chanel: ChannelCD) -> Void) {
-        let entityDescription = NSEntityDescription.entity(forEntityName: "ChannelCD", in: context)
-        let request = NSFetchRequest<NSFetchRequestResult>()
-        request.entity = entityDescription
+    func fetchChannels() -> [Channel] {
+        let context = coreDataStack.container.viewContext
+        let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()
+        var channels: [Channel] = []
         do {
-            guard let objects = try context.fetch(request) as? [ChannelCD] else { return }
-            objects.forEach {
-                if $0.identifier == channelID { completion($0) }
+            let result = try context.fetch(request)
+            result.forEach { channel in
+                guard let name = channel.name,
+                      let id = channel.identifier else { return }
+                let channel = Channel(identifier: name, name: id, lastMessage: channel.lastMessage, lastActivity: channel.lastActivity)
+                channels.append(channel)
             }
-        } catch {
-            fatalError("Failed to fetch employees: \(error)")
+        } catch let error {
+            fatalError(error.localizedDescription)
         }
+        return channels
     }
+    
 }

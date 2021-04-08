@@ -8,7 +8,7 @@
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MessageCD" inverseName="channel" inverseEntity="MessageCD"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="name"/>
+                <constraint value="identifier"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
