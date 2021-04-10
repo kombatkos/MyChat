@@ -36,6 +36,14 @@ class ThemesViewController: UIViewController {
         nightView.addGestureRecognizer(tapNightTheme)
     }
     
+    deinit {
+        var shouldLogTextAnalyzer = false
+        if ProcessInfo.processInfo.environment["deinit_log"] == "verbose" {
+            shouldLogTextAnalyzer = true
+        }
+        if shouldLogTextAnalyzer { print("Deinit ThemesViewController") }
+    }
+    
     // MARK: - Actions
     @objc func classicThemeAction() {
         palette = clousure?(.classic)

@@ -9,13 +9,16 @@ import UIKit
 
 class OutgoingCell: IncomingCell {
     
-    override func setBezierForContainerView() {
-        let path = UIBezierPath(roundedRect: containerView.bounds, byRoundingCorners: [.bottomLeft, .bottomRight, .topLeft], cornerRadii: CGSize(width: 15, height: 15))
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = path.cgPath
-        containerView.layer.mask = maskLayer
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.containerView = SpeechBubble(side: .right)
+        setCell()
     }
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func setSubviews() {
         textMessageLabel.numberOfLines = 0
         textMessageLabel.textColor = palette?.rightBubbleLabelColor ?? .black
