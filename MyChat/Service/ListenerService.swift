@@ -7,7 +7,6 @@
 
 import UIKit
 import FirebaseFirestore
-import CoreData
 
 class ListenerService {
     
@@ -16,7 +15,7 @@ class ListenerService {
     let appID = UIDevice.current.identifierForVendor?.uuidString
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
-    lazy var request = MyChatRequest(coreDataStack: coreDataStack)
+    lazy var requests = MyChatRequest(coreDataStack: coreDataStack)
     
     init(coreDataStack: ModernCoreDataStack) {
         self.coreDataStack = coreDataStack
@@ -24,12 +23,12 @@ class ListenerService {
     
     func channelObserve(completion: @escaping (Error?) -> Void) {
         
-        var channels = request.fetchChannels()
         let ref = reference
         ref.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(error)
             }
+            var channels: [Channel] = []
             guard let snapshot = querySnapshot else { return }
             snapshot.documentChanges.forEach { diff in
                 
@@ -37,62 +36,40 @@ class ListenerService {
                 
                 switch diff.type {
                 case .added:
-                    // print("----------------- ADDED ------------------")
-                    guard !channels.contains(channel) else { return }
                     channels.append(channel)
-                    self.request.insertChannelRequest(channel: channel)
                 case .modified:
                     print("----------------- MODIFIED ------------------")
-                    self.request.modifiedChanelRequest(channel: channel)
+                    self.requests.modifiedChanelRequest(channel: channel)
                 case .removed:
                     print("----------------- REMOVED ------------------")
-                    self.request.removeChannelRequest(channel: channel)
-                    guard channels.contains(channel) else { return }
+                    self.requests.removeChannelRequest(channel: channel)
                 }
             }
+            self.requests.insertChannelRequest2(channel: channels)
         }
     }
     
-    func messagesObserve(channelID: String, completion: @escaping (Error?) -> Void) {
+    func messagesObserve2(channelID: String, completion: @escaping (Error?) -> Void) -> ListenerRegistration {
         
         let ref = reference.document(channelID).collection("messages")
-        ref.addSnapshotListener { (querySnapshot, error) in
+        let messagesListener = ref.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(error)
             }
-            let context = self.coreDataStack.container.newBackgroundContext()
-            context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            
-            let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()
-            request.predicate = NSPredicate(format: "identifier = %@", channelID)
-            
-            context.performAndWait {
-                
-                guard let channel = (try? context.fetch(request))?.last else { return }
-                var newMessage = [MessageCD]()
-                
+            var messages: [Message] = []
                 guard let snapshot = querySnapshot else { return }
                 snapshot.documentChanges.forEach { diff in
                     
-                    guard let message = MessageCD(document: diff.document, in: context) else { return }
+                    guard let message = Message(document: diff.document) else { return }
                     switch diff.type {
                     case .added:
-                        newMessage.append(message)
-                    case .modified:
-                        break
-                    case .removed:
-                        break
+                        messages.append(message)
+                    default: break
                     }
                 }
-                
-                newMessage.forEach { channel.addToMessages($0) }
-                if context.hasChanges {
-                    do { try context.save() } catch let error {
-                        assertionFailure(error.localizedDescription)
-                    }
-                }
-            }
+            self.requests.saveNewMessage(channelID: channelID, messages: messages)
         }
+        return messagesListener
     }
     
 }

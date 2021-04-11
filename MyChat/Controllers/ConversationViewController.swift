@@ -15,6 +15,7 @@ class ConversationViewController: UIViewController {
     var palette: PaletteProtocol?
     var listenerSerice: ListenerService?
     var coreDataStack: ModernCoreDataStack
+    var listener: ListenerRegistration?
     
     // Properties
     
@@ -30,6 +31,7 @@ class ConversationViewController: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
         request.sortDescriptors = [sortDescriptor]
         request.predicate = NSPredicate(format: "channel.identifier = %@", channelID)
+        request.fetchBatchSize = 20
         
         let context = coreDataStack.container.viewContext
         context.automaticallyMergesChangesFromParent = true
@@ -37,7 +39,7 @@ class ConversationViewController: UIViewController {
         let fetchResultController = NSFetchedResultsController(fetchRequest: request,
                                                                managedObjectContext: context,
                                                                sectionNameKeyPath: nil,
-                                                               cacheName: "Messages")
+                                                               cacheName: nil)
         fetchResultController.delegate = self
         
         return TableViewDataSourseConversation(fetchedResultController: fetchResultController, palette: ThemesManager.currentTheme(), appID: appID)
@@ -76,7 +78,7 @@ class ConversationViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(sendMessage))
         messageBar.messageTextView.sendButton.addGestureRecognizer(tap)
         
-        listenerSerice?.messagesObserve(channelID: channelID) { error in
+        listener = listenerSerice?.messagesObserve2(channelID: channelID) { [weak self] error in
             if let error = error {
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                         self?.present(alert, animated: true)
@@ -86,6 +88,7 @@ class ConversationViewController: UIViewController {
     }
     
     deinit {
+//        listener?.remove()
         removeForKeyboardNotification()
         var shouldLogTextAnalyzer = false
         if ProcessInfo.processInfo.environment["deinit_log"] == "verbose" {
