@@ -56,12 +56,12 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-com.apple.CoreData.SQLDebug [1,2,3]"
+            argument = "-com.apple.CoreData.Logging.stderr 1"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-com.apple.CoreData.ConcurrencyDebug 1"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-com.apple.CoreData.SQLiteIntegrityCheck [1]"
@@ -70,14 +70,9 @@
       </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "CoreData_save_log"
-            value = "verbose"
-            isEnabled = "NO">
-         </EnvironmentVariable>
-         <EnvironmentVariable
             key = "deinit_log"
             value = "verbose"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>

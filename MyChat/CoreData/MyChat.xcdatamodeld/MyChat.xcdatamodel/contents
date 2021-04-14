@@ -15,18 +15,17 @@
     <entity name="MessageCD" representedClassName="MessageCD" syncable="YES" codeGenerationType="class">
         <attribute name="content" attributeType="String"/>
         <attribute name="created" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="identifier" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="senderID" attributeType="String"/>
         <attribute name="senderName" attributeType="String"/>
         <relationship name="channel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChannelCD" inverseName="messages" inverseEntity="ChannelCD"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
-                <constraint value="identifier"/>
+                <constraint value="created"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="ChannelCD" positionX="-108.9342041015625" positionY="-206.0062103271484" width="128" height="118"/>
-        <element name="MessageCD" positionX="-54" positionY="-9" width="128" height="119"/>
+        <element name="ChannelCD" positionX="-108.9342041015625" positionY="-206.0062103271484" width="128" height="104"/>
+        <element name="MessageCD" positionX="-54" positionY="-9" width="128" height="104"/>
     </elements>
 </model>

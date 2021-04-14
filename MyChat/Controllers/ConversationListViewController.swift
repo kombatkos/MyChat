@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol ConversationListVCDelegate: class {
     func reloadData()
@@ -18,9 +19,9 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     
     // Dependenses
     private var palette: PaletteProtocol?
-    private let listenerService = ListenerService()
-    private var coreDataStack = CoreDataStack()
+    private var coreDataStack = ModernCoreDataStack()
     private var request: MyChatRequest?
+    private var listenerService: ListenerService?
     
     // Theme
     private var themeIsSaved: Bool = false {
@@ -38,17 +39,36 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         return searchController.isActive && !searchBarIsEmpty
     }
     
-    private var channels: [Channel]?
-    private lazy var saveChannel: Void = {
-        saveChat()
+    var searchPredicate: NSPredicate?
+    
+    lazy var fetchResultController: NSFetchedResultsController<ChannelCD> = {
+        let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()
+        let lastActivitySDescriptor = NSSortDescriptor(key: "lastActivity", ascending: false)
+        let nameSDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [lastActivitySDescriptor, nameSDescriptor]
+        request.predicate = searchPredicate
+        let context = coreDataStack.container.viewContext
+        context.automaticallyMergesChangesFromParent = true
+        
+        let fetchResultController = NSFetchedResultsController(fetchRequest: request,
+                                                               managedObjectContext: context,
+                                                               sectionNameKeyPath: nil,
+                                                               cacheName: "Channels")
+        fetchResultController.delegate = self
+        return fetchResultController
+    }()
+    
+    lazy var tableViewDataSource: UITableViewDataSource = {
+        return TableViewDataSourceChannels(fetchedResultController: fetchResultController, palette: ThemesManager.currentTheme())
     }()
     
     @IBOutlet weak var tableView: UITableView?
     
     // MARK: - Life cicle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView?.dataSource = self
+        tableView?.dataSource = tableViewDataSource
         tableView?.delegate = self
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         changeTheme()
@@ -56,37 +76,14 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
         setThemePickerButton()
         setSearchController()
         
-        coreDataStack.didUpdateDataBase = { stack in
-            stack.printDatabaseStatistice()
-        }
-        coreDataStack.enableObservers()
-        
-        listenerService.channelObserve { [weak self] (result) in
-            switch result {
-            case .success(let channels):
-                self?.channels = channels
-                self?.channels?.sort(by: { (first, last) -> Bool in
-                    let defaulDate = Date(timeIntervalSince1970: 99)
-                    return (first.lastActivity ?? defaulDate > last.lastActivity ?? defaulDate)
-                })
-                self?.tableView?.reloadData()
-                _ = self?.saveChannel
-            case .failure(let error):
+        listenerService = ListenerService(coreDataStack: coreDataStack)
+        listenerService?.channelObserve { [weak self] error in
+            if let error = error {
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
                     self?.present(alert, animated: true)
                 }
             }
         }
-    }
-    
-    deinit {
-        saveChat()
-    }
-    
-    // MARK: - Actions
-    private func saveChat() {
-        request = MyChatRequest(coreDataStack: coreDataStack)
-        request?.saveChannelRequest(channels: self.channels ?? [])
     }
     
     @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
@@ -170,52 +167,58 @@ extension ConversationListViewController {
     }
 }
 
-// MARK: - TableView data source
-extension ConversationListViewController: UITableViewDataSource, UITableViewDelegate {
+extension ConversationListViewController: NSFetchedResultsControllerDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering { return filteredChannels?.count ?? 0 } else {
-            return channels?.count ?? 0
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            print("INSERT")
+            guard let newIndexPath = newIndexPath else { return }
+            tableView?.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            print("DELETE")
+            guard let indexPath = indexPath else { return }
+            tableView?.deleteRows(at: [indexPath], with: .automatic)
+        case .move:
+            print("MOVE")
+            guard let indexPath = indexPath else { return }
+            tableView?.deleteRows(at: [indexPath], with: .automatic)
+            guard let newIndexPath = newIndexPath else { return }
+            tableView?.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            print("UPDATE")
+            guard let indexPath = indexPath else { return }
+            tableView?.reloadRows(at: [indexPath], with: .automatic)
+        @unknown default:
+            fatalError("")
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConversationListCell", for: indexPath) as? ConversationListCell else { return UITableViewCell() }
-        var channel: Channel?
-        
-        if isFiltering { channel = filteredChannels?[indexPath.row] } else {
-            channel = self.channels?[indexPath.row]
-        }
-        cell.avatarImageView?.image = #imageLiteral(resourceName: "tv")
-        cell.dateLabel?.text = DateManager.getDate(date: channel?.lastActivity)
-        cell.nameLabel?.text = channel?.name
-        cell.messageLabel?.text = channel?.lastMessage
-        cell.palette = palette
-        cell.avatarImageView?.backgroundColor = .random()
-        
-        return cell
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView?.beginUpdates()
     }
     
-    // MARK: - TableView Delegate
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView?.endUpdates()
+    }
+}
+
+// MARK: - TableView Delegate
+extension ConversationListViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        if isFiltering { return "Search"} else {
-            return "Channels"
-        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let channel = fetchResultController.object(at: indexPath)
         let vc = ConversationViewController(coreDataStack: coreDataStack)
         vc.palette = palette
         if isFiltering {
@@ -223,29 +226,19 @@ extension ConversationListViewController: UITableViewDataSource, UITableViewDele
             vc.channelID = filteredChannels?[indexPath.row].identifier ?? ""
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            vc.title = channels?[indexPath.row].name
-            vc.channelID = channels?[indexPath.row].identifier ?? ""
+            vc.title = channel.name
+            vc.channelID = channel.identifier ?? ""
             navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        var channelID = ""
-        if isFiltering {
-            guard let id = filteredChannels?[indexPath.row].identifier
-            else { fatalError("failed to get channelID ") }
-            channelID = id
-        } else {
-            guard let id = channels?[indexPath.row].identifier
-            else { fatalError("failed to get channelID ") }
-            channelID = id
-        }
-        let fireStoreService = FirestoreService(channelID: channelID)
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self]_, _, _  in
+        
+        guard let id = fetchResultController.object(at: indexPath).identifier else { return nil }
+        
+        let fireStoreService = FirestoreService(channelID: id)
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _  in
             fireStoreService.deleteChannel()
-            if self?.isFiltering == true {
-                self?.filteredChannels?.remove(at: indexPath.row)
-            }
         }
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = true
@@ -331,8 +324,8 @@ extension ConversationListViewController: UISearchResultsUpdating {
     }
     
     private func filterContentForSearchText(_ searchText: String) {
-        guard let channels = self.channels else { return }
-        filteredChannels = channels.filter({ ($0.name.contains(searchText.lowercased())) })
+        searchPredicate = NSPredicate(format: "name = %@", searchText)
+//        filteredChannels = channels?.filter({ ($0.name.contains(searchText.lowercased())) })
         tableView?.reloadData()
     }
 }
