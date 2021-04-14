@@ -50,7 +50,7 @@ class ProfileViewController: UIViewController {
         loadData(SaveProfileService(fileManager: FilesManager()))
         aboutTextView?.delegate = self
         nameTextField?.delegate = self
-        palette = ThemesManager.currentTheme()
+        palette = ThemesService.currentTheme()
         view.backgroundColor = palette?.backgroundColor ?? .white
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(containerAvatarViewTapped))

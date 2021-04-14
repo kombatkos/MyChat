@@ -1,12 +1,11 @@
 //
-//  ThemeManager.swift
+//  Theme.swift
 //  MyChat
 //
-//  Created by Konstantin Porokhov on 08.03.2021.
+//  Created by Konstantin Porokhov on 13.04.2021.
 //
 
 import UIKit
-import Foundation
 
 enum Theme: String, PaletteProtocol {
     
@@ -79,24 +78,20 @@ enum Theme: String, PaletteProtocol {
     /// Customizing the Alert Controller
     var alertStyle: UIUserInterfaceStyle {
         switch self {
-        case .classic:
-            return .light
-        case .day:
-            return .light
         case .night:
             return .dark
+        default:
+            return .light
         }
     }
 
     /// BackgroundColor
     var backgroundColor: UIColor {
         switch self {
-        case .classic:
-            return .white
-        case .day:
-            return .white
         case .night:
             return .black
+        default:
+            return .white
         }
     }
     
@@ -201,43 +196,4 @@ enum Theme: String, PaletteProtocol {
         }
     }
 
-}
-
-/// Enum declaration
-let themeKey = "SelectedTheme"
-
-struct ThemesManager {
-    
-    static func currentTheme() -> Theme {
-        let fileManager = FilesManager()
-        if let theme = fileManager.readThemeFile(fileName: FileNames.theme) {
-            return theme
-        } else {
-            return .classic
-        }
-    }
-    
-    static func applyTheme(theme: Theme, completion: @escaping (Bool) -> Void) {
-        let fileManager = FilesManager()
-            do {
-                try fileManager.writeThemeFile(theme: theme, fileName: FileNames.theme)
-                completion(true)
-            } catch let error {
-                print(error.localizedDescription)
-                completion(false)
-            }
-    }
-    
-//    static func currentTheme() -> Theme {
-//        if let storedTheme = (UserDefaults.standard.value(forKey: themeKey) as AnyObject).integerValue {
-//            return Theme(rawValue: storedTheme) ?? .classic
-//        } else {
-//            return .classic
-//        }
-//    }
-//
-//    static func applyTheme(theme: Theme) {
-//        UserDefaults.standard.setValue(theme.rawValue, forKey: themeKey)
-//        UserDefaults.standard.synchronize()
-//    }
 }

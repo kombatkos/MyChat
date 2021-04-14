@@ -8,7 +8,11 @@
 import Foundation
 import CoreData
 
-class ModernCoreDataStack {
+protocol IModernCoreDataStack {
+    var container: NSPersistentContainer {get}
+}
+
+class ModernCoreDataStack: IModernCoreDataStack {
     private let dataBaseName = "MyChat"
 
     lazy var container: NSPersistentContainer = {
@@ -20,21 +24,6 @@ class ModernCoreDataStack {
         }
         return container
     }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext () {
-        let context = container.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
-
 }
 
 // class CoreDataStack {

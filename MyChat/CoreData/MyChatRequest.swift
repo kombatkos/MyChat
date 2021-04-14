@@ -10,43 +10,16 @@ import CoreData
 
 struct MyChatRequest {
     
-    let coreDataStack: ModernCoreDataStack
+    let coreDataStack: IModernCoreDataStack
     let context: NSManagedObjectContext
     
-    init(coreDataStack: ModernCoreDataStack) {
+    init(coreDataStack: IModernCoreDataStack) {
         self.coreDataStack = coreDataStack
         context = coreDataStack.container.newBackgroundContext()
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
-    func insertChannelRequest(channel: Channel) {
-        DispatchQueue.global(qos: .utility).async {
-            
-            context.performAndWait {
-                guard getObjectRequest(entityName: "ChannelCD",
-                                       predicate: "identifier",
-                                       channel.identifier as CVarArg,
-                                       context: coreDataStack.container.viewContext) == nil else { return }
-                
-                let newChannel = ChannelCD(name: channel.name,
-                                           identifier: channel.identifier,
-                                           lastMessage: channel.lastMessage,
-                                           lastActivity: channel.lastActivity,
-                                           in: context)
-                
-                let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()
-                request.fetchLimit = 1
-                
-                do {
-                    var result = try context.fetch(request)
-                    result.append(newChannel)
-                    try context.save()
-                } catch let error { print(error.localizedDescription) }
-            }
-        }
-    }
-    
-    func insertChannelRequest2(channel: [Channel]) {
+    func insertChannelRequest(channel: [Channel]) {
         DispatchQueue.global(qos: .utility).async {
             
             context.performAndWait {

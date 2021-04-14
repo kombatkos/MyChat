@@ -10,7 +10,7 @@ import UIKit
 class MessageTextView: UITextView {
     
     let sendButton = UIButton()
-    let palette: PaletteProtocol? = ThemesManager.currentTheme()
+    let palette: PaletteProtocol? = ThemesService.currentTheme()
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)

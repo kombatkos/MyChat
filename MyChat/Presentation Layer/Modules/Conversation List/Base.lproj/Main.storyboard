@@ -96,7 +96,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="ffh-rC-bPs" id="yYU-sk-Xnt"/>
+                        <outlet property="tableView" destination="ffh-rC-bPs" id="qdk-Re-D97"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gWy-3K-IcG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

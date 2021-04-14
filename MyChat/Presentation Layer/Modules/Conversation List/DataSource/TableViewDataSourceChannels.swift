@@ -53,9 +53,6 @@ class TableViewDataSourceChannels: NSObject, UITableViewDataSource {
     }
     
         func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    
-//            if isFiltering { return "Search"} else {
-                return "Channels"
-//            }
+            return "Channels"
         }
 }

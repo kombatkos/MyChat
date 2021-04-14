@@ -5,19 +5,18 @@
 //  Created by Konstantin Porokhov on 22.03.2021.
 //
 
-import UIKit
 import FirebaseFirestore
 
 class ListenerService {
     
-    let coreDataStack: ModernCoreDataStack
+    let coreDataStack: IModernCoreDataStack
     
     let appID = UIDevice.current.identifierForVendor?.uuidString
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
     lazy var requests = MyChatRequest(coreDataStack: coreDataStack)
     
-    init(coreDataStack: ModernCoreDataStack) {
+    init(coreDataStack: IModernCoreDataStack) {
         self.coreDataStack = coreDataStack
     }
     
@@ -45,7 +44,7 @@ class ListenerService {
                     self.requests.removeChannelRequest(channel: channel)
                 }
             }
-            self.requests.insertChannelRequest2(channel: channels)
+            self.requests.insertChannelRequest(channel: channels)
         }
     }
     

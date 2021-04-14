@@ -14,7 +14,7 @@ class ConversationViewController: UIViewController {
     // Dependenses
     var palette: PaletteProtocol?
     var listenerSerice: ListenerService?
-    var coreDataStack: ModernCoreDataStack
+    var coreDataStack: IModernCoreDataStack
     var listener: ListenerRegistration?
     
     // Properties
@@ -24,8 +24,7 @@ class ConversationViewController: UIViewController {
     
     var tableView = UITableView()
     
-    lazy var tableViewDataSourse: UITableViewDataSource = {
-        let appID = listenerSerice?.appID ?? ""
+    lazy var fetchedResultController: NSFetchedResultsController<MessageCD> = {
         let request: NSFetchRequest<MessageCD> = MessageCD.fetchRequest()
         
         let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
@@ -41,13 +40,17 @@ class ConversationViewController: UIViewController {
                                                                sectionNameKeyPath: nil,
                                                                cacheName: nil)
         fetchResultController.delegate = self
-        
-        return TableViewDataSourseConversation(fetchedResultController: fetchResultController, palette: ThemesManager.currentTheme(), appID: appID)
+        return fetchResultController
+    }()
+    
+    lazy var tableViewDataSourse: UITableViewDataSource = {
+        let appID = listenerSerice?.appID ?? ""
+        return TableViewDataSourseConversation(fetchedResultController: fetchedResultController, palette: ThemesService.currentTheme(), appID: appID)
     }()
     
     // MARK: - Life cicle
     
-    init(coreDataStack: ModernCoreDataStack) {
+    init(coreDataStack: IModernCoreDataStack) {
         self.coreDataStack = coreDataStack
         listenerSerice = ListenerService(coreDataStack: coreDataStack)
         super.init(nibName: nil, bundle: nil)
@@ -81,14 +84,14 @@ class ConversationViewController: UIViewController {
         listener = listenerSerice?.messagesObserve2(channelID: channelID) { [weak self] error in
             if let error = error {
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
-                        self?.present(alert, animated: true)
+                    self?.present(alert, animated: true)
                 }
             }
         }
     }
     
     deinit {
-//        listener?.remove()
+        //        listener?.remove()
         removeForKeyboardNotification()
         var shouldLogTextAnalyzer = false
         if ProcessInfo.processInfo.environment["deinit_log"] == "verbose" {
@@ -125,37 +128,43 @@ extension ConversationViewController: NSFetchedResultsControllerDelegate {
                     at indexPath: IndexPath?,
                     for type: NSFetchedResultsChangeType,
                     newIndexPath: IndexPath?) {
-        
-        switch type {
-        case .insert:
-            print("INSERT")
-            guard let newIndexPath = newIndexPath else { return }
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
-        case .delete:
-            print("DELETE")
-            guard let indexPath = indexPath else { return }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        case .move:
-            print("MOVE")
-            guard let indexPath = indexPath else { return }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            guard let newIndexPath = newIndexPath else { return }
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
-        case .update:
-            print("UPDATE")
-            guard let indexPath = indexPath else { return }
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        @unknown default:
-            fatalError("")
+        DispatchQueue.main.async {
+            
+            switch type {
+            case .insert:
+                print("INSERT")
+                guard let newIndexPath = newIndexPath else { return }
+                self.tableView.insertRows(at: [newIndexPath], with: .automatic)
+            case .delete:
+                print("DELETE")
+                guard let indexPath = indexPath else { return }
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            case .move:
+                print("MOVE")
+                guard let indexPath = indexPath else { return }
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                guard let newIndexPath = newIndexPath else { return }
+                self.tableView.insertRows(at: [newIndexPath], with: .automatic)
+            case .update:
+                print("UPDATE")
+                guard let indexPath = indexPath else { return }
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            @unknown default:
+                fatalError("")
+            }
         }
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
+        DispatchQueue.main.async {
+            self.tableView.beginUpdates()
+        }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
+        DispatchQueue.main.async {
+            self.tableView.endUpdates()
+        }
     }
 }
 
