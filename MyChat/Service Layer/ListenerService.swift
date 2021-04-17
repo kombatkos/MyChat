@@ -7,14 +7,18 @@
 
 import FirebaseFirestore
 
-class ListenerService {
+protocol IListenerService {
+    func channelObserve(completion: @escaping (Error?) -> Void)
+    func messagesObserve(channelID: String, completion: @escaping (Error?) -> Void) -> ListenerRegistration 
+}
+
+class ListenerService: IListenerService {
     
     let coreDataStack: IModernCoreDataStack
     
-    let appID = UIDevice.current.identifierForVendor?.uuidString
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
-    lazy var requests = MyChatRequest(coreDataStack: coreDataStack)
+    lazy var requests = RequestService(coreDataStack: coreDataStack)
     
     init(coreDataStack: IModernCoreDataStack) {
         self.coreDataStack = coreDataStack
@@ -48,7 +52,7 @@ class ListenerService {
         }
     }
     
-    func messagesObserve2(channelID: String, completion: @escaping (Error?) -> Void) -> ListenerRegistration {
+    func messagesObserve(channelID: String, completion: @escaping (Error?) -> Void) -> ListenerRegistration {
         
         let ref = reference.document(channelID).collection("messages")
         let messagesListener = ref.addSnapshotListener { (querySnapshot, error) in

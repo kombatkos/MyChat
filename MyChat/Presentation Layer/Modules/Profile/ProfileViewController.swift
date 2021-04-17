@@ -1,25 +1,22 @@
-//
 //  ProfileViewController.swift
 //  MyChat
 //
 //  Created by Konstantin Porokhov on 21.02.2021.
-//
 
 import UIKit
-import AVFoundation
 
 class ProfileViewController: UIViewController {
     // MARK: - Properties
-    
     // Dependenses
     var palette: PaletteProtocol?
-    var profileService: ProfileService?
-    var profile: Profile?
+    var profileService: ISaveProfileService?
     weak var delegate: ConversationListVCDelegate?
     
+    var profile: Profile?
     var avatarImageViewChanged: Bool = false {
         didSet { blockingSaveButtons(isBlocked: false) }
     }
+    var imagePicker: IImagePicker?
     
     // MARK: - IBOutlets
     
@@ -47,10 +44,9 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerForKeyboardNotification()
-        loadData(SaveProfileService(fileManager: FilesManager()))
+        loadData(profileService)
         aboutTextView?.delegate = self
         nameTextField?.delegate = self
-        palette = ThemesService.currentTheme()
         view.backgroundColor = palette?.backgroundColor ?? .white
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(containerAvatarViewTapped))
@@ -114,52 +110,21 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func saveOperationTapped(_ sender: UIButton) {
-        profileService = SaveProfileService(fileManager: FilesManager())
         let profile = getProfile()
         self.profile = profile
         saveData(profileService, profile: profile)
         blockingSaveButtons(isBlocked: true)
     }
     
-    @objc func containerAvatarViewTapped() {
-        let cameraIcon = #imageLiteral(resourceName: "camera")
-        let photoIcon = #imageLiteral(resourceName: "photo")
+    @objc func containerAvatarViewTapped(_ sender: UIButton) {
         
-        let actionSheet = UIAlertController(title: nil,
-                                            message: nil,
-                                            preferredStyle: .actionSheet)
-        if #available(iOS 13.0, *) {
-            actionSheet.overrideUserInterfaceStyle = palette?.alertStyle ?? .light
-        }
-        let camera = UIAlertAction(title: "Camera", style: .default) { _ in
-            self.chooseImagePicker(source: .camera)
-        }
-        camera.setValue(cameraIcon, forKey: "image")
-        camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        
-        let photo = UIAlertAction(title: "Photo", style: .default) { _ in
-            self.chooseImagePicker(source: .photoLibrary)
-        }
-        
-        photo.setValue(photoIcon, forKey: "image")
-        photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        actionSheet.addAction(camera)
-        actionSheet.addAction(photo)
-        actionSheet.addAction(cancel)
-        
-        actionSheet.pruneNegativeWidthConstraints()
-        actionSheet.popoverPresentationController?.sourceView = containerAvatarView
-        present(actionSheet, animated: true)
-        
+        imagePicker?.present(from: sender)
         textEditing(isEditing: true)
     }
     
     // MARK: - Work data
     
-    private func loadData(_ profileService: ProfileService?) {
+    private func loadData(_ profileService: ISaveProfileService?) {
         let profileService = profileService
         profileService?.loadProfile(completion: { [weak self] profile in
             self?.nameTextField?.text = profile?.name
@@ -201,7 +166,7 @@ class ProfileViewController: UIViewController {
         })
     }
     
-    private func saveData(_ profileService: ProfileService?, profile: Profile) {
+    private func saveData(_ profileService: ISaveProfileService?, profile: Profile) {
         
         profileService?.saveProfile(profile: profile, completion: { [weak self] isSaved in
             self?.showAlert(isSaved: isSaved)
@@ -215,12 +180,9 @@ class ProfileViewController: UIViewController {
     private func getProfile() -> Profile {
         var image: UIImage?
         if avatarImageView?.image == #imageLiteral(resourceName: "default-avatar") || !avatarImageViewChanged {
-            image = nil
-        } else {
-            image = avatarImageView?.image
-        }
+            image = nil } else { image = avatarImageView?.image }
+        
         let about = aboutTextView?.text == "About me..." ? "" : aboutTextView?.text
-    
         let profile = Profile(name: nameTextField?.text,
                               aboutMe: about,
                               avatarImage: image)
@@ -239,28 +201,28 @@ extension ProfileViewController {
         aboutTextView?.font = UIFont.systemFont(ofSize: fontSizeAboutMeLabel)
         firstWordOfName?.font = UIFont.systemFont(ofSize: fontSizeInitiales)
         firstWordOfLastName?.font = UIFont.systemFont(ofSize: fontSizeInitiales)
-        aboutTextView?.font = UIFont.systemFont(ofSize: fontSizeAboutMeLabel)
     }
-    
     private func setProfile() {
         firstWordOfName?.textColor = .black
         firstWordOfLastName?.textColor = .black
         setCornerRadiusForButtons()
         setButtonsColor()
     }
-    
     private func setCornerRadiusForButtons() {
         let radius: CGFloat = 14
         editButton?.layer.cornerRadius = radius
         saveButton?.layer.cornerRadius = radius
         cancelButton?.layer.cornerRadius = radius
     }
-    
     private func setButtonsColor() {
         let color = palette?.buttonColor
         editButton?.backgroundColor = color
         saveButton?.backgroundColor = color
         cancelButton?.backgroundColor = color
+    }
+    private func setPlaceholder() {
+        nameTextField?.backgroundColor = .clear
+        nameTextField?.attributedPlaceholder = NSAttributedString(string: "My name", attributes: [NSAttributedString.Key.foregroundColor: palette?.placeHolderColor ?? .lightGray])
     }
 }
 
@@ -291,15 +253,6 @@ extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
     }
 }
 
-// MARK: - PlaceHolders
-extension ProfileViewController {
-    
-    private func setPlaceholder() {
-        nameTextField?.backgroundColor = .clear
-        nameTextField?.attributedPlaceholder = NSAttributedString(string: "My name", attributes: [NSAttributedString.Key.foregroundColor: palette?.placeHolderColor ?? .lightGray])
-    }
-}
-
 // MARK: - Alert Controller
 extension ProfileViewController {
     
@@ -325,5 +278,14 @@ extension ProfileViewController {
         } else {
             present(nonSaved, animated: true)
         }
+    }
+}
+extension ProfileViewController: ImagePickerDelegate {
+    
+    func didSelect(image: UIImage?) {
+        avatarImageView?.image = image
+        avatarImageView?.contentMode = .scaleAspectFill
+        avatarImageView?.clipsToBounds = true
+        avatarImageViewChanged = true
     }
 }

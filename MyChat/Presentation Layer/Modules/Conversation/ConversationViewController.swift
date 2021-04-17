@@ -6,53 +6,38 @@
 //
 
 import UIKit
-import Firebase
-import CoreData
 
 class ConversationViewController: UIViewController {
     
     // Dependenses
     var palette: PaletteProtocol?
-    var listenerSerice: ListenerService?
-    var coreDataStack: IModernCoreDataStack
-    var listener: ListenerRegistration?
-    
+    var model: IModelConversation?
     // Properties
     
     var channelID = ""
-    var messageBar = MessageBar()
-    
+    var messageBar: MessageBar?
+    private var dataProvider: IMessageFRCDelegate?
     var tableView = UITableView()
     
-    lazy var fetchedResultController: NSFetchedResultsController<MessageCD> = {
-        let request: NSFetchRequest<MessageCD> = MessageCD.fetchRequest()
-        
-        let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
-        request.sortDescriptors = [sortDescriptor]
-        request.predicate = NSPredicate(format: "channel.identifier = %@", channelID)
-        request.fetchBatchSize = 20
-        
-        let context = coreDataStack.container.viewContext
-        context.automaticallyMergesChangesFromParent = true
-        
-        let fetchResultController = NSFetchedResultsController(fetchRequest: request,
-                                                               managedObjectContext: context,
-                                                               sectionNameKeyPath: nil,
-                                                               cacheName: nil)
-        fetchResultController.delegate = self
-        return fetchResultController
-    }()
+    var fetchedResultController: MessageFetchetResultController
     
-    lazy var tableViewDataSourse: UITableViewDataSource = {
-        let appID = listenerSerice?.appID ?? ""
-        return TableViewDataSourseConversation(fetchedResultController: fetchedResultController, palette: ThemesService.currentTheme(), appID: appID)
-    }()
+    var tableViewDataSourse: UITableViewDataSource
     
-    // MARK: - Life cicle
+    // MARK: - Init
     
-    init(coreDataStack: IModernCoreDataStack) {
-        self.coreDataStack = coreDataStack
-        listenerSerice = ListenerService(coreDataStack: coreDataStack)
+    init(channelID: String,
+         palette: PaletteProtocol?,
+         fetchedResultController: MessageFetchetResultController,
+         listenerSerice: IListenerService,
+         tableViewDataSourse: UITableViewDataSource,
+         model: IModelConversation?) {
+        
+        self.channelID = channelID
+        self.palette = palette
+        self.fetchedResultController = fetchedResultController
+        self.tableViewDataSourse = tableViewDataSourse
+        self.model = model
+        messageBar = MessageBar(palette: palette)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,34 +45,23 @@ class ConversationViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life cicle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupConstraint()
-        messageBar.backgroundColor = palette?.conversationBottomViewColor ?? .lightGray
         view.backgroundColor = palette?.backgroundColor ?? .white
-        tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = tableViewDataSourse
-        tableView.register(IncomingCell.self, forCellReuseIdentifier: "IncomingCell")
-        tableView.register(OutgoingCell.self, forCellReuseIdentifier: "OutgoingCell")
-        tableView.transform = CGAffineTransform(rotationAngle: .pi)
-        let contentInset: CGFloat = 60
-        tableView.contentInset.bottom = contentInset
-        tableView.contentInset.top -= contentInset
+        setupConstraint()
         registerForKeyboardNotification()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        self.view.addGestureRecognizer(tapGesture)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(sendMessage))
-        messageBar.messageTextView.sendButton.addGestureRecognizer(tap)
+        configureMessageBar()
+        configureTableView()
+        configureData()
         
-        listener = listenerSerice?.messagesObserve2(channelID: channelID) { [weak self] error in
-            if let error = error {
-                ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
-                    self?.present(alert, animated: true)
-                }
+        model?.observeMessages(completion: { [weak self] error in
+            ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
+                self?.present(alert, animated: true)
             }
-        }
+        })
     }
     
     deinit {
@@ -100,71 +74,42 @@ class ConversationViewController: UIViewController {
         if shouldLogTextAnalyzer { print("Deinit ConversationViewController") }
     }
     
+    // MARK: - Configure
+    
+    private func configureMessageBar() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tapGesture)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(sendMessage))
+        messageBar?.messageTextView?.sendButton.addGestureRecognizer(tap)
+    }
+    
+    private func configureTableView() {
+        tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.dataSource = tableViewDataSourse
+        tableView.register(IncomingCell.self, forCellReuseIdentifier: "IncomingCell")
+        tableView.register(OutgoingCell.self, forCellReuseIdentifier: "OutgoingCell")
+        tableView.transform = CGAffineTransform(rotationAngle: .pi)
+        let contentInset: CGFloat = 60
+        tableView.contentInset.bottom = contentInset
+        tableView.contentInset.top -= contentInset
+    }
+    
+    private func configureData() {
+        dataProvider = MessageFRCDelegate(delegate: tableView, frc: fetchedResultController)
+    }
+    
     // MARK: - Actions
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
-        messageBar.messageTextView.resignFirstResponder()
+        messageBar?.messageTextView?.resignFirstResponder()
     }
     
     @objc func sendMessage() {
-        let firesoreService = FirestoreService(channelID: channelID)
-        let profileService = SaveProfileService(fileManager: FilesManager())
-        
-        profileService.loadProfile { [weak self] profile in
-            guard let newMessage = self?.messageBar.messageTextView.text else { return }
-            guard let id = self?.listenerSerice?.appID else { return }
-            let message = newMessage.trim()
-            if !message.isBlank {
-                let message = Message(content: newMessage, created: Date(), senderId: id, senderName: profile?.name ?? "Incognito")
-                firesoreService.sendMessage(message: message)
-                self?.messageBar.messageTextView.text = ""
-            }
-        }
-    }
-}
-
-extension ConversationViewController: NSFetchedResultsControllerDelegate {
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
-        DispatchQueue.main.async {
-            
-            switch type {
-            case .insert:
-                print("INSERT")
-                guard let newIndexPath = newIndexPath else { return }
-                self.tableView.insertRows(at: [newIndexPath], with: .automatic)
-            case .delete:
-                print("DELETE")
-                guard let indexPath = indexPath else { return }
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            case .move:
-                print("MOVE")
-                guard let indexPath = indexPath else { return }
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                guard let newIndexPath = newIndexPath else { return }
-                self.tableView.insertRows(at: [newIndexPath], with: .automatic)
-            case .update:
-                print("UPDATE")
-                guard let indexPath = indexPath else { return }
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            @unknown default:
-                fatalError("")
-            }
-        }
-    }
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        DispatchQueue.main.async {
-            self.tableView.beginUpdates()
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        DispatchQueue.main.async {
-            self.tableView.endUpdates()
-        }
+        let text = messageBar?.messageTextView?.text
+        model?.sendMessage(text: text, completion: { sended in
+            if sended { self.messageBar?.messageTextView?.text = "" }
+        })
     }
 }
 
@@ -180,17 +125,17 @@ extension ConversationViewController: UITableViewDelegate {
 extension ConversationViewController {
     
     private func setupConstraint() {
-        messageBar.translatesAutoresizingMaskIntoConstraints = false
+        messageBar?.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(messageBar)
-        messageBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        messageBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        messageBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        view.addSubview(messageBar ?? UIView())
+        messageBar?.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        messageBar?.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        messageBar?.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: messageBar.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: messageBar?.topAnchor ?? view.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }

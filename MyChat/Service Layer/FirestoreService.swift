@@ -7,7 +7,14 @@
 
 import FirebaseFirestore
 
-class FirestoreService {
+protocol IFirestoreService {
+    var channelID: String {get set}
+    func sendMessage(message: Message)
+    func addNewChannel(text: String?)
+    func deleteChannel()
+}
+
+class FirestoreService: IFirestoreService {
     
     var channelID: String
     lazy var db = Firestore.firestore()

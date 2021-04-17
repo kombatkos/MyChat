@@ -9,9 +9,9 @@ import CoreData
 
 class FetchedResultController: NSFetchedResultsController<ChannelCD> {
     
-    let coreDataStack: ModernCoreDataStack
+    let coreDataStack: IModernCoreDataStack
     
-    init(coreDataStack: ModernCoreDataStack) {
+    init(coreDataStack: IModernCoreDataStack) {
         
         self.coreDataStack = coreDataStack
         let request: NSFetchRequest<ChannelCD> = ChannelCD.fetchRequest()

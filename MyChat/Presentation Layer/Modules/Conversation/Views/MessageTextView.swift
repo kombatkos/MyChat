@@ -10,10 +10,11 @@ import UIKit
 class MessageTextView: UITextView {
     
     let sendButton = UIButton()
-    let palette: PaletteProtocol? = ThemesService.currentTheme()
+    var palette: PaletteProtocol?
     
-    override init(frame: CGRect, textContainer: NSTextContainer?) {
-        super.init(frame: frame, textContainer: textContainer)
+    convenience init(palette: PaletteProtocol?) {
+        self.init()
+        self.palette = palette
         
         backgroundColor = palette?.bubbleLeftColor ?? .gray
         
@@ -39,6 +40,10 @@ class MessageTextView: UITextView {
         sendButton.centerYAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
         sendButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         sendButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
     }
     
     required init?(coder aDecoder: NSCoder) {

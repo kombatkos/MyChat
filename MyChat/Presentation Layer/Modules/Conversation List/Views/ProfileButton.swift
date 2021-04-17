@@ -9,14 +9,17 @@ import UIKit
 
 class ProfileButton: UIButton {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    var saveService: ISaveProfileService?
+    
+    convenience init(saveService: ISaveProfileService?) {
+        self.init()
+        self.saveService = saveService
+        
         backgroundColor = .yellow
         layer.cornerRadius = 17.5
         layer.borderWidth = 0.5
         layer.borderColor = UIColor.lightGray.cgColor
         self.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
-        
         getInitiales { [weak self] initiales in
             if let initiales = initiales, initiales != "" {
                 self?.setTitle(initiales, for: UIControl.State.normal)
@@ -35,12 +38,8 @@ class ProfileButton: UIButton {
         imageView?.frame = bounds
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private func getInitiales(completion: @escaping (String?) -> Void) {
-        SaveProfileService(fileManager: FilesManager()).loadProfile { (profile) in
+        saveService?.loadProfile { (profile) in
             var initiales = ""
             if let fullNameArr = profile?.name?.split(separator: " ") {
                 if fullNameArr.count > 0 {

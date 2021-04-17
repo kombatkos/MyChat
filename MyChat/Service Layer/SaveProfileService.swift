@@ -7,18 +7,26 @@
 
 import Foundation
 
-class SaveProfileService: ProfileService {
+protocol ISaveProfileService: class {
+    func saveProfile(profile: Profile, completion: @escaping (Bool) -> Void)
+    func loadProfile(completion: @escaping (Profile?) -> Void)
+    func cancel()
+}
+
+class SaveProfileService: ISaveProfileService {
     
-    let fileManager: FilesManager?
+    let fileManager: IFilesManager
+    let fileNames: IFileNames
     let queue = OperationQueue()
     
-    init(fileManager: FilesManager, isCancel: Bool = false) {
+    init(fileManager: IFilesManager, fileNames: IFileNames) {
+        self.fileNames = fileNames
         self.fileManager = fileManager
     }
     
     func saveProfile(profile: Profile, completion: @escaping (Bool) -> Void) {
         
-        let saveOperation = SaveProfileOperation(profile: profile, fileManager: FilesManager())
+        let saveOperation = SaveProfileOperation(profile: profile, fileManager: fileManager, fileNames: fileNames)
         saveOperation.completionBlock = {
             OperationQueue.main.addOperation {
                 if saveOperation.saved {
@@ -34,7 +42,7 @@ class SaveProfileService: ProfileService {
     }
     
     func loadProfile(completion: @escaping (Profile?) -> Void) {
-        let loadOperation = LoadProfileOperation(fileManager: FilesManager())
+        let loadOperation = LoadProfileOperation(fileManager: fileManager, fileNames: fileNames)
         loadOperation.qualityOfService = .userInitiated
         
         loadOperation.completionBlock = {

@@ -15,22 +15,27 @@ protocol ConversationListVCDelegate: class {
 class ConversationListViewController: UIViewController, ConversationListVCDelegate {
     
     // MARK: - Properties
+    var assembly: PresentationAssembly?
     
-    private var coreDataStack = ModernCoreDataStack()
-    
-    private var model: IModelConversationList?
     private var dataProvider: IChannelFRCDelegate?
     // Theme
+    private var palette: PaletteProtocol?
     private var themeIsSaved: Bool = false {
         didSet {
             model?.changeTheme(completion: { [weak self] palette in
+                self?.palette = palette
                 self?.view.backgroundColor = palette?.backgroundColor
             })
         }
     }
-    lazy var fetchResultController = FetchedResultController(coreDataStack: coreDataStack)
-    lazy var tableViewDataSource: UITableViewDataSource = {
-        return TableViewDataSourceChannels(fetchedResultController: fetchResultController, palette: ThemesService.currentTheme())
+    
+    var model: IModelConversationList?
+    
+    lazy var fetchResultController: FetchedResultController? = {
+        return assembly?.fetchedResultControllerChannels()
+    }()
+    lazy var tableViewDataSource: TableViewDataSourceChannels? = {
+        return assembly?.channelDataSource(frc: fetchResultController)
     }()
     
     @IBOutlet weak var tableView: UITableView?
@@ -39,7 +44,8 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        model = ModelConversationList(coreDataStack: coreDataStack)
+        assembly = PresentationAssembly()
+        model = assembly?.modelConversationList()
         tableView?.dataSource = tableViewDataSource
         tableView?.delegate = self
         setBarButtonItems()
@@ -58,7 +64,8 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     
     private func configureData() {
         guard let tableView = self.tableView else { return }
-        dataProvider = ChannelFRCDelegate(delegate: tableView, frc: fetchResultController)
+        guard let frc = fetchResultController else { return }
+        dataProvider = ChannelFRCDelegate(delegate: tableView, frc: frc)
     }
     
     @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
@@ -74,21 +81,19 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     // MARK: - Navigation
     
     @objc func profileAction() {
-        let profile = UIStoryboard(name: "Profile", bundle: nil)
-        guard let destinationVC = profile.instantiateViewController(withIdentifier: "ProfileVC") as? ProfileViewController else { return }
-        destinationVC.delegate = self
-        present(destinationVC, animated: true, completion: nil)
+        guard let vc = assembly?.assemblyProfileVC() else { return }
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
     }
     
     @objc func settingAction() {
-        let themesVC = ThemesViewController()
-        
-        themesVC.palette = ThemesService.currentTheme()
-        themesVC.lastTheme = ThemesService.currentTheme() // for work CancelButton
-        themesVC.clousure = { [weak self] theme in
+        let themesVC = assembly?.assemblyThemesVC()
+//        themesVC?.palette = palette
+        themesVC?.lastTheme = palette // for work CancelButton
+        themesVC?.clousure = { [weak self] theme in
             
-            DispatchQueue.global(qos: .background).async {
-                ThemesService.applyTheme(theme: theme) { [weak self ] isSaved in
+            DispatchQueue.global(qos: .utility).async {
+                self?.assembly?.themeService().applyTheme(theme: theme) { [weak self ] isSaved in
                     self?.themeIsSaved = isSaved
                     DispatchQueue.main.async {
                         self?.tableView?.reloadData()
@@ -97,7 +102,8 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
             }
             return theme
         }
-        navigationController?.pushViewController(themesVC, animated: true)
+        guard let vc = themesVC else { return }
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -111,7 +117,7 @@ extension ConversationListViewController {
     }
     
     func setProfileButton() {
-        let button = ProfileButton()
+        let button = ProfileButton(saveService: model?.saveProfileService)
         button.addTarget(self, action: #selector(profileAction), for: UIControl.Event.touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
@@ -136,18 +142,20 @@ extension ConversationListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let channel = fetchResultController.object(at: indexPath)
-        let vc = ConversationViewController(coreDataStack: coreDataStack)
-        let palette = ThemesService.currentTheme()
-        vc.palette = palette
-        vc.title = channel.name
-        vc.channelID = channel.identifier ?? ""
-        navigationController?.pushViewController(vc, animated: true)
+        let channel = fetchResultController?.object(at: indexPath)
+        guard let id = channel?.identifier else { return }
+        let vc = assembly?.assemblyConversationVC(channelID: id)
+        let palette = self.palette
+        vc?.palette = palette
+        vc?.title = channel?.name
+        vc?.channelID = channel?.identifier ?? ""
+        guard let vc1 = vc else { return }
+        navigationController?.pushViewController(vc1, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        guard let id = fetchResultController.object(at: indexPath).identifier else { return nil }
+        guard let id = fetchResultController?.object(at: indexPath).identifier else { return nil }
         
         let fireStoreService = FirestoreService(channelID: id)
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _  in
@@ -188,8 +196,8 @@ extension ConversationListViewController: UISearchBarDelegate {
     }
     
     private func updateFetchetResultController(for predicate: NSPredicate?) {
-        fetchResultController.fetchRequest.predicate = predicate
-        do { try fetchResultController.performFetch() } catch let error {
+        fetchResultController?.fetchRequest.predicate = predicate
+        do { try fetchResultController?.performFetch() } catch let error {
             print(error.localizedDescription)
         }
         tableView?.reloadData()

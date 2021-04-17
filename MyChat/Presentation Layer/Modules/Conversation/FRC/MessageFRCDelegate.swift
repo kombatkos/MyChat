@@ -1,5 +1,5 @@
 //
-//  ChannelDataProvider.swift
+//  MessageFRCDelegate.swift
 //  MyChat
 //
 //  Created by Konstantin Porokhov on 14.04.2021.
@@ -7,16 +7,16 @@
 
 import CoreData
 
-protocol IChannelFRCDelegate {
+protocol IMessageFRCDelegate {
     var delegate: IDataProviderDelegate? { get set }
 }
 
-class ChannelFRCDelegate: NSObject, IChannelFRCDelegate {
+class MessageFRCDelegate: NSObject, IMessageFRCDelegate {
     
     weak var delegate: IDataProviderDelegate?
-    var fetchedResultsController: NSFetchedResultsController<ChannelCD>
+    var fetchedResultsController: NSFetchedResultsController<MessageCD>
     
-    init(delegate: IDataProviderDelegate, frc: NSFetchedResultsController<ChannelCD>) {
+    init(delegate: IDataProviderDelegate, frc: NSFetchedResultsController<MessageCD>) {
         fetchedResultsController = frc
         self.delegate = delegate
         super.init()
@@ -35,7 +35,7 @@ class ChannelFRCDelegate: NSObject, IChannelFRCDelegate {
     
 }
 
-extension ChannelFRCDelegate: NSFetchedResultsControllerDelegate {
+extension MessageFRCDelegate: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         DispatchQueue.main.async {

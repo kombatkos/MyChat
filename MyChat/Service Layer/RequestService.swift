@@ -5,10 +5,16 @@
 //  Created by Konstantin Porokhov on 31.03.2021.
 //
 
-import Foundation
 import CoreData
 
-struct MyChatRequest {
+protocol IRequestService {
+    func insertChannelRequest(channel: [Channel])
+    func modifiedChanelRequest(channel: Channel)
+    func removeChannelRequest(channel: Channel)
+    func saveNewMessage(channelID: String, messages: [Message])
+}
+
+struct RequestService: IRequestService {
     
     let coreDataStack: IModernCoreDataStack
     let context: NSManagedObjectContext

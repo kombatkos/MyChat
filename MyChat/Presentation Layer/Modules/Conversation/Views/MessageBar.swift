@@ -9,12 +9,20 @@ import UIKit
 
 class MessageBar: UIView {
     
-    var messageTextView = MessageTextView()
+    var palette: PaletteProtocol?
+    var messageTextView: MessageTextView?
     var plusButton = UIButton()
+    
+    convenience init(palette: PaletteProtocol?) {
+        self.init()
+        self.palette = palette
+        setupConstraints()
+        messageTextView = MessageTextView(palette: palette)
+        backgroundColor = palette?.conversationBottomViewColor ?? .gray
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -30,7 +38,7 @@ class MessageBar: UIView {
 // MARK: - Setup Constraints
 extension MessageBar {
     private func setupConstraints() {
-        messageTextView.translatesAutoresizingMaskIntoConstraints = false
+        messageTextView?.translatesAutoresizingMaskIntoConstraints = false
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(plusButton)
@@ -40,11 +48,11 @@ extension MessageBar {
         plusButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         plusButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
-        self.addSubview(messageTextView)
-        messageTextView.leadingAnchor.constraint(equalTo: plusButton.trailingAnchor, constant: 14).isActive = true
-        messageTextView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
-        messageTextView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-        messageTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30).isActive = true
+        self.addSubview(messageTextView ?? UITextView())
+        messageTextView?.leadingAnchor.constraint(equalTo: plusButton.trailingAnchor, constant: 14).isActive = true
+        messageTextView?.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
+        messageTextView?.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
+        messageTextView?.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30).isActive = true
     }
     
     private func setupUIElements() {

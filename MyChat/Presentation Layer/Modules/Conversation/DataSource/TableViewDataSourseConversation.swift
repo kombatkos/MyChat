@@ -11,14 +11,18 @@ import CoreData
 class TableViewDataSourseConversation: NSObject, UITableViewDataSource {
     
     let fetchedResultController: NSFetchedResultsController<MessageCD>
-    let palette: PaletteProtocol
+    let palette: PaletteProtocol?
     let appID: String
     
-    init(fetchedResultController: NSFetchedResultsController<MessageCD>, palette: PaletteProtocol, appID: String) {
+    init(fetchedResultController: NSFetchedResultsController<MessageCD>,
+         palette: PaletteProtocol?,
+         appID: String) {
+        
         self.fetchedResultController = fetchedResultController
         self.palette = palette
         self.appID = appID
         super.init()
+        print(appID)
         performFetch()
     }
     
@@ -45,7 +49,7 @@ class TableViewDataSourseConversation: NSObject, UITableViewDataSource {
         if message.senderID == appID {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "OutgoingCell", for: indexPath) as? OutgoingCell else { return UITableViewCell()}
             cell.textMessageLabel.text = message.content
-            cell.dateLabel.text = DateManager.getDate(date: message.created)
+            cell.dateLabel.text = message.created?.dateToString()
             cell.palette = palette
             cell.selectionStyle = .none
             cell.transform = CGAffineTransform(rotationAngle: .pi)
@@ -53,7 +57,7 @@ class TableViewDataSourseConversation: NSObject, UITableViewDataSource {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "IncomingCell", for: indexPath) as? IncomingCell else { return UITableViewCell() }
             cell.textMessageLabel.text = message.content
-            cell.dateLabel.text = DateManager.getDate(date: message.created)
+            cell.dateLabel.text = message.created?.dateToString()
             cell.nameLabel.text = message.senderName
             cell.palette = palette
             cell.selectionStyle = .none

@@ -9,15 +9,17 @@ import Foundation
 
 class LoadProfileOperation: Operation {
     
-    var fileManager: FilesManager
+    var fileManager: IFilesManager
+    var fileNames: IFileNames
     var profile: Profile?
     
-    init(fileManager: FilesManager) {
+    init(fileManager: IFilesManager, fileNames: IFileNames) {
+        self.fileNames = fileNames
         self.fileManager = fileManager
         super.init()
     }
     
     override func main() {
-        profile = fileManager.readFiles(fileName: FileNames.name, fileAboutMe: FileNames.aboutMe, fileImage: FileNames.image)
+        profile = fileManager.readFiles(fileName: fileNames.name, fileAboutMe: fileNames.aboutMe, fileImage: fileNames.image)
     }
 }

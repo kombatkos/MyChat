@@ -7,7 +7,14 @@
 
 import UIKit
 
-class FilesManager {
+protocol IFilesManager {
+    func writeFiles(profile: Profile, fileName: String, fileAboutMe: String, fileImage: String) throws
+    func readFiles(fileName: String, fileAboutMe: String, fileImage: String) -> Profile?
+    func readThemeFile(fileName: String) -> Theme?
+    func writeThemeFile(theme: Theme, fileName: String) throws
+}
+
+class FilesManager: IFilesManager {
     
     let fileManager = FileManager.default
     

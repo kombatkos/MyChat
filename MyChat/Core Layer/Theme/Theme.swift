@@ -7,6 +7,8 @@
 
 import UIKit
 
+// Цвета разные, потому в константы не выношу!
+
 enum Theme: String, PaletteProtocol {
     
     case classic, day, night
@@ -46,12 +48,10 @@ enum Theme: String, PaletteProtocol {
     /// Customizing the Navigation Bar
     var barStyle: UIBarStyle {
         switch self {
-        case .classic:
-            return .default
-        case .day:
-            return .default
         case .night:
             return .blackTranslucent
+        default:
+            return .default
         }
     }
     

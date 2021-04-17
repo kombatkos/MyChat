@@ -7,24 +7,34 @@
 
 import Foundation
 
-/// Enum declaration
-let themeKey = "SelectedTheme"
+protocol IThemeService {
+    func currentTheme() -> Theme
+    func applyTheme(theme: Theme, completion: @escaping (Bool) -> Void)
+}
 
-struct ThemesService {
+class ThemeService: IThemeService {
     
-    static func currentTheme() -> Theme {
-        let fileManager = FilesManager()
-        if let theme = fileManager.readThemeFile(fileName: FileNames.theme) {
+    let fileNames: IFileNames
+    let filesManager: IFilesManager
+    
+    init(fileNames: IFileNames, filesManager: IFilesManager) {
+        self.fileNames = fileNames
+        self.filesManager = filesManager
+    }
+    
+    func currentTheme() -> Theme {
+        let fileName = fileNames.theme
+        if let theme = filesManager.readThemeFile(fileName: fileName) {
             return theme
         } else {
             return .classic
         }
     }
     
-    static func applyTheme(theme: Theme, completion: @escaping (Bool) -> Void) {
-        let fileManager = FilesManager()
+    func applyTheme(theme: Theme, completion: @escaping (Bool) -> Void) {
+        let fileName = fileNames.theme
             do {
-                try fileManager.writeThemeFile(theme: theme, fileName: FileNames.theme)
+                try filesManager.writeThemeFile(theme: theme, fileName: fileName)
                 completion(true)
             } catch let error {
                 print(error.localizedDescription)

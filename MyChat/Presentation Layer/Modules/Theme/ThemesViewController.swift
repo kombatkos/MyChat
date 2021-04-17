@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ThemesPickerDelegate: class {
+    func changeThemeWorkDelegate(theme: Theme) -> Theme
+}
+
 class ThemesViewController: UIViewController {
     
     var delegate: ThemesPickerDelegate?
@@ -20,12 +24,23 @@ class ThemesViewController: UIViewController {
     private let classicView = ThemeButtonView()
     private let dayView = ThemeButtonView()
     private let nightView = ThemeButtonView()
+    private let colors = Colors()
+    
+    init(palette: PaletteProtocol?) {
+        self.palette = palette
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = palette?.bubbleRightColor
+        if lastTheme == nil { lastTheme = palette }
+        view.backgroundColor = palette?.bubbleRightColor ?? .brown
         title = "Settings"
-        setClassicView()
+        setSubviews()
         setCancelButton()
         
         let tapClassicTheme = UITapGestureRecognizer(target: self, action: #selector(classicThemeAction))
@@ -71,13 +86,25 @@ class ThemesViewController: UIViewController {
 // MARK: - Set Subviews
 extension ThemesViewController {
    
-    private func setClassicView() {
-        
+    private func setSubviews() {
+        setClassicView()
+        let classicLabel = UILabel()
+        classicLabel.font = .systemFont(ofSize: 25)
+        classicLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(classicLabel)
+        classicLabel.topAnchor.constraint(equalTo: classicView.bottomAnchor, constant: 15).isActive = true
+        classicLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        setDayView()
+        setNightView()
+        setBorderColorForButtons()
+    }
+    
+    func setClassicView() {
         classicView.containerView.backgroundColor = .lightGray
         classicView.textLabel.text = "Classic"
         classicView.containerView.layer.cornerRadius = 20
-        classicView.rightBubble.backgroundColor = UIColor(red: 221 / 255, green: 246 / 255, blue: 199 / 255, alpha: 1)
-        classicView.leftBubble.backgroundColor = UIColor(red: 223 / 255, green: 223 / 255, blue: 223 / 255, alpha: 1)
+        classicView.rightBubble.backgroundColor = colors.classicRightBubbleColor
+        classicView.leftBubble.backgroundColor = colors.classicLeftBubbleColor
         classicView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(classicView)
         
@@ -85,19 +112,14 @@ extension ThemesViewController {
         classicView.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
         classicView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 37).isActive = true
         classicView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -37).isActive = true
-        let classicLabel = UILabel()
-        classicLabel.font = .systemFont(ofSize: 25)
-        classicLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(classicLabel)
-        
-        classicLabel.topAnchor.constraint(equalTo: classicView.bottomAnchor, constant: 15).isActive = true
-        classicLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
+    }
+    
+    func setDayView() {
         dayView.containerView.backgroundColor = .gray
         dayView.textLabel.text = "Day"
         dayView.containerView.layer.cornerRadius = 20
-        dayView.rightBubble.backgroundColor = UIColor(red: 76 / 255, green: 140 / 255, blue: 246 / 255, alpha: 1)
-        dayView.leftBubble.backgroundColor = UIColor(red: 223 / 255, green: 223 / 255, blue: 223 / 255, alpha: 1)
+        dayView.rightBubble.backgroundColor = colors.dayRightBubbleColor
+        dayView.leftBubble.backgroundColor = colors.dayLeftBubbleColor
         dayView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(dayView)
         
@@ -105,12 +127,14 @@ extension ThemesViewController {
         dayView.topAnchor.constraint(equalTo: classicView.bottomAnchor, constant: 50).isActive = true
         dayView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 37).isActive = true
         dayView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -37).isActive = true
-        
+    }
+    
+    func setNightView() {
         nightView.containerView.backgroundColor = .black
         nightView.textLabel.text = "Night"
         nightView.containerView.layer.cornerRadius = 20
-        nightView.rightBubble.backgroundColor = .lightGray
-        nightView.leftBubble.backgroundColor = UIColor(red: 46 / 255, green: 46 / 255, blue: 46 / 255, alpha: 1)
+        nightView.rightBubble.backgroundColor = colors.nightRightBubbleColor
+        nightView.leftBubble.backgroundColor = colors.nightLeftBubbleColor
         nightView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nightView)
         
@@ -118,7 +142,6 @@ extension ThemesViewController {
         nightView.topAnchor.constraint(equalTo: dayView.bottomAnchor, constant: 50).isActive = true
         nightView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 37).isActive = true
         nightView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -37).isActive = true
-        setBorderColorForButtons()
     }
     
     private func setBorderColorForButtons() {

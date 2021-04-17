@@ -9,6 +9,7 @@ import UIKit
 
 protocol IModelConversationList {
     var palette: PaletteProtocol? {get}
+    var saveProfileService: ISaveProfileService? {get}
     func changeTheme(completion: @escaping (_ palette: PaletteProtocol?) -> Void)
     func addChannel(completion: (UIAlertController) -> Void)
     func observeChannel(completion: @escaping (_ error: Error) -> Void)
@@ -17,16 +18,18 @@ protocol IModelConversationList {
 class ModelConversationList: IModelConversationList {
     
     var palette: PaletteProtocol?
-    let fireStoreService = FirestoreService(channelID: "")
-    private let coreDataStack: ModernCoreDataStack
-    private var listenerService: ListenerService?
+    private var listenerService: IListenerService?
+    private var themeManager: IThemeService?
+    var saveProfileService: ISaveProfileService?
     
-    init(coreDataStack: ModernCoreDataStack) {
-        self.coreDataStack = coreDataStack
+    init(listenerService: IListenerService, palette: PaletteProtocol?, themeManager: IThemeService, saveProfileService: ISaveProfileService?) {
+        self.themeManager = themeManager
+        self.listenerService = listenerService
+        self.palette = palette
+        self.saveProfileService = saveProfileService
     }
     
     func observeChannel(completion: @escaping (_ error: Error) -> Void) {
-        listenerService = ListenerService(coreDataStack: coreDataStack)
         listenerService?.channelObserve { error in
             if let error = error {
                 completion(error)
@@ -59,11 +62,8 @@ class ModelConversationList: IModelConversationList {
     
     func changeTheme(completion: @escaping (_ palette: PaletteProtocol?) -> Void) {
         DispatchQueue.main.async { [weak self] in
-            self?.palette = ThemesService.currentTheme()
             
-            completion(self?.palette)
-//            self?.view.backgroundColor = self?.palette?.backgroundColor ?? .white
-            
+            self?.palette = self?.themeManager?.currentTheme()
             UIActivityIndicatorView.appearance().style = self?.palette?.activityIndicatorStyle ?? .gray
             UITextField.appearance().keyboardAppearance = self?.palette?.keyboardStyle ?? .light
             UITextView.appearance().textColor = self?.palette?.labelColor
@@ -78,6 +78,8 @@ class ModelConversationList: IModelConversationList {
             
             UIApplication.shared.keyWindow?.reload()
             UIApplication.shared.keyWindow?.reload()
+            
+            completion(self?.palette)
         }
     }
 }
