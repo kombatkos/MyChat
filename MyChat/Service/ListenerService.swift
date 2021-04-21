@@ -10,58 +10,66 @@ import FirebaseFirestore
 
 class ListenerService {
     
+    let coreDataStack: ModernCoreDataStack
+    
     let appID = UIDevice.current.identifierForVendor?.uuidString
     lazy var db = Firestore.firestore()
     lazy var reference = db.collection("channels")
+    lazy var requests = MyChatRequest(coreDataStack: coreDataStack)
     
-    func channelObserve(completion: @escaping (Result<[Channel], Error>) -> Void) {
+    init(coreDataStack: ModernCoreDataStack) {
+        self.coreDataStack = coreDataStack
+    }
+    
+    func channelObserve(completion: @escaping (Error?) -> Void) {
+        
         let ref = reference
         ref.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
-                completion(.failure(error))
-            } else if let documents = querySnapshot?.documents {
-                var channels: [Channel] = []
-                for document in documents {
-                    let data = document.data()
-                    let identifire = document.documentID
-                    if let name = data["name"] as? String {
-                        let lastActivityTimestamp = document["lastActivity"] as? Timestamp
-                        let lastActivity = lastActivityTimestamp?.dateValue()
-                        let lastMessage = data["lastMessage"] as? String
-                        let correctName = !name.trim().isBlank ? name.trim() : "NoName"
-                        let channel = Channel(identifier: identifire,
-                                              name: correctName,
-                                              lastMessage: lastMessage,
-                                              lastActivity: lastActivity)
-                        channels.append(channel)
-                    }
-                }
-                
-                completion(.success(channels))
+                completion(error)
             }
+            var channels: [Channel] = []
+            guard let snapshot = querySnapshot else { return }
+            snapshot.documentChanges.forEach { diff in
+                
+                guard let channel = Channel(document: diff.document) else { return }
+                
+                switch diff.type {
+                case .added:
+                    channels.append(channel)
+                case .modified:
+                    print("----------------- MODIFIED ------------------")
+                    self.requests.modifiedChanelRequest(channel: channel)
+                case .removed:
+                    print("----------------- REMOVED ------------------")
+                    self.requests.removeChannelRequest(channel: channel)
+                }
+            }
+            self.requests.insertChannelRequest2(channel: channels)
         }
     }
     
-    func messagesObserve(channelID: String, completion: @escaping (Result<[Message], Error>) -> Void) {
+    func messagesObserve2(channelID: String, completion: @escaping (Error?) -> Void) -> ListenerRegistration {
+        
         let ref = reference.document(channelID).collection("messages")
-        ref.addSnapshotListener { (querySnapshot, error) in
+        let messagesListener = ref.addSnapshotListener { (querySnapshot, error) in
             if let error = error {
-                completion(.failure(error))
-                return
-            } else if let documents = querySnapshot?.documents {
-                var messages: [Message] = []
-                documents.forEach { document in
-                    let data = document.data()
-                    guard let content = data["content"] as? String,
-                          let created = data["created"] as? Timestamp,
-                          let senderId = data["senderId"] as? String,
-                          let senderName = data["senderName"] as? String else { return }
-                    
-                    let message = Message(content: content, created: Date(timeIntervalSince1970: TimeInterval(created.nanoseconds)), senderId: senderId, senderName: senderName)
-                    messages.append(message)
-                }
-                completion(.success(messages))
+                completion(error)
             }
+            var messages: [Message] = []
+                guard let snapshot = querySnapshot else { return }
+                snapshot.documentChanges.forEach { diff in
+                    
+                    guard let message = Message(document: diff.document) else { return }
+                    switch diff.type {
+                    case .added:
+                        messages.append(message)
+                    default: break
+                    }
+                }
+            self.requests.saveNewMessage(channelID: channelID, messages: messages)
         }
+        return messagesListener
     }
+    
 }

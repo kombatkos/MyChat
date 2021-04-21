@@ -7,30 +7,49 @@
 
 import UIKit
 import Firebase
+import CoreData
 
 class ConversationViewController: UIViewController {
     
     // Dependenses
     var palette: PaletteProtocol?
-    let listenerSerice = ListenerService()
-    var coreDataStack: CoreDataStack
+    var listenerSerice: ListenerService?
+    var coreDataStack: ModernCoreDataStack
+    var listener: ListenerRegistration?
     
     // Properties
     
     var channelID = ""
-    
-    var listMessages: [Message] = []
-    private lazy var saveMessages: Void = {
-        saveMessagesCD()
-    }()
+    var messageBar = MessageBar()
     
     var tableView = UITableView()
-    var messageBar = MessageBar()
+    
+    lazy var tableViewDataSourse: UITableViewDataSource = {
+        let appID = listenerSerice?.appID ?? ""
+        let request: NSFetchRequest<MessageCD> = MessageCD.fetchRequest()
+        
+        let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
+        request.sortDescriptors = [sortDescriptor]
+        request.predicate = NSPredicate(format: "channel.identifier = %@", channelID)
+        request.fetchBatchSize = 20
+        
+        let context = coreDataStack.container.viewContext
+        context.automaticallyMergesChangesFromParent = true
+        
+        let fetchResultController = NSFetchedResultsController(fetchRequest: request,
+                                                               managedObjectContext: context,
+                                                               sectionNameKeyPath: nil,
+                                                               cacheName: nil)
+        fetchResultController.delegate = self
+        
+        return TableViewDataSourseConversation(fetchedResultController: fetchResultController, palette: ThemesManager.currentTheme(), appID: appID)
+    }()
     
     // MARK: - Life cicle
     
-    init(coreDataStack: CoreDataStack) {
+    init(coreDataStack: ModernCoreDataStack) {
         self.coreDataStack = coreDataStack
+        listenerSerice = ListenerService(coreDataStack: coreDataStack)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,7 +64,7 @@ class ConversationViewController: UIViewController {
         view.backgroundColor = palette?.backgroundColor ?? .white
         tableView.separatorStyle = .none
         tableView.delegate = self
-        tableView.dataSource = self
+        tableView.dataSource = tableViewDataSourse
         tableView.register(IncomingCell.self, forCellReuseIdentifier: "IncomingCell")
         tableView.register(OutgoingCell.self, forCellReuseIdentifier: "OutgoingCell")
         tableView.transform = CGAffineTransform(rotationAngle: .pi)
@@ -59,37 +78,23 @@ class ConversationViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(sendMessage))
         messageBar.messageTextView.sendButton.addGestureRecognizer(tap)
         
-        listenerSerice.messagesObserve(channelID: channelID) { [weak self] result in
-            switch result {
-            case .success((let message)):
-                self?.listMessages = message
-                self?.listMessages.sort(by: { (message1, message2) -> Bool in
-                    message1.created > message2.created
-                })
-                self?.tableView.reloadData()
-                _ = self?.saveMessages
-            case .failure(let error):
+        listener = listenerSerice?.messagesObserve2(channelID: channelID) { [weak self] error in
+            if let error = error {
                 ErrorAlert.show(error.localizedDescription) { [weak self] (alert) in
-                    self?.present(alert, animated: true)
+                        self?.present(alert, animated: true)
                 }
             }
         }
     }
     
     deinit {
+//        listener?.remove()
         removeForKeyboardNotification()
         var shouldLogTextAnalyzer = false
         if ProcessInfo.processInfo.environment["deinit_log"] == "verbose" {
             shouldLogTextAnalyzer = true
         }
         if shouldLogTextAnalyzer { print("Deinit ConversationViewController") }
-        saveMessagesCD()
-    }
-    
-    // CoreData method
-    private func saveMessagesCD() {
-        let request = MyChatRequest(coreDataStack: coreDataStack)
-            request.saveMessageRequest(channelID: channelID, messages: listMessages)
     }
     
     // MARK: - Actions
@@ -103,7 +108,7 @@ class ConversationViewController: UIViewController {
         
         profileService.loadProfile { [weak self] profile in
             guard let newMessage = self?.messageBar.messageTextView.text else { return }
-            guard let id = self?.listenerSerice.appID else { return }
+            guard let id = self?.listenerSerice?.appID else { return }
             let message = newMessage.trim()
             if !message.isBlank {
                 let message = Message(content: newMessage, created: Date(), senderId: id, senderName: profile?.name ?? "Incognito")
@@ -114,36 +119,43 @@ class ConversationViewController: UIViewController {
     }
 }
 
-// MARK: - TableViewDataSource
-
-extension ConversationViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        listMessages.count
+extension ConversationViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            print("INSERT")
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            print("DELETE")
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .move:
+            print("MOVE")
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            print("UPDATE")
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        @unknown default:
+            fatalError("")
+        }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let message = listMessages[indexPath.row]
-        
-        if message.senderId == listenerSerice.appID {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "OutgoingCell", for: indexPath) as? OutgoingCell else { return UITableViewCell()}
-            cell.textMessageLabel.text = message.content
-            cell.dateLabel.text = DateManager.getDate(date: message.created)
-            cell.palette = palette
-            cell.selectionStyle = .none
-            cell.transform = CGAffineTransform(rotationAngle: .pi)
-            return cell
-        } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "IncomingCell", for: indexPath) as? IncomingCell else { return UITableViewCell() }
-            cell.textMessageLabel.text = message.content
-            cell.dateLabel.text = DateManager.getDate(date: message.created)
-            cell.nameLabel.text = message.senderName
-            cell.palette = palette
-            cell.selectionStyle = .none
-            cell.transform = CGAffineTransform(rotationAngle: .pi)
-            return cell
-        }
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }
 
