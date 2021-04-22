@@ -17,6 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         
+//        let controller = PresentationAssembly().assemblyPhotosCollectionVC()
+//        window?.rootViewController = controller
+//        window?.makeKeyAndVisible()
+        
         return true
     }
 

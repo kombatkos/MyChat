@@ -14,6 +14,7 @@ protocol IServicesAssembly {
     var themeService: IThemeService {get}
     var coreDataStack: IModernCoreDataStack {get}
     func fireStoreService(channelID: String) -> IFirestoreService
+    var imageService: IImageService {get}
 }
 
 class ServicesAssembly: IServicesAssembly {
@@ -28,5 +29,6 @@ class ServicesAssembly: IServicesAssembly {
     func fireStoreService(channelID: String) -> IFirestoreService {
         FirestoreService(channelID: channelID)
     }
+    lazy var imageService: IImageService = ImageService(requestSender: coreAssembly.requestSender)
     
 }

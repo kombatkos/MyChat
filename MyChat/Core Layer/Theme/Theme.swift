@@ -13,6 +13,15 @@ enum Theme: String, PaletteProtocol {
     
     case classic, day, night
     
+    var nameTheme: String {
+        switch self {
+        case .night:
+            return "night"
+        default:
+            return "day"
+        }
+    }
+    
     /// Label Color
     var labelColor: UIColor {
         switch self {

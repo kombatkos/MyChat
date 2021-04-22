@@ -12,6 +12,7 @@ class ProfileViewController: UIViewController {
     var profileService: ISaveProfileService?
     weak var delegate: ConversationListVCDelegate?
     
+    var clousure: ((UIImage) -> (UIImage))?
     var profile: Profile?
     var avatarImageViewChanged: Bool = false {
         didSet { blockingSaveButtons(isBlocked: false) }

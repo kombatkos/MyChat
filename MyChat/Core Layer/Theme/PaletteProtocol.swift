@@ -8,6 +8,8 @@
 import UIKit
 
 protocol PaletteProtocol {
+    var nameTheme: String {get}
+    
     /// Label Color
     var labelColor: UIColor {get}
     

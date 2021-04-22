@@ -22,8 +22,10 @@ open class ImagePicker: NSObject, IImagePicker {
     private weak var presentationController: UIViewController?
     private weak var delegate: ImagePickerDelegate?
     private var palette: PaletteProtocol?
-
-    init(presentationController: UIViewController, delegate: ImagePickerDelegate, palette: PaletteProtocol?) {
+    private var assembly: IPresentationAssembly?
+    
+    init(presentationController: UIViewController, delegate: ImagePickerDelegate, palette: PaletteProtocol?, assembly: IPresentationAssembly) {
+        
         self.pickerController = UIImagePickerController()
 
         super.init()
@@ -34,6 +36,8 @@ open class ImagePicker: NSObject, IImagePicker {
         self.pickerController.delegate = self
         self.pickerController.allowsEditing = true
         self.pickerController.mediaTypes = ["public.image"]
+        
+        self.assembly = assembly
         
         self.palette = palette
     }
@@ -66,17 +70,29 @@ open class ImagePicker: NSObject, IImagePicker {
         camera.setValue(cameraIcon, forKey: "image")
         camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-        let photo = UIAlertAction(title: "Photo", style: .default) { _ in
+        let gallery = UIAlertAction(title: "Gallery", style: .default) { _ in
             self.chooseImagePicker(source: .photoLibrary)
         }
 
-        photo.setValue(photoIcon, forKey: "image")
-        photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        gallery.setValue(photoIcon, forKey: "image")
+        gallery.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        
+        let photoNet = UIAlertAction(title: "Download", style: .default) { _ in
+            guard let vc = self.assembly?.assemblyPhotosCollectionVC() else { return }
+            vc.clousure = { [weak self] image in
+                self?.delegate?.didSelect(image: image)
+            }
+            self.presentationController?.present(vc, animated: true)
+        }
+
+        photoNet.setValue(photoIcon, forKey: "image")
+        photoNet.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
 
         actionSheet.addAction(camera)
-        actionSheet.addAction(photo)
+        actionSheet.addAction(gallery)
+        actionSheet.addAction(photoNet)
         actionSheet.addAction(cancel)
 
         actionSheet.pruneNegativeWidthConstraints()
