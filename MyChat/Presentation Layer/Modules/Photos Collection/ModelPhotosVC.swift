@@ -33,8 +33,7 @@ class ModelPhotosVC: IModelPhotosVC {
     }
     
     func fetchImage(urlString: String?, completion: @escaping (UIImage?) -> Void) {
-        
-        guard let urlString = urlString?.replacingOccurrences(of: "_640", with: "_180") else { return }
+        guard let urlString = urlString else { return }
         guard let url = URL(string: urlString) else { return }
         
         if let cacheImage = imageCashe.object(forKey: url.absoluteString as NSString) {

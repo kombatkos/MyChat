@@ -101,6 +101,7 @@ class ProfileViewController: UIViewController {
     @IBAction func editButtonTapped(_ sender: UIButton) {
         textEditing(isEditing: true)
         nameTextField?.becomeFirstResponder()
+        sender.jiggle()
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
