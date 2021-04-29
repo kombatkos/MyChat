@@ -10,7 +10,7 @@ import UIKit
 class AnimatedButton: UIButton {
     
     var isAnimated = false
-    private let duration = 0.3
+    private let duration = 3.0
     
     func jiggle() {
         if !isAnimated { startAnimation() } else { stopAnimation() }
@@ -19,24 +19,22 @@ class AnimatedButton: UIButton {
     func startAnimation() {
         isAnimated = true
         let group = CAAnimationGroup()
-        group.duration = 3 / 10
-        group.animations = [yAnimation(), xAnimation(), rotateAnimation()]
+        group.duration = duration
+        group.animations = [yAnimation(), xAnimation()]
         group.repeatCount = .infinity
         self.layer.add(group, forKey: nil)
     }
     
     func stopAnimation() {
         isAnimated = false
-        layer.removeAllAnimations()
-        
         let returnAnimation = CABasicAnimation(keyPath: "position")
         returnAnimation.fromValue = layer.presentation()?.position
         returnAnimation.toValue = layer.position
-        returnAnimation.duration = 0.3
+        returnAnimation.duration = duration
         returnAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        returnAnimation.fillMode = .forwards
+        returnAnimation.fillMode = .both
         returnAnimation.isRemovedOnCompletion = true
-        layer.add(returnAnimation, forKey: nil)
+        layer.add(returnAnimation, forKey: "return")
     }
     
     private func rotateAnimation() -> CAKeyframeAnimation {
