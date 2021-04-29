@@ -56,6 +56,6 @@ class PhotosCollectionDataSource: NSObject, UICollectionViewDataSource {
     }
     
     @objc func closeVC() {
-        presentationController.dismiss(animated: true, completion: nil)
+        presentationController?.dismiss(animated: true, completion: nil)
     }
 }
