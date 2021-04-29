@@ -11,9 +11,9 @@ class PhotosCollectionDataSource: NSObject, UICollectionViewDataSource {
     
     let model: IModelPhotosVC
     let palette: PaletteProtocol
-    private let presentationController: UICollectionViewController
+    weak var presentationController: UICollectionViewController?
     
-    init(model: IModelPhotosVC, palette: PaletteProtocol, presentationController: UICollectionViewController) {
+    init(model: IModelPhotosVC, palette: PaletteProtocol, presentationController: UICollectionViewController?) {
         self.model = model
         self.palette = palette
         self.presentationController = presentationController
