@@ -10,7 +10,7 @@ import UIKit
 class AnimatedButton: UIButton {
     
     var isAnimated = false
-    private let duration = 3.0
+    private let duration: Double = 3.0
     
     func jiggle() {
         if !isAnimated { startAnimation() } else { stopAnimation() }
