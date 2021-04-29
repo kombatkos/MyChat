@@ -10,7 +10,7 @@ import UIKit
 class AnimatedButton: UIButton {
     
     var isAnimated = false
-    private let duration: Double = 3.0
+    private let duration = 3.0
     
     func jiggle() {
         if !isAnimated { startAnimation() } else { stopAnimation() }
@@ -20,7 +20,7 @@ class AnimatedButton: UIButton {
         isAnimated = true
         let group = CAAnimationGroup()
         group.duration = duration
-        group.animations = [yAnimation(), xAnimation()]
+        group.animations = [yAnimation(), xAnimation(), rotateAnimation()]
         group.repeatCount = .infinity
         self.layer.add(group, forKey: nil)
     }
