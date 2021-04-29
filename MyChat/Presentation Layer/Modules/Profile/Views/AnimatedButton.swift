@@ -28,6 +28,16 @@ class AnimatedButton: UIButton {
     func stopAnimation() {
         isAnimated = false
         layer.removeAllAnimations()
+        
+        let rotationReturn = CABasicAnimation(keyPath: #keyPath(CALayer.transform))
+        rotationReturn.fromValue = layer.presentation()?.transform
+        rotationReturn.toValue = layer.transform
+        rotationReturn.duration = duration
+        rotationReturn.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        rotationReturn.fillMode = .both
+        rotationReturn.isRemovedOnCompletion = true
+        layer.add(rotationReturn, forKey: "transform")
+        
         let returnAnimation = CABasicAnimation(keyPath: "position")
         returnAnimation.fromValue = layer.presentation()?.position
         returnAnimation.toValue = layer.position
