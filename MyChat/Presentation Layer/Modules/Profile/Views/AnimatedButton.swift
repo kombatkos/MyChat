@@ -27,6 +27,7 @@ class AnimatedButton: UIButton {
     
     func stopAnimation() {
         isAnimated = false
+        layer.removeAllAnimations()
         let returnAnimation = CABasicAnimation(keyPath: "position")
         returnAnimation.fromValue = layer.presentation()?.position
         returnAnimation.toValue = layer.position
