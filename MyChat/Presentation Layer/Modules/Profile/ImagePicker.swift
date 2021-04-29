@@ -77,12 +77,12 @@ open class ImagePicker: NSObject, IImagePicker {
         gallery.setValue(photoIcon, forKey: "image")
         gallery.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         
-        let photoNet = UIAlertAction(title: "Download", style: .default) { _ in
-            guard let vc = self.assembly?.assemblyPhotosCollectionVC() else { return }
+        let photoNet = UIAlertAction(title: "Download", style: .default) { [weak self]_ in
+            guard let vc = self?.assembly?.assemblyPhotosCollectionVC() else { return }
             vc.clousure = { [weak self] image in
                 self?.delegate?.didSelect(image: image)
             }
-            self.presentationController?.present(vc, animated: true)
+            self?.presentationController?.present(vc, animated: true)
         }
 
         photoNet.setValue(photoIcon, forKey: "image")

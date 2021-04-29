@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol ThemesPickerDelegate: class {
+protocol ThemesPickerDelegate {
     func changeThemeWorkDelegate(theme: Theme) -> Theme
 }
 
-class ThemesViewController: UIViewController {
+class ThemesViewController: EmitterViewController {
     
     var delegate: ThemesPickerDelegate?
     var clousure: ((Theme) -> (Theme))?
