@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol IDataProviderDelegate: class {
+protocol IDataProviderDelegate: AnyObject {
     func beginUpdates()
     func endUpdates()
     

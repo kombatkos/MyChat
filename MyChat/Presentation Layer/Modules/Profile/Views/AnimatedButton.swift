@@ -20,6 +20,7 @@ class AnimatedButton: UIButton {
         isAnimated = true
         let group = CAAnimationGroup()
         group.duration = duration
+        group.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         group.animations = [yAnimation(), xAnimation(), rotateAnimation()]
         group.repeatCount = .infinity
         self.layer.add(group, forKey: nil)
@@ -32,29 +33,25 @@ class AnimatedButton: UIButton {
         let rotationReturn = CABasicAnimation(keyPath: #keyPath(CALayer.transform))
         rotationReturn.fromValue = layer.presentation()?.transform
         rotationReturn.toValue = layer.transform
-        rotationReturn.duration = duration
-        rotationReturn.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        rotationReturn.fillMode = .both
-        rotationReturn.isRemovedOnCompletion = true
-        layer.add(rotationReturn, forKey: "transform")
         
         let returnAnimation = CABasicAnimation(keyPath: "position")
         returnAnimation.fromValue = layer.presentation()?.position
         returnAnimation.toValue = layer.position
-        returnAnimation.duration = duration
-        returnAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        returnAnimation.fillMode = .both
-        returnAnimation.isRemovedOnCompletion = true
-        layer.add(returnAnimation, forKey: "return")
+        
+        let group = CAAnimationGroup()
+        group.duration = duration
+        group.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        group.fillMode = .both
+        group.isRemovedOnCompletion = true
+        group.animations = [rotationReturn, returnAnimation]
+        layer.add(group, forKey: "position")
+        
     }
     
     private func rotateAnimation() -> CAKeyframeAnimation {
         let rotate = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        rotate.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         rotate.values = [0, -Double.pi / 10, +Double.pi / 10, 0]
-        
         rotate.keyTimes = [0, 0.1, 0.9, 1]
-        rotate.duration = duration
         return rotate
     }
     
@@ -62,11 +59,8 @@ class AnimatedButton: UIButton {
         let positionX = layer.position.x
         
         let xAnimation = CAKeyframeAnimation(keyPath: "position.x")
-        xAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         xAnimation.values = [positionX, positionX - 5, positionX + 5, positionX]
-
         xAnimation.keyTimes = [0.0, 0.10, 0.50, 1.0]
-        xAnimation.duration = duration
         return xAnimation
     }
     
@@ -74,11 +68,8 @@ class AnimatedButton: UIButton {
         let positionY = layer.position.y
         
         let yAnimation = CAKeyframeAnimation(keyPath: "position.y")
-        yAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         yAnimation.values = [positionY, positionY - 5, positionY + 5, positionY]
-        
         yAnimation.keyTimes = [0.10, 0.25, 0.90, 1.0]
-        yAnimation.duration = duration
         return yAnimation
     }
     
