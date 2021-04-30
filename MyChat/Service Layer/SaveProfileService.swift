@@ -29,11 +29,7 @@ class SaveProfileService: ISaveProfileService {
         let saveOperation = SaveProfileOperation(profile: profile, fileManager: fileManager, fileNames: fileNames)
         saveOperation.completionBlock = {
             OperationQueue.main.addOperation {
-                if saveOperation.saved {
-                    completion(true)
-                } else {
-                    completion(false)
-                }
+                completion(saveOperation.saved)
             }
         }
         queue.qualityOfService = .userInitiated

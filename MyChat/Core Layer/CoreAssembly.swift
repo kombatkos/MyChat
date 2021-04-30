@@ -11,10 +11,12 @@ protocol ICoreAssembly {
     var filesManager: IFilesManager { get }
     var fileNames: IFileNames {get}
     var coreDataStack: IModernCoreDataStack {get}
+    var requestSender: IRequestSender { get }
 }
 
 class CoreAssembly: ICoreAssembly {
     lazy var filesManager: IFilesManager = FilesManager()
     lazy var fileNames: IFileNames = FileNames()
     lazy var coreDataStack: IModernCoreDataStack = ModernCoreDataStack()
+    lazy var requestSender: IRequestSender = RequestSender()
 }

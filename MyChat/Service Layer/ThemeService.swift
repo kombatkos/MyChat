@@ -41,17 +41,4 @@ class ThemeService: IThemeService {
                 completion(false)
             }
     }
-    
-//    static func currentTheme() -> Theme {
-//        if let storedTheme = (UserDefaults.standard.value(forKey: themeKey) as AnyObject).integerValue {
-//            return Theme(rawValue: storedTheme) ?? .classic
-//        } else {
-//            return .classic
-//        }
-//    }
-//
-//    static func applyTheme(theme: Theme) {
-//        UserDefaults.standard.setValue(theme.rawValue, forKey: themeKey)
-//        UserDefaults.standard.synchronize()
-//    }
 }

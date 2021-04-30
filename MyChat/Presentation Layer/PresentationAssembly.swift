@@ -7,11 +7,34 @@
 
 import UIKit
 
-class PresentationAssembly {
+protocol IPresentationAssembly {
+    func assemblyPhotosCollectionVC() -> PhotosCollectionVC
+    func assemblyProfileVC() -> ProfileViewController?
+    func modelConversationList() -> ModelConversationList
+    func fetchedResultControllerChannels() -> FetchedResultController
+    func channelDataSource(frc: FetchedResultController?) -> TableViewDataSourceChannels
+    func themeService() -> IThemeService
+    func assemblyConversationVC(channelID: String) -> ConversationViewController
+    func assemblyThemesVC() -> ThemesViewController
+}
+
+class PresentationAssembly: IPresentationAssembly {
     
     private lazy var serviceAssembly: IServicesAssembly = ServicesAssembly()
     
     let appID = UIDevice.current.identifierForVendor?.uuidString
+    
+    // MARK: - ConversationListViewController
+    
+    func assemblyPhotosCollectionVC() -> PhotosCollectionVC {
+        let palette = serviceAssembly.themeService.currentTheme()
+        let model = ModelPhotosVC(imageService: serviceAssembly.imageService)
+        guard let vc = PhotosCollectionVC(model: model, palette: palette) else {
+            fatalError("failed to build PhotosCollectionVC") }
+        let dataSource = PhotosCollectionDataSource(model: model, palette: palette, presentationController: vc)
+        vc.collectionViewDataSource = dataSource
+        return vc
+    }
     
     // MARK: - ConversationListViewController
     
@@ -20,7 +43,7 @@ class PresentationAssembly {
         
         guard let vc = UIStoryboard(name: "Profile",
                                     bundle: nil).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileViewController else { return nil }
-        vc.imagePicker = ImagePicker(presentationController: vc, delegate: vc, palette: palette)
+        vc.imagePicker = ImagePicker(presentationController: vc, delegate: vc, palette: palette, assembly: self)
         vc.palette = palette
         vc.profileService = serviceAssembly.saveProfileService
         return vc

@@ -27,7 +27,7 @@ class ListenerService: IListenerService {
     func channelObserve(completion: @escaping (Error?) -> Void) {
         
         let ref = reference
-        ref.addSnapshotListener { (querySnapshot, error) in
+        ref.addSnapshotListener { [weak self] (querySnapshot, error) in
             if let error = error {
                 completion(error)
             }
@@ -42,20 +42,20 @@ class ListenerService: IListenerService {
                     channels.append(channel)
                 case .modified:
                     print("----------------- MODIFIED ------------------")
-                    self.requests.modifiedChanelRequest(channel: channel)
+                    self?.requests.modifiedChanelRequest(channel: channel)
                 case .removed:
                     print("----------------- REMOVED ------------------")
-                    self.requests.removeChannelRequest(channel: channel)
+                    self?.requests.removeChannelRequest(channel: channel)
                 }
             }
-            self.requests.insertChannelRequest(channel: channels)
+            self?.requests.insertChannelRequest(channel: channels)
         }
     }
     
     func messagesObserve(channelID: String, completion: @escaping (Error?) -> Void) -> ListenerRegistration {
         
         let ref = reference.document(channelID).collection("messages")
-        let messagesListener = ref.addSnapshotListener { (querySnapshot, error) in
+        let messagesListener = ref.addSnapshotListener { [weak self] (querySnapshot, error) in
             if let error = error {
                 completion(error)
             }
@@ -70,7 +70,7 @@ class ListenerService: IListenerService {
                     default: break
                     }
                 }
-            self.requests.saveNewMessage(channelID: channelID, messages: messages)
+            self?.requests.saveNewMessage(channelID: channelID, messages: messages)
         }
         return messagesListener
     }
