@@ -72,7 +72,7 @@
          <EnvironmentVariable
             key = "deinit_log"
             value = "verbose"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>

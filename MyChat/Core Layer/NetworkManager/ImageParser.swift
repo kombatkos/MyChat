@@ -16,6 +16,9 @@ struct Pixabay: Codable {
 struct Hits: Codable {
     let webformatURL: String?
     let largeImageURL: String?
+    var smallImage: String? {
+        webformatURL?.replacingOccurrences(of: "_640", with: "_180")
+    }
 }
 
 class ImageParser: IParser {

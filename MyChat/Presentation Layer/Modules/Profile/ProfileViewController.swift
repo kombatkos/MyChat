@@ -79,6 +79,7 @@ class ProfileViewController: EmitterViewController {
     }
     
     func textEditing(isEditing: Bool) {
+        aboutTextView?.keyboardAppearance = palette?.keyboardStyle ?? .light
         nameTextField?.isEnabled = isEditing
         aboutTextView?.isEditable = isEditing
         editButton?.isHidden = isEditing

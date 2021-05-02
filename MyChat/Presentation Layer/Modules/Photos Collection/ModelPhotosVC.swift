@@ -12,9 +12,10 @@ protocol IModelPhotosVC {
     func fetchURLs(completion: @escaping (Result<[Hits]?, Error>) -> Void)
     func fetchImage(urlString: String?, completion: @escaping (UIImage?) -> Void)
 }
+let imageCashe = NSCache<NSString, UIImage>()
 
 class ModelPhotosVC: IModelPhotosVC {
-    let imageCashe = NSCache<NSString, UIImage>()
+   
     let imageService: IImageService
     
     init(imageService: IImageService) {

@@ -35,7 +35,7 @@ class PhotosCollectionDataSource: NSObject, UICollectionViewDataSource {
         cell.imageView.image = placeholderImage
         
         DispatchQueue.global(qos: .default).async { [weak self] in
-            let urlString = self?.model.photos?[indexPath.row].webformatURL
+            let urlString = self?.model.photos?[indexPath.row].smallImage
             self?.model.fetchImage(urlString: urlString) { image in
                 DispatchQueue.main.async {
                     cell.imageView.image = image
