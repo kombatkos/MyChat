@@ -13,15 +13,15 @@ protocol IImageService {
 
 class ImageService: IImageService {
     
-    private let requestSender: IRequestSender
+    private let requestSender: IRequestSender?
     
-    init(requestSender: IRequestSender) {
+    init(requestSender: IRequestSender?) {
         self.requestSender = requestSender
     }
     
     func getImageURL(completion: @escaping (Result<[Hits]?, Error>) -> Void) {
         let config = RequestFactory.PixabayRequests.searchImages()
-        requestSender.send(config: config) { result in
+        requestSender?.send(config: config) { result in
             switch result {
             case .success(let pixabay):
                 completion(.success(pixabay.hits))
