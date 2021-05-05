@@ -25,6 +25,7 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
             model?.changeTheme(completion: { [weak self] palette in
                 self?.palette = palette
                 self?.view.backgroundColor = palette?.backgroundColor
+                self?.tableView?.reloadData()
             })
         }
     }
@@ -57,6 +58,7 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
         
         model?.changeTheme(completion: { [weak self] palette in
             self?.view.backgroundColor = palette?.backgroundColor
+            self?.tableView?.reloadData()
         })
         model?.observeChannel(completion: { error in
             ErrorAlert.show(error.localizedDescription) { [weak self] alert in
@@ -100,9 +102,6 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
             DispatchQueue.global(qos: .utility).async {
                 self?.assembly?.themeService().applyTheme(theme: theme) { [weak self ] isSaved in
                     self?.themeIsSaved = isSaved
-                    DispatchQueue.main.async {
-                        self?.tableView?.reloadData()
-                    }
                 }
             }
             return theme
