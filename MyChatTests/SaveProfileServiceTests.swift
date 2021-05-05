@@ -14,7 +14,7 @@ class SaveProfileServiceTests: XCTestCase {
     var saveProfileService: ISaveProfileService?
     
     /// Profile
-    let profile = Profile(name: "Konstantin", aboutMe: "About me", avatarImage: nil)
+    let profile = Profile(name: "Test Testov", aboutMe: "Test text", avatarImage: nil)
     
     override func setUp() {
         super.setUp()

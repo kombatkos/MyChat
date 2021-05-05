@@ -48,14 +48,21 @@ class ProfileVCUITests: XCTestCase {
         
         // When
         app?.navigationBars[navigationBurTitle].buttons[buttonValue].tap()
-        let textfields = app?.textFields
-        let textViews = app?.textViews
-        let textCount = (textfields?.count ?? 0) + (textViews?.count ?? 0)
+        guard let textfieldsCount = app?.textFields.count,
+              let textViewsCount = app?.textViews.count else {
+            XCTFail("Error: required text fields not found")
+            return
+        }
+        let textCount = textViewsCount + textfieldsCount
        
         // Then
-        XCTAssertEqual(textCount, 3)
+        if #available(iOS 14.0, *) {
+            XCTAssertEqual(textCount, 3)
+        } else {
+            XCTAssertEqual(textCount, 2)
+        }
         // 1. TextField   'ФИО'
-        // 2. TextView   'AboutMe'  state label  ( textView.isEnabled = false )
+        // 2. TextView   'AboutMe'  state label  ( textView.isEnabled = false ) iOS 14.0
         // 3. TextView   'AboutMe'  state value  ( textView.isEnabled = true )
     }
 }
