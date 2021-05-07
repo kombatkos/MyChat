@@ -15,7 +15,7 @@ class ImageRequest: IRequest {
         self.apiKey = apiKey
     }
     
-    private let search = "people"
+    private let search = "nature"
     private let count = 200
     
     private var urlString: String {

@@ -5,12 +5,12 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: EmitterViewController {
     // MARK: - Properties
     // Dependenses
     var palette: PaletteProtocol?
     var profileService: ISaveProfileService?
-    weak var delegate: ConversationListVCDelegate?
+    var delegate: ConversationListVCDelegate?
     
     var clousure: ((UIImage) -> (UIImage))?
     var profile: Profile?
@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
     var imagePicker: IImagePicker?
     
     // MARK: - IBOutlets
-    
+    @IBOutlet weak var editButtonSmall: AnimatedButton?
     @IBOutlet weak var containerAvatarView: AvatarView?
     @IBOutlet weak var avatarImageView: UIImageView?
     @IBOutlet weak var firstWordOfName: UILabel?
@@ -41,7 +41,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
     
     // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerForKeyboardNotification()
@@ -75,12 +74,12 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - UI behavior
-    
     func blockingSaveButtons(isBlocked: Bool) {
         saveButton?.isEnabled = !isBlocked
     }
     
     func textEditing(isEditing: Bool) {
+        aboutTextView?.keyboardAppearance = palette?.keyboardStyle ?? .light
         nameTextField?.isEnabled = isEditing
         aboutTextView?.isEditable = isEditing
         editButton?.isHidden = isEditing
@@ -93,17 +92,28 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - IBAction
-    
     @IBAction func closeAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func smallEditButtonTapped(_ sender: AnimatedButton) {
+        if sender.isAnimated {
+            cancelButtonTapped(sender)
+        } else {
+            sender.startAnimation()
+            textEditing(isEditing: true)
+            nameTextField?.becomeFirstResponder()
+        }
+    }
+    
     @IBAction func editButtonTapped(_ sender: UIButton) {
+        editButtonSmall?.jiggle()
         textEditing(isEditing: true)
         nameTextField?.becomeFirstResponder()
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIButton) {
+        editButtonSmall?.stopAnimation()
         textEditing(isEditing: false)
         profileService?.cancel()
         blockingSaveButtons(isBlocked: true)
@@ -111,6 +121,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func saveOperationTapped(_ sender: UIButton) {
+        editButtonSmall?.stopAnimation()
         let profile = getProfile()
         self.profile = profile
         saveData(profileService, profile: profile)
@@ -118,13 +129,14 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func containerAvatarViewTapped(_ sender: UIButton) {
-        
+        if let aminated = editButtonSmall?.isAnimated, !aminated {
+            editButtonSmall?.jiggle()
+        }
         imagePicker?.present(from: sender)
         textEditing(isEditing: true)
     }
     
     // MARK: - Work data
-    
     private func loadData(_ profileService: ISaveProfileService?) {
         let profileService = profileService
         profileService?.loadProfile(completion: { [weak self] profile in
@@ -190,9 +202,7 @@ class ProfileViewController: UIViewController {
         return profile
     }
 }
-
 // MARK: - Settup UI
-
 extension ProfileViewController {
     
     private func setFontForLabels() {
@@ -226,7 +236,6 @@ extension ProfileViewController {
         nameTextField?.attributedPlaceholder = NSAttributedString(string: "My name", attributes: [NSAttributedString.Key.foregroundColor: palette?.placeHolderColor ?? .lightGray])
     }
 }
-
 // MARK: - UITextViewDelegate, UITextFieldDelegate
 extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
     
@@ -236,7 +245,6 @@ extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
             textView.textColor = palette?.labelColor
         }
     }
-    
     func textViewDidChange(_ textView: UITextView) {
         blockingSaveButtons(isBlocked: false)
     }
@@ -247,13 +255,11 @@ extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         blockingSaveButtons(isBlocked: false)
         return true
     }
 }
-
 // MARK: - Alert Controller
 extension ProfileViewController {
     

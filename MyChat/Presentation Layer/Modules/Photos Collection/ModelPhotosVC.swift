@@ -15,7 +15,7 @@ protocol IModelPhotosVC {
 let imageCashe = NSCache<NSString, UIImage>()
 
 class ModelPhotosVC: IModelPhotosVC {
-    
+   
     let imageService: IImageService
     
     init(imageService: IImageService) {
@@ -25,8 +25,8 @@ class ModelPhotosVC: IModelPhotosVC {
     var photos: [Hits]? = []
     
     func fetchURLs(completion: @escaping (Result<[Hits]?, Error>) -> Void) {
-        DispatchQueue.global(qos: .default).async {
-            self.imageService.getImageURL { result in
+        DispatchQueue.global(qos: .default).async { [weak self] in
+            self?.imageService.getImageURL { result in
                 completion(result)
             }
         }

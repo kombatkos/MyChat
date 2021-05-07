@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ISaveProfileService: class {
+protocol ISaveProfileService {
     func saveProfile(profile: Profile, completion: @escaping (Bool) -> Void)
     func loadProfile(completion: @escaping (Profile?) -> Void)
     func cancel()

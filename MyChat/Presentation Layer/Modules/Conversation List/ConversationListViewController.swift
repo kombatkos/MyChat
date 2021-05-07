@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol ConversationListVCDelegate: class {
+protocol ConversationListVCDelegate {
     func reloadData()
     func setProfileButton()
 }
 
-class ConversationListViewController: UIViewController, ConversationListVCDelegate {
+class ConversationListViewController: EmitterViewController, ConversationListVCDelegate {
     
     // MARK: - Properties
     var assembly: PresentationAssembly?
@@ -31,6 +31,9 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     
     var model: IModelConversationList?
     
+    lazy var transitionManager: ITransitionManager? = {
+        return assembly?.transitionManager()
+    }()
     lazy var fetchResultController: FetchedResultController? = {
         return assembly?.fetchedResultControllerChannels()
     }()
@@ -83,7 +86,9 @@ class ConversationListViewController: UIViewController, ConversationListVCDelega
     @objc func profileAction() {
         guard let vc = assembly?.assemblyProfileVC() else { return }
         vc.delegate = self
-        present(vc, animated: true, completion: nil)
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = transitionManager
+        present(vc, animated: true)
     }
     
     @objc func settingAction() {

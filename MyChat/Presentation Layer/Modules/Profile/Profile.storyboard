@@ -149,6 +149,14 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="s8d-tU-hjh">
                                 <rect key="frame" x="197" y="471.5" width="20" height="20"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iSk-1g-VMS" customClass="AnimatedButton" customModule="MyChat" customModuleProvider="target">
+                                <rect key="frame" x="303" y="381" width="31" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="smallEditButtonTapped:" destination="8Ah-Vp-w7l" eventType="touchUpInside" id="0s4-PR-Aze"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="SQj-gC-VJd"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -167,11 +175,13 @@
                             <constraint firstItem="BYb-do-JrF" firstAttribute="leading" secondItem="SQj-gC-VJd" secondAttribute="leading" constant="70" id="YbE-77-pnh"/>
                             <constraint firstItem="SQj-gC-VJd" firstAttribute="bottom" secondItem="cKm-sG-lPP" secondAttribute="bottom" constant="30" id="aBY-jp-Piq"/>
                             <constraint firstItem="1vi-Oe-Ack" firstAttribute="leading" secondItem="SQj-gC-VJd" secondAttribute="leading" id="cV9-pv-oel"/>
+                            <constraint firstItem="PYO-BT-nYq" firstAttribute="top" secondItem="iSk-1g-VMS" secondAttribute="bottom" constant="20" id="dMJ-ur-KgI"/>
                             <constraint firstItem="BYb-do-JrF" firstAttribute="top" secondItem="1vi-Oe-Ack" secondAttribute="bottom" constant="7" id="hhO-H5-yEM"/>
                             <constraint firstItem="PYO-BT-nYq" firstAttribute="leading" secondItem="RXY-Gy-swe" secondAttribute="leading" id="lhP-9e-M1R"/>
                             <constraint firstItem="27Z-bn-0rm" firstAttribute="bottom" secondItem="zXY-0l-XBI" secondAttribute="top" constant="-20" id="n1K-SV-kGG"/>
                             <constraint firstItem="SQj-gC-VJd" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cKm-sG-lPP" secondAttribute="trailing" constant="60" id="nBr-85-Ze0"/>
                             <constraint firstItem="PYO-BT-nYq" firstAttribute="trailing" secondItem="RXY-Gy-swe" secondAttribute="trailing" id="pll-cO-HHf"/>
+                            <constraint firstItem="SQj-gC-VJd" firstAttribute="trailing" secondItem="iSk-1g-VMS" secondAttribute="trailing" constant="80" id="s01-mh-y38"/>
                             <constraint firstItem="zXY-0l-XBI" firstAttribute="centerX" secondItem="X3B-Vz-WUg" secondAttribute="centerX" id="uup-EW-NsM"/>
                             <constraint firstItem="SQj-gC-VJd" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="zXY-0l-XBI" secondAttribute="trailing" constant="60" id="vEg-hR-M3z"/>
                             <constraint firstItem="27Z-bn-0rm" firstAttribute="leading" secondItem="BYb-do-JrF" secondAttribute="leading" id="vlk-vl-INT"/>
@@ -189,6 +199,7 @@
                         <outlet property="containerAvatarView" destination="BYb-do-JrF" id="i9e-c7-MpM"/>
                         <outlet property="distanceBetweenTextviewAndButton" destination="n1K-SV-kGG" id="3o8-R9-Ycb"/>
                         <outlet property="editButton" destination="zXY-0l-XBI" id="pCy-yi-Pgc"/>
+                        <outlet property="editButtonSmall" destination="iSk-1g-VMS" id="2nk-UG-1KQ"/>
                         <outlet property="firstWordOfLastName" destination="CNT-Pi-fN5" id="3fu-dk-5ds"/>
                         <outlet property="firstWordOfName" destination="uy8-rj-D95" id="nBn-aN-L6T"/>
                         <outlet property="leadingConstraintForContainerView" destination="YbE-77-pnh" id="Vm7-Im-Otl"/>

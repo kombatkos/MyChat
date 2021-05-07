@@ -13,6 +13,7 @@ protocol IPresentationAssembly {
     func modelConversationList() -> ModelConversationList
     func fetchedResultControllerChannels() -> FetchedResultController
     func channelDataSource(frc: FetchedResultController?) -> TableViewDataSourceChannels
+    func transitionManager() -> ITransitionManager
     func themeService() -> IThemeService
     func assemblyConversationVC(channelID: String) -> ConversationViewController
     func assemblyThemesVC() -> ThemesViewController
@@ -69,6 +70,10 @@ class PresentationAssembly: IPresentationAssembly {
     
     func themeService() -> IThemeService {
         serviceAssembly.themeService
+    }
+    
+    func transitionManager() -> ITransitionManager {
+        TransitionManager()
     }
     
     // MARK: - assemblyConversationVC
