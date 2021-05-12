@@ -54,6 +54,8 @@ class ProfileViewController: EmitterViewController {
         
         blockingSaveButtons(isBlocked: true)
         textEditing(isEditing: false)
+        aboutTextView?.accessibilityIdentifier = "value"
+        nameTextField?.accessibilityIdentifier = "value"
     }
     
     override func viewDidLayoutSubviews() {

@@ -31,6 +31,7 @@ class ProfileButton: UIButton {
                 self?.clipsToBounds = true
             }
         }
+        accessibilityLabel = "Profile"
     }
     
     override func layoutSubviews() {

@@ -22,7 +22,6 @@ class TableViewDataSourseConversation: NSObject, UITableViewDataSource {
         self.palette = palette
         self.appID = appID
         super.init()
-        print(appID)
         performFetch()
     }
     
