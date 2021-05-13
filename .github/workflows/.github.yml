@@ -10,8 +10,6 @@ jobs:
       with:
         ruby-version: 2.6
         bundler-cache: true
-    - name: Flutter
-      run: flutter build ios --release --no-codesign --no-sound-null-safety
     - name: Build and run tests
       run: bundle exec fastlane build_and_run_tests
       
