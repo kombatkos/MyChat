@@ -20,9 +20,28 @@ jobs:
       
     - name: Send notification
       uses: sarisia/actions-status-discord@v1
-      if: always()
+
+      if: success()
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        title: "Test project"
+        title: "Enterprise - live and prosper"
         username: Konstantin Porokhov
         avatar_url: ${{ secrets.AVATAR_URL }}
+        image: ${{ secrets.SUCCESS_URL_IMAGE }}
+      
+      if: failure()
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "Enterprise troubles"
+        username: Konstantin Porokhov
+        avatar_url: ${{ secrets.AVATAR_URL }}
+        image: ${{ secrets.CRACH_URL_IMAGE }}
+      
+      if: cancelled()
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "Try again"
+        username: Konstantin Porokhov
+        avatar_url: ${{ secrets.AVATAR_URL }}
+        image: ${{ secrets.CANCEL_URL_IMAGE }}
+
