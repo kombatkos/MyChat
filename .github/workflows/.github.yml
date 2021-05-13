@@ -14,8 +14,8 @@ jobs:
     
     - name: Install bundler
       uses: actions/checkout@v2
-        with:
-          bundler-cache: true
+      with:
+        bundler-cache: true
     
     - name: Build and run tests
       run: bundle exec fastlane build_and_run_tests
