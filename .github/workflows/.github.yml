@@ -18,9 +18,8 @@ jobs:
       run: |
         bundle exec fastlane build_and_run_tests
       
-    - name: Send notification
+    - name: Send notification success
       uses: sarisia/actions-status-discord@v1
-
       if: ${{ success() }}
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -28,7 +27,9 @@ jobs:
         username: Konstantin Porokhov
         avatar_url: ${{ secrets.AVATAR_URL }}
         image: ${{ secrets.SUCCESS_URL_IMAGE }}
-      
+
+    - name: Send notification failure
+      uses: sarisia/actions-status-discord@v1
       if: ${{ failure() }}
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -36,7 +37,9 @@ jobs:
         username: Konstantin Porokhov
         avatar_url: ${{ secrets.AVATAR_URL }}
         image: ${{ secrets.CRACH_URL_IMAGE }}
-      
+
+    - name: Send notification canceled
+      uses: sarisia/actions-status-discord@v1 
       if: ${{ cancelled() }}
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
