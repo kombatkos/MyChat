@@ -1,28 +1,28 @@
 
-name: CI
-on: [push]
-jobs:
-  build:
-    runs-on: macOS-latest
-
-    steps:
-    
-    - uses: actions/checkout@v2
-    - name: Setting Server
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.6
-        bundler-cache: true
-    
-    - name: Build and run tests
-      run: |
-        bundle exec fastlane build_and_run_tests
-      
-    - name: Send notification
-      uses: sarisia/actions-status-discord@v1
-      if: always()
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        title: "Test project"
-        username: Konstantin Porokhov
-        avatar_url: ${{ secrets.AVATAR_URL }}
+#name: CI
+#on: [push]
+#jobs:
+#  build:
+#    runs-on: macOS-latest
+#
+#    steps:
+#    
+#    - uses: actions/checkout@v2
+#    - name: Setting Server
+#      uses: ruby/setup-ruby@v1
+#      with:
+#        ruby-version: 2.6
+#        bundler-cache: true
+#    
+#    - name: Build and run tests
+#      run: |
+#        bundle exec fastlane build_and_run_tests
+#      
+#    - name: Send notification
+#      uses: sarisia/actions-status-discord@v1
+#      if: always()
+#      with:
+#        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+#        title: "Test project"
+#        username: Konstantin Porokhov
+#        avatar_url: ${{ secrets.AVATAR_URL }}

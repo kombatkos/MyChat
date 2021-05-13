@@ -174,6 +174,8 @@
 		8788EC4826274C1100AE6AF0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		8788EC5B2627860E00AE6AF0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		878ACE57264D4A58007E34EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		878ACE5B264D90B8007E34EB /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		878ACE5C264D9124007E34EB /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		879232BB260776BA004422A2 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		879232BE260776E3004422A2 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		879E6BCC25F7796800E0EB8A /* PaletteProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteProtocol.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 		8723469425D6858100ED3E4E = {
 			isa = PBXGroup;
 			children = (
+				878ACE5A264D9087007E34EB /* Config */,
 				8723469F25D6858100ED3E4E /* MyChat */,
 				8713F09B263ED35F0010676C /* MyChatTests */,
 				8713F0A9263F341E0010676C /* MyChatUITests */,
@@ -555,6 +558,15 @@
 				87F6C4C426398F8900289027 /* AnimatedButton.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		878ACE5A264D9087007E34EB /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				878ACE5B264D90B8007E34EB /* Debug.xcconfig */,
+				878ACE5C264D9124007E34EB /* Release.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		87C752A626258CD2002D4C57 /* Helpers */ = {
@@ -1165,7 +1177,7 @@
 		};
 		872346B525D6858400ED3E4E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC277F95555A8E97EFFC23B7 /* Pods-MyChat.debug.xcconfig */;
+			baseConfigurationReference = 878ACE5B264D90B8007E34EB /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1186,7 +1198,7 @@
 		};
 		872346B625D6858400ED3E4E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C6A1F03A50320AA9611409D /* Pods-MyChat.release.xcconfig */;
+			baseConfigurationReference = 878ACE5C264D9124007E34EB /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
