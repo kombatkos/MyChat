@@ -3,23 +3,21 @@ name: CI
 on: [push]
 jobs:
 
-  jobTest:
-    build:
-      runs-on: macOS-latest
-      steps:
-      - name: Build and run tests
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.6
-          bundler-cache: true
-        run: bundle exec fastlane build_and_run_tests
+  build:
+    runs-on: macOS-latest
+    steps:
+    - name: Build and run tests
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+        bundler-cache: true
+      run: bundle exec fastlane build_and_run_tests
       
-      - name: Send notification
-      - uses: sarisia/actions-status-discord@v1
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          title: "Test project"
-          username: Konstantin Porokhov
-      
+    - name: Send notification
+    - uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "Test project"
+        sername: Konstantin Porokhov
