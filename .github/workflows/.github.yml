@@ -24,4 +24,5 @@ jobs:
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         title: "Test project"
-        sername: Konstantin Porokhov
+        username: Konstantin Porokhov
+        avatar_url: ${{ secrets.AVATAR_URL }}
