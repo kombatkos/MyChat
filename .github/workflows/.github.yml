@@ -11,5 +11,5 @@ jobs:
         ruby-version: 2.6
         bundler-cache: true
     - name: Build and run tests
-      run: bundle exec fastlane build_and_run_tests
+      run: bundle exec fastlane start_tests
       
