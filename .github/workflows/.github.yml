@@ -7,9 +7,9 @@ jobs:
 
     steps:
     
+    - uses: actions/checkout@v2
     - name: Setting Server
       uses: ruby/setup-ruby@v1
-      uses: actions/checkout@v2
       with:
         ruby-version: 2.6
         bundler-cache: true
