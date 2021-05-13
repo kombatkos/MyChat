@@ -7,15 +7,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: ruby/setup-ruby@v1
-#    - uses: sarisia/actions-status-discord@v1
-    if: always()
       with:
         ruby-version: 2.6
         bundler-cache: true
-#        title: "test"
-#        description: "Build and Run tests"
-#        webhook: ${{ secrets.DISCORD_WEBHOOK }}
-#        username: Konstantin Porokhov
     - name: Build and run tests
       run: bundle exec fastlane build_and_run_tests
       
