@@ -7,24 +7,21 @@ jobs:
 
     steps:
     
-    - name: Setup Ruby
+    - name: Setting Server
       uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.6
-    
-    - name: Install bundler
       uses: actions/checkout@v2
       with:
+        ruby-version: 2.6
         bundler-cache: true
     
     - name: Build and run tests
       run: |
         bundle exec fastlane build_and_run_tests
       
-    # - name: Send notification
-    #   uses: sarisia/actions-status-discord@v1
-    #   if: always()
-    #   with:
-    #     webhook: ${{ secrets.DISCORD_WEBHOOK }}
-    #     title: "Test project"
-    #     sername: Konstantin Porokhov
+    - name: Send notification
+      uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "Test project"
+        sername: Konstantin Porokhov
