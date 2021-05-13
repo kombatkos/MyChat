@@ -69,7 +69,7 @@ class SaveProfileServiceTests: XCTestCase {
     
     private func saveProfile() -> Bool {
         var saved = false
-        let expect = XCTestExpectation(description: "saving")
+        let expect = self.expectation(description: "saving")
         
         // When
         saveProfileService?.saveProfile(profile: profile, completion: { isSaved in
@@ -83,7 +83,7 @@ class SaveProfileServiceTests: XCTestCase {
     
     private func cancelSaveingProfile() -> Bool {
         var saved = true
-        let expect = XCTestExpectation(description: "canceling")
+        let expect = self.expectation(description: "canceling")
         
         // When
         saveProfileService?.saveProfile(profile: profile, completion: { isSaved in
@@ -101,7 +101,7 @@ class SaveProfileServiceTests: XCTestCase {
         // When
         _ = saveProfile()
         var returnProfile: Profile?
-        let expect = XCTestExpectation(description: "loading")
+        let expect = self.expectation(description: "loading")
         saveProfileService?.loadProfile(completion: { profile in
             returnProfile = profile
             expect.fulfill()

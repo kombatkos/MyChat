@@ -60,7 +60,7 @@ class ThemeServiceTest: XCTestCase {
         var isApply = false
         
         // When
-        let expect = XCTestExpectation(description: "apply")
+        let expect = self.expectation(description: "apply")
         themeService?.applyTheme(theme: theme, completion: { apply in
             isApply = apply
             expect.fulfill()
