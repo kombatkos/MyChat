@@ -1,0 +1,56 @@
+
+name: CI
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+    
+    - uses: actions/checkout@v2
+    - name: Setting Server
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+        bundler-cache: true
+    
+    - name: Build and run tests
+      run: |
+        bundle exec fastlane start_tests
+      
+    - name: Send notification success
+      uses: sarisia/actions-status-discord@v1
+      if: ${{ success() }}
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "Enterprise - live and prosper"
+        username: Konstantin Porokhov
+        avatar_url: ${{ secrets.AVATAR_URL }}
+        image: ${{ secrets.SUCCESS_URL_IMAGE }}
+
+    - name: Send notification failure
+      uses: sarisia/actions-status-discord@v1
+      if: ${{ failure() }}
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "Enterprise troubles"
+        username: Konstantin Porokhov
+        avatar_url: ${{ secrets.AVATAR_URL }}
+        image: ${{ secrets.CRACH_URL_IMAGE }}
+
+    - name: Send notification canceled
+      uses: sarisia/actions-status-discord@v1 
+      if: ${{ cancelled() }}
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        title: "Try again"
+        username: Konstantin Porokhov
+        avatar_url: ${{ secrets.AVATAR_URL }}
+        image: ${{ secrets.CANCEL_URL_IMAGE }}
+

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DEB11AC820197FA0D43FDAA /* Pods_MyChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EE70F99DDB9A36C49B080C3 /* Pods_MyChat.framework */; };
 		8700E4FF260BA36A00606A26 /* MessageBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8700E4FE260BA36A00606A26 /* MessageBar.swift */; };
 		8700E502260BA3CC00606A26 /* MessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8700E501260BA3CC00606A26 /* MessageTextView.swift */; };
 		87013206262FF6AE009DB275 /* RequestSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87013205262FF6AE009DB275 /* RequestSender.swift */; };
@@ -52,7 +53,6 @@
 		8759A9B325E953E000B945D5 /* IncomingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8759A9B225E953E000B945D5 /* IncomingCell.swift */; };
 		875F539325FFCF3300038B1F /* UIViewController + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875F539225FFCF3300038B1F /* UIViewController + extension.swift */; };
 		876B809825E1A35A00D0D323 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876B809725E1A35A00D0D323 /* ProfileViewController.swift */; };
-		8770ACC526090D210024D69D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8770ACC426090D210024D69D /* GoogleService-Info.plist */; };
 		877A571F25F9825C00742428 /* UIImageView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877A571E25F9825C00742428 /* UIImageView + Extension.swift */; };
 		877C1B3825F1722800290FCD /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877C1B3725F1722800290FCD /* ThemesViewController.swift */; };
 		877DD8B525E8E6BA002B8ADC /* ConversationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877DD8B425E8E6BA002B8ADC /* ConversationListCell.swift */; };
@@ -67,6 +67,7 @@
 		8788EC442627417300AE6AF0 /* MessageFRCDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8788EC432627417300AE6AF0 /* MessageFRCDelegate.swift */; };
 		8788EC4926274C1100AE6AF0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8788EC4826274C1100AE6AF0 /* Colors.swift */; };
 		8788EC5C2627860E00AE6AF0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8788EC5B2627860E00AE6AF0 /* ImagePicker.swift */; };
+		878ACE58264D4A58007E34EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 878ACE57264D4A58007E34EB /* GoogleService-Info.plist */; };
 		879232BC260776BA004422A2 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879232BB260776BA004422A2 /* Channel.swift */; };
 		879232BF260776E3004422A2 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879232BE260776E3004422A2 /* Message.swift */; };
 		879E6BCD25F7796800E0EB8A /* PaletteProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879E6BCC25F7796800E0EB8A /* PaletteProtocol.swift */; };
@@ -86,7 +87,6 @@
 		87EA85F0262CD5FC009E2D53 /* PhotosVCHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EA85EF262CD5FC009E2D53 /* PhotosVCHeader.swift */; };
 		87F6C4C026397F1900289027 /* EmitterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F6C4BF26397F1900289027 /* EmitterViewController.swift */; };
 		87F6C4C526398F8900289027 /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F6C4C426398F8900289027 /* AnimatedButton.swift */; };
-		A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,8 +107,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.debug.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
+		3EE70F99DDB9A36C49B080C3 /* Pods_MyChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8700E4FE260BA36A00606A26 /* MessageBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBar.swift; sourceTree = "<group>"; };
 		8700E501260BA3CC00606A26 /* MessageTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextView.swift; sourceTree = "<group>"; };
 		87013205262FF6AE009DB275 /* RequestSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSender.swift; sourceTree = "<group>"; };
@@ -160,7 +159,6 @@
 		8759A9B225E953E000B945D5 /* IncomingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCell.swift; sourceTree = "<group>"; };
 		875F539225FFCF3300038B1F /* UIViewController + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + extension.swift"; sourceTree = "<group>"; };
 		876B809725E1A35A00D0D323 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		8770ACC426090D210024D69D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		877A571E25F9825C00742428 /* UIImageView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + Extension.swift"; sourceTree = "<group>"; };
 		877C1B3725F1722800290FCD /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		877DD8B425E8E6BA002B8ADC /* ConversationListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListCell.swift; sourceTree = "<group>"; };
@@ -175,6 +173,9 @@
 		8788EC432627417300AE6AF0 /* MessageFRCDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFRCDelegate.swift; sourceTree = "<group>"; };
 		8788EC4826274C1100AE6AF0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		8788EC5B2627860E00AE6AF0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		878ACE57264D4A58007E34EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		878ACE5B264D90B8007E34EB /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		878ACE5C264D9124007E34EB /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		879232BB260776BA004422A2 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		879232BE260776E3004422A2 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		879E6BCC25F7796800E0EB8A /* PaletteProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteProtocol.swift; sourceTree = "<group>"; };
@@ -194,7 +195,8 @@
 		87EA85EF262CD5FC009E2D53 /* PhotosVCHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVCHeader.swift; sourceTree = "<group>"; };
 		87F6C4BF26397F1900289027 /* EmitterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmitterViewController.swift; sourceTree = "<group>"; };
 		87F6C4C426398F8900289027 /* AnimatedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
-		926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.release.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
+		9C6A1F03A50320AA9611409D /* Pods-MyChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.release.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.release.xcconfig"; sourceTree = "<group>"; };
+		EC277F95555A8E97EFFC23B7 /* Pods-MyChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyChat.debug.xcconfig"; path = "Target Support Files/Pods-MyChat/Pods-MyChat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,28 +218,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6BDFA07FFD77B5DB4CF3103 /* Pods_MyChat.framework in Frameworks */,
+				0DEB11AC820197FA0D43FDAA /* Pods_MyChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1FE043AA69FF764A804B5FBB /* Frameworks */ = {
+		147A1D07652C923B2BB343AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				23F1C18C045BE98A152320D6 /* Pods_MyChat.framework */,
+				3EE70F99DDB9A36C49B080C3 /* Pods_MyChat.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2149C71165863B1A3D1FEB48 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */,
-				926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		8713F09B263ED35F0010676C /* MyChatTests */ = {
@@ -262,12 +255,13 @@
 		8723469425D6858100ED3E4E = {
 			isa = PBXGroup;
 			children = (
+				878ACE5A264D9087007E34EB /* Config */,
 				8723469F25D6858100ED3E4E /* MyChat */,
 				8713F09B263ED35F0010676C /* MyChatTests */,
 				8713F0A9263F341E0010676C /* MyChatUITests */,
 				8723469E25D6858100ED3E4E /* Products */,
-				2149C71165863B1A3D1FEB48 /* Pods */,
-				1FE043AA69FF764A804B5FBB /* Frameworks */,
+				FE2AE596A741436A85B8429F /* Pods */,
+				147A1D07652C923B2BB343AB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -284,7 +278,7 @@
 		8723469F25D6858100ED3E4E /* MyChat */ = {
 			isa = PBXGroup;
 			children = (
-				8770ACC426090D210024D69D /* GoogleService-Info.plist */,
+				878ACE57264D4A58007E34EB /* GoogleService-Info.plist */,
 				87409C5425E2C489001EA77D /* Supporting Files */,
 				87409C5125E2C43D001EA77D /* Presentation Layer */,
 				87593C9926244E2C00395E77 /* Service Layer */,
@@ -566,6 +560,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		878ACE5A264D9087007E34EB /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				878ACE5B264D90B8007E34EB /* Debug.xcconfig */,
+				878ACE5C264D9124007E34EB /* Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		87C752A626258CD2002D4C57 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -637,6 +640,15 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		FE2AE596A741436A85B8429F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EC277F95555A8E97EFFC23B7 /* Pods-MyChat.debug.xcconfig */,
+				9C6A1F03A50320AA9611409D /* Pods-MyChat.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -680,12 +692,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 872346B425D6858400ED3E4E /* Build configuration list for PBXNativeTarget "MyChat" */;
 			buildPhases = (
-				4037C54630150268C51B5BE4 /* [CP] Check Pods Manifest.lock */,
+				276D0B64B9E14094C47693D2 /* [CP] Check Pods Manifest.lock */,
 				8797F5A62606924E00E890E3 /* ShellScript */,
 				8723469925D6858100ED3E4E /* Sources */,
 				8723469A25D6858100ED3E4E /* Frameworks */,
 				8723469B25D6858100ED3E4E /* Resources */,
-				36D7B6A3A20778DDDF48DA13 /* [CP] Embed Pods Frameworks */,
+				93991C150EE30C8D09BBE0B2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -759,7 +771,7 @@
 			files = (
 				872346B025D6858400ED3E4E /* LaunchScreen.storyboard in Resources */,
 				8752E98025E96A9700DECEF3 /* Profile.storyboard in Resources */,
-				8770ACC526090D210024D69D /* GoogleService-Info.plist in Resources */,
+				878ACE58264D4A58007E34EB /* GoogleService-Info.plist in Resources */,
 				872346AD25D6858400ED3E4E /* Assets.xcassets in Resources */,
 				872346A825D6858100ED3E4E /* Main.storyboard in Resources */,
 			);
@@ -768,24 +780,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		36D7B6A3A20778DDDF48DA13 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4037C54630150268C51B5BE4 /* [CP] Check Pods Manifest.lock */ = {
+		276D0B64B9E14094C47693D2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -822,7 +817,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+			shellScript = "if [ -z \"$CI\" ]; then\n    \"${PODS_ROOT}/SwiftLint/swiftlint\"\nfi\n";
+		};
+		93991C150EE30C8D09BBE0B2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyChat/Pods-MyChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1165,7 +1177,7 @@
 		};
 		872346B525D6858400ED3E4E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3EB716B43F5F699C62DC162D /* Pods-MyChat.debug.xcconfig */;
+			baseConfigurationReference = 878ACE5B264D90B8007E34EB /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1186,7 +1198,7 @@
 		};
 		872346B625D6858400ED3E4E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 926563677075789325FDDE71 /* Pods-MyChat.release.xcconfig */;
+			baseConfigurationReference = 878ACE5C264D9124007E34EB /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

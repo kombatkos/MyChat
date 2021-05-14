@@ -1,0 +1,13 @@
+//
+//  Debug.xcconfig
+//  MyChat
+//
+//  Created by Konstantin Porokhov on 13.05.2021.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+
+#include "Pods/Target Support Files/Pods-MyChat/Pods-MyChat.debug.xcconfig"
+#include? "PixabyConfig.xcconfig"
