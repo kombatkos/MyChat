@@ -37,7 +37,7 @@ class ProfileVCUITests: XCTestCase {
         let textCount = (textfields?.count ?? 0) + (textViews?.count ?? 0)
        
         // Then
-        XCTAssertEqual(textCount, 2)
+        XCTAssertEqual(textCount, 4)
     }
     
     func testForThePresenceOfTwoTextFieldsBlackBox() {
