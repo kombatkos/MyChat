@@ -22,7 +22,7 @@ jobs:
     
     - name: Build and run tests
       run: |
-        bundle exec fastlane start_tests
+        bundle exec fastlane build_and_run_tests
       
     - name: Send notification success
       uses: sarisia/actions-status-discord@v1
