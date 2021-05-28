@@ -36,6 +36,10 @@ protocol PaletteProtocol {
     
     /// Customizing TextFiewld
     var placeHolderColor: UIColor {get}
+    var textFieldBackgroundColor: UIColor {get}
+    
+    /// Customizing Blur Effect Style
+    var blurEfectStyle: UIBlurEffect {get}
     
     // TableView block:
     var tableViewSubtitleColor: UIColor {get}

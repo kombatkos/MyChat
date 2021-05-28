@@ -43,7 +43,8 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
     }()
     
     @IBOutlet weak var tableView: UITableView?
-        
+    @IBOutlet weak var blurView: UIVisualEffectView?
+    
     // MARK: - Life cicle
     
     override func viewDidLoad() {
@@ -74,8 +75,16 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
     }
     
     @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
+        blurView?.effect = model?.palette?.blurEfectStyle
+        UIView.animate(withDuration: 0.4) {
+            self.blurView?.alpha = 1
+        }
         model?.addChannel(completion: {[weak self] alert in
             self?.present(alert, animated: true)
+        }, scoup: { [weak self] _ in
+            UIView.animate(withDuration: 0.2) {
+                self?.blurView?.alpha = 0
+            }
         })
     }
     

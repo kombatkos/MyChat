@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xB4-7n-9fN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xB4-7n-9fN">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="gray" indentationWidth="10" reuseIdentifier="ConversationListCell" rowHeight="80" id="w3N-e6-Cwa" customClass="ConversationListCell" customModule="MyChat">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="80"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w3N-e6-Cwa" id="Az6-ca-ezg">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
@@ -75,14 +75,26 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <visualEffectView opaque="NO" alpha="0.0" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="nae-it-bQa">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="VuI-1T-IHj">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KSm-wA-Ses"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="KSm-wA-Ses" firstAttribute="trailing" secondItem="ffh-rC-bPs" secondAttribute="trailing" id="8fa-AP-xFp"/>
                             <constraint firstItem="KSm-wA-Ses" firstAttribute="bottom" secondItem="ffh-rC-bPs" secondAttribute="bottom" id="CRw-He-bxI"/>
+                            <constraint firstItem="nae-it-bQa" firstAttribute="top" secondItem="pvI-vK-ab9" secondAttribute="top" id="SfF-Ag-4hd"/>
+                            <constraint firstItem="nae-it-bQa" firstAttribute="leading" secondItem="KSm-wA-Ses" secondAttribute="leading" id="Y2Q-Wt-oqA"/>
                             <constraint firstItem="ffh-rC-bPs" firstAttribute="top" secondItem="KSm-wA-Ses" secondAttribute="top" id="evz-y4-lNR"/>
                             <constraint firstItem="ffh-rC-bPs" firstAttribute="leading" secondItem="KSm-wA-Ses" secondAttribute="leading" id="hKW-BC-XD1"/>
+                            <constraint firstItem="KSm-wA-Ses" firstAttribute="bottom" secondItem="nae-it-bQa" secondAttribute="bottom" id="q8I-UA-y53"/>
+                            <constraint firstItem="KSm-wA-Ses" firstAttribute="trailing" secondItem="nae-it-bQa" secondAttribute="trailing" id="zBQ-jk-YO8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tinkoff Chat" largeTitleDisplayMode="always" id="kXt-uV-MjH">
@@ -96,6 +108,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="blurView" destination="nae-it-bQa" id="1UU-gB-rXr"/>
                         <outlet property="tableView" destination="ffh-rC-bPs" id="qdk-Re-D97"/>
                     </connections>
                 </viewController>

@@ -93,6 +93,24 @@ enum Theme: String, PaletteProtocol {
             return .light
         }
     }
+    
+    var blurEfectStyle: UIBlurEffect {
+        switch self {
+        case .night:
+            return UIBlurEffect(style: .dark)
+        default:
+            return UIBlurEffect(style: .light)
+        }
+    }
+    
+    var textFieldBackgroundColor: UIColor {
+        switch self {
+        case .night:
+            return UIColor(red: 28 / 255, green: 28 / 255, blue: 30 / 255, alpha: 1)
+        default:
+            return .white
+        }
+    }
 
     /// BackgroundColor
     var backgroundColor: UIColor {
