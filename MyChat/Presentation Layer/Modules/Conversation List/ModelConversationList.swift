@@ -11,7 +11,7 @@ protocol IModelConversationList {
     var palette: PaletteProtocol? {get}
     var saveProfileService: ISaveProfileService? {get}
     func changeTheme(completion: @escaping (_ palette: PaletteProtocol?) -> Void)
-    func addChannel(completion: (UIAlertController) -> Void)
+    func addChannel(completion: (UIAlertController) -> Void, scoup: @escaping (Bool) -> Void )
     func observeChannel(completion: @escaping (_ error: Error) -> Void)
 }
 
@@ -45,24 +45,36 @@ class ModelConversationList: IModelConversationList {
     
     // MARK: - Add new Channel
     
-    func addChannel(completion: (UIAlertController) -> Void) {
+    func addChannel(completion: (UIAlertController) -> Void, scoup: @escaping (Bool) -> Void ) {
         
         let alert = UIAlertController(title: "Add shannel",
                                       message: "",
                                       preferredStyle: .alert)
         
         alert.addTextField { textField in
-            textField.backgroundColor = .white
-            alert.textFields?.first?.textColor = .black
             textField.placeholder = "New channel..."
         }
         
+        if #available(iOS 13.0, *) {
+            alert.overrideUserInterfaceStyle = palette?.alertStyle ?? .light
+            alert.textFields?.first?.backgroundColor = palette?.textFieldBackgroundColor
+            alert.view.layer.shadowColor = palette?.labelColor.cgColor
+            alert.view.layer.shadowOpacity = 0.5
+            alert.view.layer.shadowRadius = 15
+        } else {
+            alert.textFields?.first?.backgroundColor = .white
+            alert.textFields?.first?.textColor = .black
+        }
+        
         let addChannel = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
+            scoup(true)
             let text = alert.textFields?.first?.text
             self?.fireStoreService?.addNewChannel(text: text)
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) {_ in
+            scoup(true)
+        }
         alert.addAction(cancel)
         alert.addAction(addChannel)
         completion(alert)
