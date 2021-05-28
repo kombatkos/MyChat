@@ -18,15 +18,21 @@ protocol IModelConversationList {
 class ModelConversationList: IModelConversationList {
     
     var palette: PaletteProtocol?
-    private var listenerService: IListenerService?
-    private var themeManager: IThemeService?
-    var saveProfileService: ISaveProfileService?
+    private let listenerService: IListenerService?
+    private let themeManager: IThemeService?
+    private let fireStoreService: IFirestoreService?
+    let saveProfileService: ISaveProfileService?
     
-    init(listenerService: IListenerService, palette: PaletteProtocol?, themeManager: IThemeService, saveProfileService: ISaveProfileService?) {
+    init(listenerService: IListenerService,
+         palette: PaletteProtocol?,
+         themeManager: IThemeService,
+         saveProfileService: ISaveProfileService?,
+         fireStoreService: IFirestoreService?) {
         self.themeManager = themeManager
         self.listenerService = listenerService
         self.palette = palette
         self.saveProfileService = saveProfileService
+        self.fireStoreService = fireStoreService
     }
     
     func observeChannel(completion: @escaping (_ error: Error) -> Void) {
@@ -40,18 +46,22 @@ class ModelConversationList: IModelConversationList {
     // MARK: - Add new Channel
     
     func addChannel(completion: (UIAlertController) -> Void) {
-        let fireStoreService = FirestoreService(channelID: "")
         
-        let alert = UIAlertController(title: "Add shannel", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add shannel",
+                                      message: "",
+                                      preferredStyle: .alert)
+        
         alert.addTextField { textField in
             textField.backgroundColor = .white
             alert.textFields?.first?.textColor = .black
             textField.placeholder = "New channel..."
         }
-        let addChannel = UIAlertAction(title: "Add", style: .default) { _ in
+        
+        let addChannel = UIAlertAction(title: "Add", style: .default) { [weak self] _ in
             let text = alert.textFields?.first?.text
-            fireStoreService.addNewChannel(text: text)
+            self?.fireStoreService?.addNewChannel(text: text)
         }
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(cancel)
         alert.addAction(addChannel)

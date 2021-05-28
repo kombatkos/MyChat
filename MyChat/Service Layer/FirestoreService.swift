@@ -36,7 +36,7 @@ class FirestoreService: IFirestoreService {
     func addNewChannel(text: String?) {
         guard let text = text?.trim() else { return }
         if !text.isBlank {
-            self.reference.addDocument(data: ["name": text])
+            reference.addDocument(data: ["name": text])
         }
     }
     

@@ -56,7 +56,7 @@ class PresentationAssembly: IPresentationAssembly {
         return ModelConversationList(listenerService: serviceAssembly.listenerService,
                                      palette: serviceAssembly.themeService.currentTheme(),
                                      themeManager: serviceAssembly.themeService,
-                                     saveProfileService: serviceAssembly.saveProfileService)
+                                     saveProfileService: serviceAssembly.saveProfileService, fireStoreService: serviceAssembly.fireStoreService(channelID: ""))
     }
     
     func fetchedResultControllerChannels() -> FetchedResultController {
