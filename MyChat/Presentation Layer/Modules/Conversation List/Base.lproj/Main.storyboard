@@ -19,6 +19,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ffh-rC-bPs">
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                                <inset key="separatorInset" minX="90" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="gray" indentationWidth="10" reuseIdentifier="ConversationListCell" rowHeight="80" id="w3N-e6-Cwa" customClass="ConversationListCell" customModule="MyChat">
                                         <rect key="frame" x="0.0" y="24.5" width="320" height="80"/>
@@ -97,7 +98,7 @@
                             <constraint firstItem="KSm-wA-Ses" firstAttribute="trailing" secondItem="nae-it-bQa" secondAttribute="trailing" id="zBQ-jk-YO8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tinkoff Chat" largeTitleDisplayMode="always" id="kXt-uV-MjH">
+                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="kXt-uV-MjH">
                         <rightBarButtonItems>
                             <barButtonItem id="CyO-iQ-kYq"/>
                             <barButtonItem title="Item" image="Shape" id="YdO-72-Q8O">
@@ -124,6 +125,14 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wrf-ST-nQa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="textShadowColor" systemColor="separatorColor"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -137,6 +146,9 @@
     </scenes>
     <resources>
         <image name="Shape" width="20" height="20"/>
+        <systemColor name="separatorColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

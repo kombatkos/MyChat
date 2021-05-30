@@ -30,6 +30,7 @@ protocol PaletteProtocol {
 
     /// BackgroundColor
     var backgroundColor: UIColor {get}
+    var conversationBackground: UIImage {get}
     
     /// BackgroundColor for ConversationVC bottom view
     var conversationBottomViewColor: UIColor {get}

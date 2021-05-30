@@ -39,6 +39,7 @@ class ThemesViewController: EmitterViewController {
         super.viewDidLoad()
         if lastTheme == nil { lastTheme = palette }
         view.backgroundColor = palette?.bubbleRightColor ?? .brown
+        navigationItem.largeTitleDisplayMode = .never
         title = "Settings"
         setSubviews()
         setCancelButton()

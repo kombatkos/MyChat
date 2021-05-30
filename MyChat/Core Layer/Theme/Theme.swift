@@ -140,11 +140,20 @@ enum Theme: String, PaletteProtocol {
     var tableViewHeaderFooterColor: UIColor {
         switch self {
         case .classic:
-            return UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 1)
+            return UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 0.98)
         case .day:
-            return UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
+            return UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 0.98)
         case .night:
-            return UIColor(red: 18 / 255, green: 19 / 255, blue: 18 / 255, alpha: 1)
+            return UIColor(red: 18 / 255, green: 19 / 255, blue: 18 / 255, alpha: 0.98)
+        }
+    }
+    
+    var conversationBackground: UIImage {
+        switch self {
+        case .night:
+            return #imageLiteral(resourceName: "backgroundDark")
+        default:
+            return #imageLiteral(resourceName: "backgroundLight")
         }
     }
     

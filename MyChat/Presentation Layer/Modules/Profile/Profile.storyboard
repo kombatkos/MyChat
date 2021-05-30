@@ -94,13 +94,23 @@
                                             <action selector="closeAction:" destination="8Ah-Vp-w7l" eventType="touchUpInside" id="J4j-um-YO9"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QfS-Yn-TFE">
+                                        <rect key="frame" x="0.0" y="79" width="414" height="1"/>
+                                        <color key="backgroundColor" systemColor="placeholderTextColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="1Po-SV-Y0R"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemFillColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="6vw-hW-S4A"/>
+                                    <constraint firstAttribute="trailing" secondItem="QfS-Yn-TFE" secondAttribute="trailing" id="CsS-CU-YUZ"/>
+                                    <constraint firstItem="QfS-Yn-TFE" firstAttribute="leading" secondItem="1vi-Oe-Ack" secondAttribute="leading" id="Ohk-Ql-pyt"/>
                                     <constraint firstItem="fW5-nD-eOQ" firstAttribute="leading" secondItem="1vi-Oe-Ack" secondAttribute="leading" constant="16" id="QHZ-IZ-k4u"/>
                                     <constraint firstItem="fW5-nD-eOQ" firstAttribute="centerY" secondItem="1vi-Oe-Ack" secondAttribute="centerY" id="e5k-H2-jTk"/>
                                     <constraint firstAttribute="trailing" secondItem="LEV-3z-2qz" secondAttribute="trailing" constant="16" id="pJc-jv-sSh"/>
+                                    <constraint firstAttribute="bottom" secondItem="QfS-Yn-TFE" secondAttribute="bottom" id="uBf-jg-8aZ"/>
                                     <constraint firstItem="LEV-3z-2qz" firstAttribute="centerY" secondItem="1vi-Oe-Ack" secondAttribute="centerY" id="vvB-dF-xbx"/>
                                 </constraints>
                             </view>
@@ -217,6 +227,9 @@
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="placeholderTextColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

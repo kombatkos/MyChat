@@ -97,6 +97,11 @@ class ModelConversationList: IModelConversationList {
             UITableViewCell.appearance().selectedBackgroundView = self?.palette?.cellSelectedView
             UITableView.appearance().backgroundColor = self?.palette?.backgroundColor
             UINavigationBar.appearance().barStyle = self?.palette?.barStyle ?? .default
+            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: self?.palette?.labelColor ?? .white]
+            UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: self?.palette?.labelColor ?? .white]
+            if #available(iOS 13.0, *) {
+                UISearchTextField.appearance().attributedPlaceholder = NSAttributedString(string: "Search", attributes: [.foregroundColor: UIColor.gray])
+            }
             
             UIApplication.shared.keyWindow?.reload()
             UIApplication.shared.keyWindow?.reload()

@@ -18,6 +18,7 @@ class ConversationViewController: UIViewController {
     var messageBar: MessageBar?
     private var dataProvider: IMessageFRCDelegate?
     var tableView = UITableView()
+    var backgroundImageView = UIImageView()
     
     var fetchedResultController: MessageFetchetResultController
     
@@ -49,7 +50,9 @@ class ConversationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        backgroundImageView.image = palette?.conversationBackground
         view.backgroundColor = palette?.backgroundColor ?? .white
+        navigationItem.largeTitleDisplayMode = .never
         setupConstraint()
         registerForKeyboardNotification()
         
@@ -125,8 +128,16 @@ extension ConversationViewController: UITableViewDelegate {
 extension ConversationViewController {
     
     private func setupConstraint() {
+        
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         messageBar?.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(backgroundImageView)
+        backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         view.addSubview(messageBar ?? UIView())
         messageBar?.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -138,5 +149,6 @@ extension ConversationViewController {
         tableView.bottomAnchor.constraint(equalTo: messageBar?.topAnchor ?? view.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.backgroundColor = .clear
     }
 }

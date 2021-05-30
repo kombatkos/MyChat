@@ -41,6 +41,7 @@ class IncomingCell: UITableViewCell {
     }
     
     @objc func setSubviews() {
+        backgroundColor = .clear
         textMessageLabel.numberOfLines = 0
         nameLabel.font = .preferredFont(forTextStyle: .callout)
         let nameLabelColor = UIColor(red: 48 / 255, green: 136 / 255, blue: 251 / 255, alpha: 1)
@@ -48,7 +49,7 @@ class IncomingCell: UITableViewCell {
         dateLabel.font = .preferredFont(forTextStyle: .caption2)
         dateLabel.textColor = UIColor.gray
         containerView.backgroundColor = palette?.bubbleLeftColor ?? .darkGray
-        backgroundColor = palette?.backgroundColor ?? .white
+//        backgroundColor = palette?.backgroundColor ?? .white
     }
     
 }
