@@ -58,7 +58,6 @@ class ModelConversationList: IModelConversationList {
         if #available(iOS 13.0, *) {
             alert.overrideUserInterfaceStyle = palette?.alertStyle ?? .light
             alert.textFields?.first?.backgroundColor = palette?.textFieldBackgroundColor
-            alert.view.layer.shadowColor = palette?.labelColor.cgColor
             alert.view.layer.shadowOpacity = 0.5
             alert.view.layer.shadowRadius = 15
         } else {

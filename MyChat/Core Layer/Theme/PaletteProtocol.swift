@@ -10,6 +10,9 @@ import UIKit
 protocol PaletteProtocol {
     var nameTheme: String {get}
     
+    /// Customizing Navigation Bar Color
+    var navigationBarColor: UIColor {get}
+    
     /// Label Color
     var labelColor: UIColor {get}
     

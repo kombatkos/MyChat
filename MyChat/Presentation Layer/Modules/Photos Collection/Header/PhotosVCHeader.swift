@@ -24,7 +24,7 @@ class PhotosVCHeader: UICollectionReusableView {
         if palette?.nameTheme == "night" {
             blurView.effect = UIBlurEffect(style: .dark)
         } else {
-            blurView.effect = UIBlurEffect(style: .prominent)
+            blurView.effect = UIBlurEffect(style: .extraLight)
         }
         blurView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(blurView)

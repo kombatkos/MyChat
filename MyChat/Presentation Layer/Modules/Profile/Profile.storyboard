@@ -81,8 +81,8 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fW5-nD-eOQ">
-                                        <rect key="frame" x="16" y="23.5" width="131" height="33.5"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                        <rect key="frame" x="16" y="22" width="140" height="36"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -96,13 +96,13 @@
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QfS-Yn-TFE">
                                         <rect key="frame" x="0.0" y="79" width="414" height="1"/>
-                                        <color key="backgroundColor" systemColor="placeholderTextColor"/>
+                                        <color key="backgroundColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.20424387406329719" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="1Po-SV-Y0R"/>
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemFillColor"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.069788407306281885" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="6vw-hW-S4A"/>
                                     <constraint firstAttribute="trailing" secondItem="QfS-Yn-TFE" secondAttribute="trailing" id="CsS-CU-YUZ"/>
@@ -214,6 +214,7 @@
                         <outlet property="firstWordOfName" destination="uy8-rj-D95" id="nBn-aN-L6T"/>
                         <outlet property="leadingConstraintForContainerView" destination="YbE-77-pnh" id="Vm7-Im-Otl"/>
                         <outlet property="nameTextField" destination="PYO-BT-nYq" id="95A-QC-cAE"/>
+                        <outlet property="navigationView" destination="1vi-Oe-Ack" id="PmE-ZW-lUj"/>
                         <outlet property="saveBar" destination="cKm-sG-lPP" id="vRl-Pd-dcu"/>
                         <outlet property="saveButton" destination="hYT-qv-EEY" id="KR0-IF-UUA"/>
                         <outlet property="trailingConstraintForContainerView" destination="2XC-ez-Si9" id="gA0-8Y-oAs"/>
@@ -228,14 +229,8 @@
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="placeholderTextColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemFillColor">
-            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

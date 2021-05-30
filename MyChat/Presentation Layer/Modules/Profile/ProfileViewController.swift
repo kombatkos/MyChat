@@ -20,6 +20,7 @@ class ProfileViewController: EmitterViewController {
     var imagePicker: IImagePicker?
     
     // MARK: - IBOutlets
+    @IBOutlet weak var navigationView: UIView?
     @IBOutlet weak var editButtonSmall: AnimatedButton?
     @IBOutlet weak var containerAvatarView: AvatarView?
     @IBOutlet weak var avatarImageView: UIImageView?
@@ -232,6 +233,7 @@ extension ProfileViewController {
         editButton?.backgroundColor = color
         saveButton?.backgroundColor = color
         cancelButton?.backgroundColor = color
+        navigationView?.backgroundColor = color
     }
     private func setPlaceholder() {
         nameTextField?.backgroundColor = .clear

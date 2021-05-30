@@ -66,6 +66,8 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
                 self?.present(alert, animated: true, completion: nil)
             }
         })
+        let hederViewFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 1)
+        tableView?.tableHeaderView = UIView(frame: hederViewFrame)
     }
     
     private func configureData() {
@@ -180,7 +182,10 @@ extension ConversationListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        0
+        let separatorColor = model?.palette?.buttonColor
+        tableView.tableHeaderView?.backgroundColor = separatorColor
+        tableView.separatorColor = separatorColor
+        return 0
     }
     
 }
