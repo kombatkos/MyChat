@@ -66,6 +66,8 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
                 self?.present(alert, animated: true, completion: nil)
             }
         })
+        let hederViewFrame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 1)
+        tableView?.tableHeaderView = UIView(frame: hederViewFrame)
     }
     
     private func configureData() {
@@ -77,7 +79,7 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
     @IBAction func addNewChannel(_ sender: UIBarButtonItem) {
         blurView?.effect = model?.palette?.blurEfectStyle
         UIView.animate(withDuration: 0.4) {
-            self.blurView?.alpha = 1
+            self.blurView?.alpha = 0.9
         }
         model?.addChannel(completion: {[weak self] alert in
             self?.present(alert, animated: true)
@@ -124,6 +126,8 @@ class ConversationListViewController: EmitterViewController, ConversationListVCD
 extension ConversationListViewController {
     
     func setBarButtonItems() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .automatic
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         setProfileButton()
         setThemePickerButton()
@@ -158,8 +162,6 @@ extension ConversationListViewController: UITableViewDelegate {
         let channel = fetchResultController?.object(at: indexPath)
         guard let id = channel?.identifier else { return }
         let vc = assembly?.assemblyConversationVC(channelID: id)
-        let palette = self.palette
-        vc?.palette = palette
         vc?.title = channel?.name
         vc?.channelID = channel?.identifier ?? ""
         guard let vc1 = vc else { return }
@@ -180,7 +182,10 @@ extension ConversationListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        30
+        let separatorColor = model?.palette?.buttonColor
+        tableView.tableHeaderView?.backgroundColor = separatorColor
+        tableView.separatorColor = separatorColor
+        return 0
     }
     
 }
