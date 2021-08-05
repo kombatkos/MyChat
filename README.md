@@ -12,7 +12,7 @@ Architecture:
     - SOA
     - PresentationLayer ( MVC )
     
-Tests
+Tests:
     - Unit tests
     - UI tests
     - CI / CD
